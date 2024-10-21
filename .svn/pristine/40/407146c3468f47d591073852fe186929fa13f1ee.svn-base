@@ -1,0 +1,69 @@
+package dao.daoImplManager;
+
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import util.HibernateUtil;
+import dao.daoManager.DetailTransferProduitFiniDAO;
+import dao.entity.DetailTransferProduitFini;
+
+public class DetailTransferProduitFiniDAOImpl implements DetailTransferProduitFiniDAO {
+	Session session=HibernateUtil.openSession();
+
+	public void add(DetailTransferProduitFini e) {
+		session.beginTransaction();
+		session.save(e);
+		
+		session.getTransaction().commit();
+		//return p;
+	}
+
+	public DetailTransferProduitFini edit(DetailTransferProduitFini e) {
+		
+	session.beginTransaction();
+	DetailTransferProduitFini p= (DetailTransferProduitFini)session.merge(e);
+	session.getTransaction().commit();
+	
+	return p;
+	}
+
+	public void delete(int id) {
+		
+		session.beginTransaction();
+		DetailTransferProduitFini p= findById(id);
+		session.delete(p);
+		session.getTransaction().commit();
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<DetailTransferProduitFini> findAll() {
+		return session.createQuery("select c from DetailTransferProduitFini c").list();
+		}
+
+	public DetailTransferProduitFini findById(int id) {
+		return (DetailTransferProduitFini)session.get(DetailTransferProduitFini.class, id);
+		}
+	
+
+	
+
+
+	@Override
+	public List<DetailTransferProduitFini> findByArticle(String codeArticle) {
+		
+		// TODO Auto-generated method stub
+				Query query= session.createQuery("select d from DetailTransferProduitFini d where article.codeArticle=:codeArticle");
+				query.setParameter("codeArticle", codeArticle);
+			
+				
+				return query.list();
+}
+
+	
+
+	
+
+}

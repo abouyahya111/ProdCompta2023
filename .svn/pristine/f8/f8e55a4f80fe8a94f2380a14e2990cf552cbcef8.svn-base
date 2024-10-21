@@ -1,0 +1,219 @@
+package util;
+
+public interface Constantes {
+	
+	public static final int PASSWORD_LENGTH = 8;
+	
+	public static String CODE_OUI="OUI";
+	public static String CODE_NON="NON";
+	
+	/*ADMIN LOGIN AND MOT DE PASSE */
+	
+	public static String ADMIN_CONNEXION="admin";
+	
+
+	/* etats ordre de fabrication*/
+	public static final String ETAT_OF_CREER = "Crée";
+	public static final String ETAT_OF_LANCER = "Lancé";
+	public static final String ETAT_OF_TERMINER = "Terminé";
+	public static final String ETAT_OF_ANNULER = "Annulé";
+	
+	
+	
+	/*Etats commande */
+	public static final String ETAT_COMMANDE_CREER = "Crée";
+	public static final String ETAT_COMMANDE_LIVRER = "Livrée";
+	public static final String ETAT_COMMANDE_RECU = "Reçu";
+	
+	/*Etat transfer transfert stock*/
+	
+	public static final String ETAT_TRANSFER_STOCK_TRANSFERE = "TRANSFER";/*Transfer d'un magasin à un autre dans le meme dépot */
+	public static final String ETAT_TRANSFER_STOCK_ENTRE = "ENTRE";/*Stock entré d'un autre dépot */
+	public static final String ETAT_TRANSFER_STOCK_SORTIE = "SORTIE";/*Stock sortie vers un autre dépot */
+	public static final String ETAT_TRANSFER_STOCK_AJOUT = "AJOUT";/*Stock sortie vers un autre dépot */
+	
+	
+	
+	
+	/*Responsabilité*/
+	public static final String EMPLOYE_RESPONSABILITE_AIDE_TECHNITIEN = "ATEC";
+	public static final String EMPLOYE_RESPONSABILITE_TECHNITIEN = "TEC";
+	public static final String TYPE_EMPLOYE_RESPONSABLE_EQUIPE = "REE";
+	public static final String TYPE_EMPLOYE_CHEF_PRODUCTION = "REP";
+	public static final String TYPE_EMPLOYE_MAIN_OUVRE_PRODUCTION = "MOP";
+	public static final String TYPE_EMPLOYE_MAIN_OUVRE_EQUIPE = "MOE";
+	public static final String TYPE_EMPLOYE_MAIN_OUVRE_EN_VRAC = "MOV";
+	
+	
+	/*type d'equipe */
+	public static final String TYPE_EQUIPE_CODE_PRPDUCTION = "E_PROD";
+	public static final String TYPE_EQUIPE_CODE_GENERIQUE = "E_GEN";
+	
+	
+	/*Periode*/
+	
+	public static final String PRPDUCTION_PERIODE_MATIN = "MATIN";
+	public static final String PRPDUCTION_PERIODE_SOIR = "SOIR";
+	
+	
+	/*TYPE TRANSFER PRODUIT FINI*/
+	public static final String STATUT_TRANSFER_PRODUIT_FINI_ENTRE = "ENTRE";
+	public static final String STATUT_TRANSFER_PRODUIT_FINI_SORTIE = "SORTIE";
+	
+	public static final String TYPE_TRANSFER_PRODUIT_FINI_ENTRE = "ENTRE PRODUCTION";
+	public static final String TYPE_TRANSFER_PRODUIT_FINI_SORTIE = "SORTIE COMMERCIAL";
+	
+	/*CODE PARAMETRE */
+	public static final String PARAMETRE_CODE_QUANTITE_TOUNAGE_200G = "PARAM_1";
+	public static final String PARAMETRE_CODE_QUANTITE_TOUNAGE_100G = "PARAM_2";
+	public static final String PARAMETRE_CODE_QUANTITE_TOUNAGE_500G = "PARAM_3";
+	public static final String PARAMETRE_CODE_COUT_HORAIRE = "PARAM_4";
+	public static final String PARAMETRE_CODE_COUT_HORAIRE_CNSS = "PARAM_5";
+	public static final String PARAMETRE_CODE_TAUX_CNSS_226 = "PARAM_6";
+	public static final String PARAMETRE_CODE_TAUX_CNSS_448 = "PARAM_7";
+	public static final String PARAMETRE_CODE_REMISE_CHEF_PROD = "PARAM_8";
+	public static final String PARAMETRE_CODE_REMISE_TECHNICIEN = "PARAM_9";
+	public static final String PARAMETRE_CODE_REMISE_AIDE_TECHNICIEN = "PARAM_10";
+	public static final String PARAMETRE_CODE_REMISE_CHEF_EQUIPE = "PARAM_11";
+	public static final String PARAMETRE_CODE_REMISE_EQUIPE_PRODUCTION = "PARAM_12";
+	public static final String PARAMETRE_CODE_REMISE_EQUIPE_EMBALAGE = "PARAM_13";
+	public static final String PARAMETRE_CODE_REMISE_EQUIPE_GENERIQUE = "PARAM_14";
+	public static final String PARAMETRE_CODE_STOCK_MINIMAL_FILM_NORMAL_100G = "PARAM_15";
+	
+	
+	/*TYPE MAGASIN*/
+	public static final String MAGASIN_CODE_TYPE_MP= "MP";
+	public static final String MAGASIN_LIBELLE_TYPE_MP= "Matière Première";
+	public static final String MAGASIN_CODE_TYPE_PF= "PF";
+	public static final String MAGASIN_LIBELLE_TYPE_PF= "Produit Fini";
+	
+	
+	/*TYPE MAGASIN*/
+	public static final String MAGASIN_CODE_CATEGORIE_STOCKAGE= "STK";
+	public static final String MAGASIN_LIBELLE_CATEGORIE_STOCKAGE= "Magasin Stockage";
+	public static final String MAGASIN_CODE_CATEGORIE_PRODUCTION= "PROD";
+	public static final String MAGASIN_LIBELLE_CATEGORIE_PRODUCTION= "Magasin Production";
+	
+	/*SEQUENCEUR LIBELLE CLASSE POUR GENERER LES CODES */
+	
+	public static final String PARAMETRE_LIBELLE ="Parametre";
+	public static final String MAGASIN_LIBELLE ="Magasin";
+	public static final String MATIERE_PREMIERE_LIBELLE ="MatierePremier";
+	public static final String MACHINE_LIBELLE ="Machine";
+	public static final String LIGNE_MACHINE_PREMIERE_LIBELLE ="LigneMachine";
+	public static final String EQUIPE_PREMIERE_LIBELLE ="Equipe";
+	public static final String EMPLOYE_NUM_DOSSIER_LIBELLE ="Employe";
+	public static final String PRODUCTION_LIBELLE ="Production";
+	public static final String CLIENT_LIBELLE ="Client";
+	public static final String FACTURE_PRODUCTION_LIBELLE ="FactureProduction";
+	
+	/*Libelle  charges sequenseur*/
+	public static final String CHARGES= "charges";
+	
+	
+	/*code TYPE charges*/
+	public static final String CODE_CHARGES_FIXE= "F";
+	public static final String CODE_CHARGES_VARIABLE= "V";
+	
+	
+	
+	/*TYPE CHARGES*/
+	public static final String CLIENT_LIBELLE_EXTERNE= "EXTERNE";
+	public static final String CLIENT_CLIENT_INTERNE= "INTERNE";
+	
+	/* GENERER CODE CHARGES  */
+	public static final String CHARGEST_FIX ="F";
+	public static final String CHARGEST_VARIABLE ="V";
+	
+	
+	
+	/*FORMAT DATE */
+	public static final String DATE_FORMAT = "dd/MM/yyyy";
+	
+	public static final String DATE_FORMAT_YEAR = "yyyy";	
+	
+	/*CODE MENU*/
+	public static final String MENU_DEPOT = "depotMenu";
+	public static final String MENU_MATIERE_PREMIERE = "MatierePremierMenu";
+	public static final String MENU_ARTICLE = "articleMenu";
+	public static final String MENU_STOCK_MATIERE_PREMIERE = "stockMPMenu";
+	public static final String MENU_MACHINE = "uniteFabMenu";
+	public static final String MENU_EQUIPE = "equipeFabMenu";
+	public static final String MENU_ORDRE_FABRICATION = "ordreFabMenu";
+	public static final String MENU_STOCK_PRODUIT_FINI = "stockPFMenu";
+	public static final String MENU_PARAMETRE = "parametreMenu";
+	public static final String MENU_CLIENT = "clientMenu";
+	
+	
+	public static final String SERVICE_EMPLOYE ="PRODUCTION";
+	
+	
+	/*CODE MATIETRE PREMIERE*/
+	public static final String MATIERE_PREMIERE_FILM_NORMAL_2OOG = "MP_57";
+	public static final String MATIERE_PREMIERE_FILM_GOLD_2OOG = "MP_54";
+	public static final String MATIERE_PREMIERE_SCOTCH_1000M = "MP_61";
+	public static final String MATIERE_PREMIERE_SERVICE_PRODUCTION = "MP_SERV";
+	
+	/*CODE SOUS CATEGORIE MATIETRE PREMIERE*/
+	public static final String SOUS_CATEGORIE_MATIERE_PREMIERE_THE = "TH001";
+	public static final String SOUS_CATEGORIE_MATIERE_PREMIERE_FILM_NORMAL = "FN001";
+	public static final String SOUS_CATEGORIE_MATIERE_PREMIERE_FILM_GOLD = "FG001";
+	public static final String SOUS_CATEGORIE_MATIERE_PREMIERE_CENTURE = "CEN001";
+	public static final String SOUS_CATEGORIE_MATIERE_PREMIERE_SCOTCH = "SCO001";
+	public static final String SOUS_CATEGORIE_MATIERE_PREMIERE_CARTON = "CA001";
+	public static final String SOUS_CATEGORIE_MATIERE_PREMIERE_PAPIER_INTERNE = "PAP001";
+	public static final String SOUS_CATEGORIE_MATIERE_PREMIERE_BOX = "BOX001";
+	public static final String SOUS_CATEGORIE_MATIERE_PREMIERE_CADEAU = "CAD001";
+	
+	/*CODE CATEGORIE MATIERE PREMIERE*/
+	public static final String CATEGORIE_MATIERE_PREMIERE_SCOTCH  = "CAT001";
+	
+	/*CODE MAGASIN*/
+	
+	public static final String CODE_MAGASIN_FOURNISSEUR = "SIE_MAG_23";
+	public static final String CODE_MAGASIN_STOCKAGE_EN_ATTENTE = "STO_MAG_3";
+	
+	
+	
+	public static final String TRANSFERE_COD_PRODUCTION_PR="SORTIE_PF";
+	
+	
+	/*CODE DEPOT*/
+	public static final String CODE_DEPOT_SIEGE="SIEGE";	
+	public static final String CODE_DEPOT_STOCK_EN_ATTENTE="SIEGE";	
+	
+	
+	/*CODE MACHINE LIER AU MAGASIN STOCKAGE : c'est une machine vertuelle*/
+	public static final String CODE_MACHINE_STOCKAGE = "M0";
+	public static final String LIBELLE_MACHINE_STOCKAGE = "MAGASIN STOCKAGE";
+	
+	public static final float COUT_HEURE_SUPPLEMENTAIRE_25 = 16.825f;
+	
+	public static final float COUT_HEURE_SUPPLEMENTAIRE_50 = 20.19f;
+	
+	/*Désignation service pour la facturation des services production */
+
+	/*CODE DEPOT PRODUCTION*/
+	
+	public static final String CODE_DEPOT_PRODUCTION_TANTAN="TANTAN";
+	public static final String CODE_DEPOT_PRODUCTION_LAAYOUNE="LAAYOUNE";
+	
+	public static final String DEBUT_NUM_OF_PRODUCTION_TANTAN="T";
+	public static final String DEBUT_NUM_OF_PRODUCTION_LAAYOUNE="L";
+	
+	public static final String CODE_CLIENT_FOURNISSEUR_SERVICE_PRODUCTION_TANTAN="TAN_C1";
+	public static final String CODE_CLIENT_FOURNISSEUR_SERVICE_PRODUCTION_LAAYOUNE="LAA_C1";
+	
+	//pourcentage
+		public static final String POURCENTAGE="%";
+		
+		//Pourcentage_DH
+		
+		public static final String POURCENTAGEDH="DH";
+		
+	
+	
+	
+	
+
+}

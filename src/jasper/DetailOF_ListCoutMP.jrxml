@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DetailOF_ListCoutMP" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="couttotalMP" class="java.math.BigDecimal"/>
+	<field name="matierePremier.code" class="java.lang.String"/>
+	<field name="matierePremier.nom" class="java.lang.String"/>
+	<field name="quantConsomme" class="java.math.BigDecimal"/>
+	<field name="quantDechet" class="java.math.BigDecimal"/>
+	<field name="quantiteOffre" class="java.math.BigDecimal"/>
+	<field name="coutDechet" class="java.math.BigDecimal"/>
+	<field name="coutOffre" class="java.math.BigDecimal"/>
+	<field name="prixUnitaire" class="java.math.BigDecimal"/>
+	<field name="quantDechetFournisseur" class="java.math.BigDecimal"/>
+	<field name="prixTotal" class="java.math.BigDecimal"/>
+	<field name="quantiteManquante" class="java.math.BigDecimal"/>
+	<field name="coutManquante" class="java.math.BigDecimal"/>
+	<field name="coutDechetFournisseur" class="java.math.BigDecimal"/>
+	<field name="prodcutionCM.coutTotalMP" class="java.math.BigDecimal"/>
+	<field name="prodcutionCM.coutDechet" class="java.math.BigDecimal"/>
+	<variable name="SommeCoutManquante" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{coutManquante}]]></variableExpression>
+	</variable>
+	<variable name="SommeCoutDechetFournisseur" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{coutDechetFournisseur}]]></variableExpression>
+	</variable>
+	<variable name="SommeCoutOffre" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{coutOffre}]]></variableExpression>
+	</variable>
+	<variable name="SommeCoutDechet" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{coutDechet}]]></variableExpression>
+	</variable>
+	<variable name="SommeCoutQuantiteConsomme" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{prixTotal}]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="19" splitType="Stretch">
+			<line>
+				<reportElement x="53" y="9" width="502" height="1"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="3" width="52" height="14" backcolor="#66FFCC"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cout MP]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="1" width="38" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Code MP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="1" width="119" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nom Matiere Premiere]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="189" y="1" width="38" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantité Consomme]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="1" width="41" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantite Dechet]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="268" y="1" width="30" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantite Offre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="1" width="35" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cout Dechet]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="158" y="1" width="31" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prix Unitaire]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="1" width="47" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qtte Dechet Fournisseur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="1" width="37" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cout Quantite Consomme]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="483" y="1" width="35" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[cout Dechet Fournisseur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="518" y="1" width="37" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[cout Manquante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="452" y="1" width="31" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cout Offre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="1" width="35" height="20"/>
+				<box leftPadding="2" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[quantite Manquante]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21">
+			<textField>
+				<reportElement x="1" y="0" width="38" height="21"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matierePremier.code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="39" y="0" width="119" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matierePremier.nom}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="158" y="0" width="31" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prixUnitaire}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="298" y="0" width="47" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantDechetFournisseur}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="380" y="0" width="37" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prixTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="518" y="0" width="37" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coutManquante}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="483" y="0" width="35" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coutDechetFournisseur}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="417" y="0" width="35" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coutDechet}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="452" y="0" width="31" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coutOffre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="345" y="0" width="35" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteManquante}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="268" y="0" width="30" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteOffre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="227" y="0" width="41" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantDechet}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="189" y="0" width="38" height="21"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantConsomme}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15">
+			<textField pattern="###0.0000">
+				<reportElement x="518" y="0" width="37" height="15"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SommeCoutManquante}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="483" y="0" width="35" height="15"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SommeCoutDechetFournisseur}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="452" y="0" width="31" height="15"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SommeCoutOffre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="417" y="0" width="35" height="15"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SommeCoutDechet}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0000">
+				<reportElement x="380" y="0" width="37" height="15"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SommeCoutQuantiteConsomme}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

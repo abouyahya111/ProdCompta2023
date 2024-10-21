@@ -1,0 +1,23 @@
+package dao.daoManager;
+
+import java.util.List;
+
+import dao.entity.TransferStockMP;
+
+public interface TransferStockMPDAO {
+	
+	public  void add(TransferStockMP e);
+	
+public  TransferStockMP edit(TransferStockMP e);
+	
+	public  void delete(int id); 
+	
+	public List<TransferStockMP> findAll();
+	
+	public TransferStockMP findById(int id);
+
+	public int maxIdStock();
+	
+	public TransferStockMP findTransferByCode(String codeTransfer);
+
+}

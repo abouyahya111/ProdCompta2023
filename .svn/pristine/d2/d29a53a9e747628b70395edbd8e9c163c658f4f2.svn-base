@@ -1,0 +1,145 @@
+package dao.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.*;
+
+
+
+
+/**
+ * The persistent class for the production database table.
+ * 
+ */
+@Entity
+@Table(name="detail_chargefixe")
+@NamedQuery(name="DetailChargeFixe.findAll", query="SELECT p FROM DetailChargeFixe p")
+public class DetailChargeFixe implements Serializable {
+	
+
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+	
+	@Column(name="LIBELLE")
+	private String libelle;
+	
+	
+	@ManyToOne(cascade =CascadeType.ALL)
+	@JoinColumn(name="id_charge")
+	private Charges charge;
+
+	
+	@ManyToOne(cascade =CascadeType.ALL)
+	@JoinColumn(name="id_ChargeProd")
+	private ChargeProduction chargeProd;
+	
+	
+	@Column(name="MONTANT")
+	private float montant;
+	
+	@Column(name="COUTUNITAIRE")
+	private float coutunitairefixe=0;
+	
+	@Column(name="POURCENTAGE")
+	private float pourcentagefixe=0;
+	
+	@Column(name="POURCENTAGEDH")
+	private float pourcentagedhfixe=0;
+	
+
+	public DetailChargeFixe() {
+	}
+
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+	public float getMontant() {
+		return montant;
+	}
+
+	public void setMontant(float montant) {
+		this.montant = montant;
+	}
+
+
+	public String getLibelle() {
+		return libelle;
+	}
+
+
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
+	}
+
+
+	public Charges getCharge() {
+		return charge;
+	}
+
+
+	public void setCharge(Charges charge) {
+		this.charge = charge;
+	}
+
+
+	public ChargeProduction getChargeProd() {
+		return chargeProd;
+	}
+
+
+	public void setChargeProd(ChargeProduction chargeProd) {
+		this.chargeProd = chargeProd;
+	}
+
+
+	public float getCoutunitairefixe() {
+		return coutunitairefixe;
+	}
+
+
+	public void setCoutunitairefixe(float coutunitairefixe) {
+		this.coutunitairefixe = coutunitairefixe;
+	}
+
+
+	public float getPourcentagefixe() {
+		return pourcentagefixe;
+	}
+
+
+	public void setPourcentagefixe(float pourcentagefixe) {
+		this.pourcentagefixe = pourcentagefixe;
+	}
+
+
+	public float getPourcentagedhfixe() {
+		return pourcentagedhfixe;
+	}
+
+
+	public void setPourcentagedhfixe(float pourcentagedhfixe) {
+		this.pourcentagedhfixe = pourcentagedhfixe;
+	}
+	
+	
+
+	
+
+}

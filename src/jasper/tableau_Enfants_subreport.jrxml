@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="drg_rglobal_enfants" columnCount="6" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="99" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="TabCotisationMinimale.rubrique.libelle" class="java.lang.String" isForPrompting="false"/>
+	<field name="quantite" class="java.lang.String"/>
+	<field name="matierePremier.nom" class="java.lang.String"/>
+	<field name="quantChargeSupp" class="java.lang.String"/>
+	<field name="quantConsomme" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="58" splitType="Prevent">
+			<rectangle>
+				<reportElement key="rectangle-6" x="13" y="32" width="110" height="24" backcolor="#D2FFAC"/>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle-7" x="123" y="32" width="152" height="24" backcolor="#D2FFAC"/>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle-8" x="275" y="32" width="110" height="24" backcolor="#D2FFAC"/>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle-9" x="385" y="32" width="168" height="24" backcolor="#D2FFAC"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText-2" x="20" y="36" width="98" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Quantité ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-3" x="130" y="36" width="128" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nom Première]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-4" x="282" y="36" width="94" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Quantité chargée ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-5" x="409" y="36" width="97" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Quantité Consommée]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-6" mode="Opaque" x="13" y="13" width="540" height="19" backcolor="#D2FFAC"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#339900"/>
+					<topPen lineWidth="1.0" lineColor="#339900"/>
+					<leftPen lineWidth="1.0" lineColor="#339900"/>
+					<bottomPen lineWidth="1.0" lineColor="#339900"/>
+					<rightPen lineWidth="1.0" lineColor="#339900"/>
+				</box>
+				<textElement>
+					<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[ II-ENFANTS (en commençant par le plus jeune)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="13" width="15" height="10" forecolor="#000000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[(2)]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="rectangle-13" x="385" y="56" width="168" height="23" backcolor="#D2FFAC"/>
+			</rectangle>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<rectangle>
+				<reportElement key="rectangle-10" x="13" y="-2" width="110" height="23" backcolor="#D2FFAC"/>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle-11" x="123" y="-2" width="152" height="23" backcolor="#D2FFAC"/>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle-12" x="275" y="-2" width="110" height="23" backcolor="#D2FFAC"/>
+			</rectangle>
+			<textField>
+				<reportElement x="18" y="1" width="105" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{quantite}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="1" width="145" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{matierePremier.nom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="282" y="0" width="103" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{quantChargeSupp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="397" y="1" width="156" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{quantConsomme}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

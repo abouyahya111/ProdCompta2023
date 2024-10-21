@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MouvementStockGlobale" pageWidth="602" pageHeight="854" columnWidth="562" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bb37514c-e5d2-4c05-b0f4-295f2239bd64">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="titre" class="java.lang.String"/>
+	<parameter name="totalmontantinitial" class="java.math.BigDecimal"/>
+	<field name="quantiteInitial" class="java.math.BigDecimal"/>
+	<field name="prixInitial" class="java.math.BigDecimal"/>
+	<field name="montantInitial" class="java.math.BigDecimal"/>
+	<field name="article.liblle" class="java.lang.String"/>
+	<field name="sousFamille.liblle" class="java.lang.String"/>
+	<field name="familleArticle.liblle" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="0" width="405" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="2d4adf24-b38a-4bd1-aa5f-353f1b31d829"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="18" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ETAT STOCK INITIAL PRODUIT FINI]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="13" y="0" width="721" height="20" uuid="20f624c0-f9ed-4b4b-b7ce-1fe69595b850"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="446" y="0" width="55" height="27" backcolor="#CCCCCC" uuid="9a216a40-972e-4bf8-8138-9982fb7d397b"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Prix Initial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="501" y="0" width="61" height="27" backcolor="#CCCCCC" uuid="542cb457-36b7-4bde-875f-eb7b0515f301"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Montant Initial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="388" y="0" width="58" height="27" backcolor="#CCCCCC" uuid="cf3229a6-6330-47f8-8799-f29441db15f0"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Quantite Initial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="6" y="0" width="198" height="27" forecolor="#000000" backcolor="#CCCCCC" uuid="88df5c75-f77f-455e-94de-060723218ee4"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Libelle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="295" y="0" width="93" height="27" forecolor="#000000" backcolor="#CCCCCC" uuid="c58aed92-c554-422d-be97-9279c763a6c1"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Sous Famille]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="204" y="0" width="91" height="27" forecolor="#000000" backcolor="#CCCCCC" uuid="1d40e9a2-d4f3-4e11-8636-26de24607a93"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Famille]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0.000000;-#,##0.000000">
+				<reportElement x="388" y="0" width="58" height="20" uuid="3640543a-2233-4100-b426-e3ce18b0e6e0"/>
+				<box leftPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteInitial}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000000;-#,##0.000000">
+				<reportElement x="446" y="0" width="55" height="20" uuid="a3deb0f7-fbdc-4390-a588-6e963f750c7b"/>
+				<box leftPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prixInitial}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000000;-#,##0.000000">
+				<reportElement x="501" y="0" width="61" height="20" uuid="3facbad4-35ec-409d-8f12-1e9ef0df5105"/>
+				<box leftPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montantInitial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="6" y="0" width="198" height="20" uuid="687ec9c0-57d9-4529-98fe-c7b47360f282"/>
+				<box leftPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{article.liblle}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="295" y="0" width="93" height="20" uuid="4b61fefc-6571-44d0-95c1-11cd0e1a16fa"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sousFamille.liblle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="204" y="0" width="91" height="20" uuid="8b492482-93b1-4577-a70c-8c0ee6759075"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{familleArticle.liblle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="87" splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="155" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="375" y="0" width="101" height="23" backcolor="#CCCCCC" uuid="bab8ae3e-cd93-4c78-8198-482bbe7407a8"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Total Montant Initial]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0.000000;-#,##0.000000">
+				<reportElement x="476" y="0" width="82" height="23" uuid="75a8f80f-2764-407c-87f1-7121e0d694f9"/>
+				<box leftPadding="2" rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalmontantinitial}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

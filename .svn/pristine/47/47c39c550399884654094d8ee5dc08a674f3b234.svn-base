@@ -1,0 +1,93 @@
+package dao.entity;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+
+/**
+ * The persistent class for the detail_commande database table.
+ * 
+ */
+@Entity
+@Table(name="DETAIL_FACTURE_PRODUCTION")
+@NamedQuery(name="DetailFactureProduction.findAll", query="SELECT d FROM DetailFactureProduction d")
+public class DetailFactureProduction implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+
+	@Column(name="PRIX_UNITAIRE")
+	private float prixUnitaire;
+
+	@Column(name="QUANTITE")
+	private float quantite;
+	
+	@Column(name="MONTANT_TOTAL")
+	private float montantTotal;
+
+	//bi-directional many-to-one association to MatierePremier
+	@ManyToOne
+	@JoinColumn(name="ID_MAT_PREM")
+	private MatierePremier matierePremier;
+
+	//bi-directional many-to-one association to Commande
+	@ManyToOne
+	@JoinColumn(name="ID_FACTURE_PROD")
+	private FactureProduction factureProduction;
+
+	public DetailFactureProduction() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public float getPrixUnitaire() {
+		return this.prixUnitaire;
+	}
+
+	public void setPrixUnitaire(float prixUnitaire) {
+		this.prixUnitaire = prixUnitaire;
+	}
+
+	public float getQuantite() {
+		return this.quantite;
+	}
+
+	public void setQuantite(float quantite) {
+		this.quantite = quantite;
+	}
+
+	public MatierePremier getMatierePremier() {
+		return this.matierePremier;
+	}
+
+	public void setMatierePremier(MatierePremier matierePremier) {
+		this.matierePremier = matierePremier;
+	}
+
+	public float getMontantTotal() {
+		return montantTotal;
+	}
+
+	public void setMontantTotal(float montantTotal) {
+		this.montantTotal = montantTotal;
+	}
+
+	public FactureProduction getFactureProduction() {
+		return factureProduction;
+	}
+
+	public void setFactureProduction(FactureProduction factureProduction) {
+		this.factureProduction = factureProduction;
+	}
+
+	
+
+}

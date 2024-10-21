@@ -1,0 +1,177 @@
+package dao.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.*;
+
+
+
+
+/**
+ * The persistent class for the production database table.
+ * 
+ */
+@Entity
+@Table(name="Detail_Cout_Production")
+@NamedQuery(name="DetailCoutProduction.findAll", query="SELECT p FROM DetailCoutProduction p")
+public class DetailCoutProduction implements Serializable {
+	
+
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+	
+	
+	@Column(name="CODE")
+	private String code;
+	
+	@Column(name="MONTANT")
+	private float montant;
+	
+	@ManyToOne
+	@JoinColumn(name="id_dcharge")
+	private Charges charges;
+	
+	@Column(name="COUTUNITAIRE")
+	private float coutunitaire=0;
+	
+	@Column(name="POURCENTAGE")
+	private float pourcentage=0;
+	
+	@Column(name="POURCENTAGEDH")
+	private float pourcentagedh=0;
+	
+	@ManyToOne
+	@JoinColumn(name="id_charge_production")
+	private ChargeProduction ChargeProduction;
+	
+
+	public DetailCoutProduction() {
+	}
+
+
+
+
+	public int getId() {
+		return id;
+	}
+
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+
+	public String getCode() {
+		return code;
+	}
+
+
+
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+
+
+
+	public float getMontant() {
+		return montant;
+	}
+
+
+
+
+	public void setMontant(float montant) {
+		this.montant = montant;
+	}
+
+
+
+
+	public Charges getCharges() {
+		return charges;
+	}
+
+
+
+
+	public void setCharges(Charges charges) {
+		this.charges = charges;
+	}
+
+
+
+
+	public float getCoutunitaire() {
+		return coutunitaire;
+	}
+
+
+
+
+	public void setCoutunitaire(float coutunitaire) {
+		this.coutunitaire = coutunitaire;
+	}
+
+
+
+
+	public float getPourcentage() {
+		return pourcentage;
+	}
+
+
+
+
+	public void setPourcentage(float pourcentage) {
+		this.pourcentage = pourcentage;
+	}
+
+
+
+
+	public float getPourcentagedh() {
+		return pourcentagedh;
+	}
+
+
+
+
+	public void setPourcentagedh(float pourcentagedh) {
+		this.pourcentagedh = pourcentagedh;
+	}
+
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
+
+	public ChargeProduction getChargeProduction() {
+		return ChargeProduction;
+	}
+
+
+
+
+	public void setChargeProduction(ChargeProduction chargeProduction) {
+		ChargeProduction = chargeProduction;
+	}
+
+
+
+
+	
+
+}

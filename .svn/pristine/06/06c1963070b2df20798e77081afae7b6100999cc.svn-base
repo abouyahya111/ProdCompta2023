@@ -1,0 +1,1371 @@
+package main;
+
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.plaf.basic.BasicMenuBarUI;
+
+import matierePremiere.AjoutMatierePremiere;
+import matierePremiere.AjouterMPCompose;
+import matierePremiere.ChercherMatierePremiere;
+import matierePremiere.ListeMatierePremiere;
+import matierePremiere.ModifierMatierePremierCompose;
+import presentation.article.AjouterEstimationThe;
+import presentation.article.CreerEstimationArticle;
+import presentation.article.ModifierEstimationArticle;
+import presentation.client.AjoutClient;
+import presentation.client.ChercherClient;
+import presentation.depot.AjoutDepot;
+import presentation.depot.ChercherDepot;
+import presentation.parametre.ActiverOffre;
+import presentation.parametre.AjoutCharges;
+import presentation.parametre.AjoutEmployeBloque;
+import presentation.parametre.AjoutOffre;
+import presentation.parametre.AjoutParametre;
+import presentation.parametre.AjoutUtilisateur;
+import presentation.parametre.AjouterPrixClientMP;
+import presentation.parametre.GererAuthUtilisateur;
+import presentation.stastiques.CoutDechetProduction;
+import presentation.stockMP.AfficherDetailTransferMP;
+import presentation.stockMP.AfficherStockMP;
+import presentation.stockMP.AjouterStockMP;
+import presentation.stockMP.EntrerStockMP;
+import presentation.stockMP.SortirStockMP;
+import presentation.stockMP.TransfererStockMP;
+import presentation.stockPF.AfficherStockPF;
+import presentation.stockPF.SortirStockPF;
+import util.Constantes;
+import util.Utils;
+import Equipe.AfficherFicheEmploye;
+import Equipe.AfficherFicheGlobaleEmploye;
+import Equipe.AjoutEmploye;
+import Equipe.AjoutEquipe;
+import Equipe.ChercherEmploye;
+import Equipe.ChercherEquipe;
+import Production.AfficherCompteStockMP;
+import Production.AjoutChargeFixeProd;
+import Production.AjoutChargeVariableProd;
+import Production.CoutProduction;
+import Production.CreerOrdreFabrication;
+import Production.LancerOrdreFabrication;
+import Production.TerminerOrdreFabrication;
+import ProductionCarton.CreerOrdreFabricationMP;
+import ProductionCarton.LancerOrdreFabricationMP;
+import ProductionCarton.TerminerOrdreFabricationMP;
+import UniteFabrication.AjoutMachine;
+import UniteFabrication.ChercherMachine;
+import dao.daoManager.ArticlesDAO;
+import dao.daoManager.ClientDAO;
+import dao.daoManager.DepotDAO;
+import dao.daoManager.HabilitationDAO;
+import dao.daoManager.MatierePremiereDAO;
+import dao.daoManager.StockMPDAO;
+import dao.entity.Articles;
+import dao.entity.Client;
+import dao.entity.Habilitation;
+import dao.entity.Magasin;
+import dao.entity.MatierePremier;
+import dao.entity.Production;
+import dao.entity.ProductionMP;
+import dao.entity.Utilisateur;
+
+
+public class Main extends JFrame implements Constantes{
+    
+        public static JPanel mainPane;
+        public static JLayeredPane contentPane;
+        public static JLayeredPane precedentContentPane;
+        public static JScrollPane generalScrollPane;
+        public static JPanel titlePanel;
+        public static JLabel title;
+        public static JLabel bottomMessage;
+        public static JPanel messagePanel; 
+        
+        public static JPanel userLoginPanel;
+        public static JLabel  loginLabel;
+        
+        public static JPanel msgPanel;
+        public static JLabel  messageLabel;
+        
+        private JButton cancelButto;
+        private JButton btnStatistique;
+        private JButton btnDeconnexion;
+        
+        private JButton btnGenerer;
+        
+   
+       
+        public JScrollPane listScrollPane;
+        public static Color color;
+        private  MatierePremiereDAO dao;
+        private DepotDAO depotDAO;
+        private StockMPDAO stockMPDAO;
+        private ArticlesDAO artilesDAO;
+    	private HabilitationDAO habilitationDAO;
+    	private Utilisateur utilisateur =AuthentificationView.utilisateur;
+    	private ClientDAO clientDAO;
+    	
+    	/*Menu */
+    	private JMenu depotMenu;
+    	private JMenu MatierePremierMenu;
+    	private JMenu articleMenu;
+    	private  JMenu stockMPMenu;
+    	private JMenu uniteFabMenu;
+    	private JMenu equipeFabMenu ;
+    	private JMenu ordreFabMenu;
+    	private JMenu prodCartMenu;
+    	private JMenu stockPFMenu;
+    	private JMenu parametreMenu;
+    	private  JMenu clientMenu ;
+    	private JTextPane txtLabel = new JTextPane();
+    	
+        public Main(){
+        	 
+        	dao=ProdLauncher.dao;
+        	depotDAO=ProdLauncher.depotDAO;
+        	stockMPDAO=ProdLauncher.stockMPDAO;
+        	artilesDAO=ProdLauncher.articlesDAO;
+        	habilitationDAO=ProdLauncher.habilitationDAO;
+        	clientDAO=ProdLauncher.clientDAO;
+        	
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setTitle("Bienvenue dans Application de Gestion Production V1.0");
+            final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            setBounds(0, 0, (int) dim.getWidth(), (int) dim.getHeight()-10);
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
+           
+            
+           mainPane=new JPanel();
+           // mainPane   = new MainEntityFlatMenu();
+           // mainPane.setBackground(new Color(204, 204, 255));
+            mainPane.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+            setContentPane(mainPane);
+            mainPane.setLayout(null);
+            contentPane  = new JLayeredPane();
+            
+            titlePanel = new JPanel();
+            titlePanel.setBounds(0, 0, (int) dim.getWidth(), 33);
+            titlePanel.setBackground(Color.white);
+            titlePanel.setBorder(new SoftBevelBorder(0, null, null, null, null));
+            mainPane.add(titlePanel);
+            title = new JLabel("Accueil Bienvenue " + AuthentificationView.login);
+            title.setForeground(new Color(255, 140, 0));
+            title.setFont(new Font("New Times", 1, 16));
+            //btnDeconnexion=new ImageIcon(this.getClass().getResource("/img/deconnect.png"))
+           btnDeconnexion = new JButton(new ImageIcon(this.getClass().getResource("/img/deconnect.png")));
+            btnDeconnexion.setBounds((int)dim.getWidth() - 40, 0, 35, 32);
+            btnDeconnexion.setToolTipText("Déconnecter");
+           
+            cancelButto = new JButton(new ImageIcon(this.getClass().getResource("/img/Setting.png")));
+            cancelButto.setBounds((int)dim.getWidth() - 80, 0, 35, 32);
+            cancelButto.setToolTipText("Paramètre");
+            
+            btnStatistique = new JButton(new ImageIcon(this.getClass().getResource("/img/statistik.png")));
+            btnStatistique.setBounds((int)dim.getWidth() - 120, 0, 35, 32);
+            btnStatistique.setToolTipText("Statistiques");
+            
+            btnGenerer = new JButton(new ImageIcon(this.getClass().getResource("/img/generer.png")));
+            btnGenerer.setBounds((int)dim.getWidth() - 160, 0, 35, 32);
+            btnGenerer.setToolTipText("Générer Stock");
+            
+            
+          
+            titlePanel.add(this.btnDeconnexion);
+            titlePanel.add(this.cancelButto);
+            titlePanel.add(this.btnStatistique);
+            titlePanel.add(this.btnGenerer);
+            
+            GroupLayout gl_titlePanel = new GroupLayout(titlePanel);
+            gl_titlePanel.setHorizontalGroup(
+            	gl_titlePanel.createParallelGroup(Alignment.LEADING)
+            		.addGroup(gl_titlePanel.createSequentialGroup()
+            			.addComponent(title, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
+            			.addContainerGap(974, Short.MAX_VALUE))
+            );
+            gl_titlePanel.setVerticalGroup(
+            	gl_titlePanel.createParallelGroup(Alignment.LEADING)
+            		.addGroup(gl_titlePanel.createSequentialGroup()
+            			.addComponent(title, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+            			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
+            titlePanel.setLayout(gl_titlePanel);
+            
+            messagePanel = new JPanel(new FlowLayout(0));
+            messagePanel.setBounds(5, dim.height - 120 + 5, dim.width - 450, 20);
+            messagePanel.setLayout(new BoxLayout(messagePanel, 1));
+            messagePanel.setBorder(BorderFactory.createEtchedBorder());
+            mainPane.add(messagePanel);
+            bottomMessage = new JLabel();
+            bottomMessage.setText("");
+            messagePanel.add(bottomMessage);
+            
+            userLoginPanel = new JPanel();
+            userLoginPanel.setBounds(messagePanel.getWidth() + 5, dim.height - 120 + 5, dim.width - messagePanel.getWidth() - 350, 20);
+            userLoginPanel.setLayout(new BoxLayout(this.userLoginPanel, 1));
+            userLoginPanel.setBorder(BorderFactory.createEtchedBorder());
+            mainPane.add(userLoginPanel);
+            color = userLoginPanel.getBackground();
+            loginLabel = new JLabel();
+            loginLabel.setText(utilisateur.getLogin());
+            userLoginPanel.add(loginLabel);
+            
+            msgPanel = new JPanel();
+            msgPanel.setBounds(messagePanel.getWidth() + 105, dim.height - 120 + 5, dim.width - messagePanel.getWidth() - 125, 20);
+            msgPanel.setLayout(new BoxLayout(msgPanel, 1));
+            msgPanel.setBorder(BorderFactory.createEtchedBorder());
+            mainPane.add(msgPanel);
+            messageLabel = new JLabel();
+            msgPanel.add(messageLabel);
+            
+           
+            generalScrollPane = new JScrollPane();
+            
+            generalScrollPane.setViewportView(contentPane);
+            generalScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            generalScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            
+            generalScrollPane.setBounds(0,30,(int)dim.getWidth(),(int)dim.getHeight()-10-140+5);
+            
+            mainPane.add(generalScrollPane);
+            contentPane.setOpaque(true);
+            contentPane.setBackground(Color.WHITE);
+            contentPane.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+            contentPane.setLayout(null);
+            txtLabel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+            txtLabel.setBackground(Color.PINK);
+            
+            
+            txtLabel.setBounds(10, 52, 609, 417);
+          //  contentPane.add(txtLabel);
+            
+            /*TRAITEMENTS DES ALERTES DU STOCK MINIMAL*/
+            String nomMP="";
+            int i=0;
+           // List<StockMP> listeStockMP =stockMPDAO.findStockMin(utilisateur.getId());
+            
+            // ALERTE DU STOCK MINIMAL
+            
+           /* Map< Integer, Float> mapStockTotalByMp= new HashMap<>();
+            mapStockTotalByMp=stockMPDAO.findStockTotalByMagasin(utilisateur.getId());
+            List<MatierePremier>	listMP =dao.findAll();
+            for(i=0;i<listMP.size();i++){
+            	MatierePremier matierePremier=listMP.get(i);
+            	float quantiteStock =mapStockTotalByMp.get(matierePremier.getId());	
+            	nomMP+="-"+matierePremier.getNom()+" : "+quantiteStock+"\n";
+            }
+            txtLabel.setText(nomMP);*/
+        	getContentPane().setLayout(null);
+        	  btnDeconnexion.addActionListener(new ActionListener() {
+  	  		  	public void actionPerformed(ActionEvent e) {
+  	  		  		moveToTheNewWindow();
+  	  		  	}
+        	  });
+        	  
+        	  btnGenerer.addActionListener(new ActionListener() {
+    	  		  	public void actionPerformed(ActionEvent e) {
+    	  		   	List<MatierePremier> listMP =new ArrayList<MatierePremier>();
+    	  		   	List<Articles> listArticles =new ArrayList<Articles>();
+    	  		   	List<Client> listClient =new ArrayList<Client>();
+    	  			List<Client> listFournisseur =new ArrayList<Client>();
+    	  		  
+		  		   	List<Magasin> listMagasin= new ArrayList<Magasin>();
+		  		   	List<Magasin> listMagasinProduitFini= new ArrayList<Magasin>();
+		  		   
+		  		   	listMP =dao.findAll();
+		  		   	listArticles=artilesDAO.findAll();
+		  		   	listClient=clientDAO.findAll();
+		  		   	listFournisseur=clientDAO.findAll();
+		  		   	
+		  		  		listMagasin=depotDAO.listeMagasinByTypeMagasin(Constantes.MAGASIN_CODE_TYPE_MP);
+		  		  		listMagasinProduitFini=depotDAO.listeMagasinByTypeMagasin(Constantes.MAGASIN_CODE_TYPE_PF);
+		  		  		
+		  		   	//	Utils.genererStockByMagasinMP(listMP,listMagasin);
+		  		   	//	Utils.genererStockProduitFiniByMagasin(listArticles, listMagasinProduitFini);
+		  		   		Utils.genererPrixCientByMP(listMP,listClient,listFournisseur);
+		  		   		
+		  		   	JOptionPane.showMessageDialog(null, "Le stock est généré avec succès", "Attention", JOptionPane.INFORMATION_MESSAGE);
+    	  		  	}
+          	  });
+                   
+            createMenuBar();
+            
+        }
+        
+       
+        
+        
+        public Main(int id_user,String user,Connection conn){
+        	
+        	
+        }
+        
+
+        
+        
+ private void createMenuBar() {
+
+        JMenuBar menubar = new JMenuBar();
+        menubar.setBackground(new Color(248, 248, 255));
+        menubar.setOpaque(true);
+        final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        menubar.add(Box.createRigidArea(new Dimension(0,35)));
+        menubar.setFont(new Font("New Times",Font.BOLD,10));
+        menubar.setUI ( new BasicMenuBarUI (){
+       public void paint ( Graphics g, JComponent c ){
+       g.setColor ( new Color(248, 248, 255) );
+       
+       g.fillRect ( 0, 0, c.getWidth (), c.getHeight () );
+    }
+} );
+         menubar.setForeground(Color.white);
+        
+  /* Menu Accueil */////       
+        JMenu acceuilMenu = new JMenu("Accueil");
+        menubar.add(acceuilMenu);
+        
+        JMenuItem acceuilItem = new JMenuItem("Accueil");
+        acceuilItem.setMnemonic(KeyEvent.VK_A);
+        acceuilMenu.add(acceuilItem);
+        acceuilItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText(AuthentificationView.login);
+                                                            	titlePanel.add(title);
+                                                            	Main window = new Main();
+                                            	 				
+                                            	 				window.setVisible(true);
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        JMenuItem acceuilFermerMenuItem = new JMenuItem("Fermer");
+        acceuilFermerMenuItem.setMnemonic(70);
+        acceuilMenu.add(acceuilFermerMenuItem);
+        
+         clientMenu = new JMenu("Client");
+        menubar.add(clientMenu);
+        
+        JMenuItem ajoutClientItem = new JMenuItem("Ajout Client");
+        ajoutClientItem.setMnemonic(KeyEvent.VK_A);
+        clientMenu.add(ajoutClientItem);
+        ajoutClientItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajouter Client");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjoutClient();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                            }
+                                                                 });
+        
+        JMenuItem chercherClientItem = new JMenuItem("Chercher Client");
+        chercherClientItem.setMnemonic(KeyEvent.VK_A);
+        clientMenu.add(chercherClientItem);
+        chercherClientItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Chercher Client");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new ChercherClient();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+
+        
+        
+        /* Menu Fournisseur 
+         * 
+         */
+         depotMenu = new JMenu("Dépot");
+        menubar.add(depotMenu);
+        JMenuItem depotItem = new JMenuItem("Ajouter Dépot");
+        depotItem.setMnemonic(KeyEvent.VK_A);
+        depotMenu.add(depotItem);
+        depotItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajouter Dépot");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjoutDepot();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                            }
+                                                                 });
+        
+        
+        JMenuItem chercherDepotItem = new JMenuItem("Chercher Dépot");
+        chercherDepotItem.setMnemonic(KeyEvent.VK_A);
+        depotMenu.add(chercherDepotItem);
+        chercherDepotItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Chercher Dépot");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new ChercherDepot();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                            }
+                                                                 });
+        
+        /* Menu Fournisseur 
+         * 
+         */
+        /*  JMenu fournisseurMenu = new JMenu("Fournisseur");
+        menubar.add(fournisseurMenu);
+        JMenuItem fournisseurItem = new JMenuItem("Ajouter Fournisseur");
+        fournisseurItem.setMnemonic(KeyEvent.VK_A);
+        fournisseurMenu.add(fournisseurItem);
+        fournisseurItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajouter Fournisseur");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjouterFournisseur();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                            }
+                                                                 });
+        
+        JMenuItem fournisseur2Item = new JMenuItem("Chercher Fournisseur");
+        fournisseurItem.setMnemonic(KeyEvent.VK_A);
+        fournisseurMenu.add(fournisseur2Item);
+        fournisseur2Item.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajouter Fournisseur");
+                                                            	titlePanel.add(title);
+                                                            	//contentPane  = new ajouterClient();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                            }
+                                                                 });
+        
+      
+      Menu commande 
+        JMenu commandeMenu = new JMenu("Commande");
+        menubar.add(commandeMenu);
+        JMenuItem commandeItem = new JMenuItem("Ajouter Commande");
+        commandeItem.setMnemonic(KeyEvent.VK_A);
+        commandeMenu.add(commandeItem);
+        commandeItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajouter Commande");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjouterClient();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                            }
+                                                                 });*/
+        
+       
+        
+ /*Menu Matière Première */
+        MatierePremierMenu = new JMenu("Matière Première");
+        menubar.add(MatierePremierMenu);
+        
+        JMenuItem saisirMatierePremiereItem = new JMenuItem("Ajouter Matière Première");
+        saisirMatierePremiereItem.setMnemonic(KeyEvent.VK_A);
+        MatierePremierMenu.add(saisirMatierePremiereItem);
+        saisirMatierePremiereItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajouter Matière Première");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjoutMatierePremiere();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+       
+        JMenuItem chercherMatierePremiereItem = new JMenuItem("Chercher Matière Première");
+        chercherMatierePremiereItem.setMnemonic(KeyEvent.VK_A);
+        MatierePremierMenu.add(chercherMatierePremiereItem);
+        chercherMatierePremiereItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Chercher Matière Première");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new ChercherMatierePremiere();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        JMenuItem ajouterMpComposeItem = new JMenuItem("Ajouter Matière Première Composé");
+        ajouterMpComposeItem.setMnemonic(KeyEvent.VK_A);
+        MatierePremierMenu.add(ajouterMpComposeItem);
+        ajouterMpComposeItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajouter Matière Première Composé");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjouterMPCompose();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        JMenuItem modifierMpComposeItem = new JMenuItem("Modifier Matière Première Composé");
+        modifierMpComposeItem.setMnemonic(KeyEvent.VK_A);
+        MatierePremierMenu.add(modifierMpComposeItem);
+        modifierMpComposeItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Modifier Matière Première Composé");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new ModifierMatierePremierCompose();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        
+        JMenuItem listeMpItem = new JMenuItem("Liste Matiere Premiere");
+        listeMpItem.setMnemonic(KeyEvent.VK_A);
+        MatierePremierMenu.add(listeMpItem);
+        listeMpItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Liste Matiere Premiere");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new ListeMatierePremiere();
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        
+        
+        
+        
+        
+        
+        /*Menu Estimation article 
+         * 
+         */
+         articleMenu = new JMenu("Article");
+        menubar.add(articleMenu);
+         JMenuItem CreerEstimationMenuItem = new JMenuItem("Ajouter Article");
+         CreerEstimationMenuItem.setMnemonic(KeyEvent.VK_A);
+         articleMenu.add(CreerEstimationMenuItem);
+         CreerEstimationMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Créer Estimation article");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new CreerEstimationArticle();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         JMenuItem modifierEstimationMenuItem = new JMenuItem("Chercher Article");
+         modifierEstimationMenuItem.setMnemonic(KeyEvent.VK_A);
+         articleMenu.add(modifierEstimationMenuItem);
+         modifierEstimationMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Modifier Estimation article");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new ModifierEstimationArticle();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         
+         JMenuItem ajouterEstimationMenuItem = new JMenuItem("Ajouter Estimation catégorie thé ");
+         ajouterEstimationMenuItem.setMnemonic(KeyEvent.VK_A);
+         articleMenu.add(ajouterEstimationMenuItem);
+         ajouterEstimationMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Ajouter Estimation catégorie thé ");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new AjouterEstimationThe();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+        
+        /*Menu Stock matière première
+         * 
+         */
+        
+         stockMPMenu = new JMenu("Stock Matière Première");
+        menubar.add(stockMPMenu);
+        JMenuItem ajouterStockMenuItem = new JMenuItem("Ajouter Stock Matière Première");
+        ajouterStockMenuItem.setMnemonic(KeyEvent.VK_A);
+        stockMPMenu.add(ajouterStockMenuItem);
+        ajouterStockMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajouter Stock Matière Première");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjouterStockMP();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        JMenuItem afficherMPMenuItem = new JMenuItem("Afficher Stock Matière Première");
+        afficherMPMenuItem.setMnemonic(KeyEvent.VK_A);
+        stockMPMenu.add(afficherMPMenuItem);
+        afficherMPMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Afficher Stock Matière Première");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AfficherStockMP();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        
+        
+     
+        
+        
+        
+         JMenuItem transfererMPMenuItem = new JMenuItem("Transférer Stock Matière Première");
+         transfererMPMenuItem.setMnemonic(KeyEvent.VK_A);
+         stockMPMenu.add(transfererMPMenuItem);
+         transfererMPMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Transférer Stock Matière Première");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new TransfererStockMP();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         
+         JMenuItem entrerMPMenuItem = new JMenuItem("Recevoir Stock Matière Première");
+         entrerMPMenuItem.setMnemonic(KeyEvent.VK_A);
+         stockMPMenu.add(entrerMPMenuItem);
+         entrerMPMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Recevoir Stock Matière Première");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new EntrerStockMP();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         
+         JMenuItem sortirMPMenuItem = new JMenuItem("Sortir Stock Matière Première");
+         sortirMPMenuItem.setMnemonic(KeyEvent.VK_A);
+         stockMPMenu.add(sortirMPMenuItem);
+         sortirMPMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Sortir Stock Matière Première");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new SortirStockMP();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         
+         JMenuItem detailTransferMenuItem = new JMenuItem("Afficher Détail Transfert");
+         detailTransferMenuItem.setMnemonic(KeyEvent.VK_A);
+         stockMPMenu.add(detailTransferMenuItem);
+         detailTransferMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Afficher Détail Transfert");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new AfficherDetailTransferMP();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+        
+        
+        
+        /*Menu Unité de fabrication
+         * 
+         */
+        
+         uniteFabMenu = new JMenu("Unité de Fabrication");
+        menubar.add(uniteFabMenu);
+         JMenuItem AjouterClientMenuItem = new JMenuItem("Ajouter Unité de Fabrication");
+         AjouterClientMenuItem.setMnemonic(KeyEvent.VK_A);
+         uniteFabMenu.add(AjouterClientMenuItem);
+         AjouterClientMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Ajouter Machine");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new AjoutMachine();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         
+         JMenuItem SoldeClientMenuItem = new JMenuItem("Chercher Unité de Fabrication");
+         SoldeClientMenuItem.setMnemonic(KeyEvent.VK_A);
+         uniteFabMenu.add(SoldeClientMenuItem);
+         SoldeClientMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	contentPane  = new ChercherMachine();
+                                                             	title.setText("Chercher Unité de Fabrication");
+                                                             	titlePanel.add(title);
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         
+         /*Menu Equipe
+          * 
+          */
+         
+           equipeFabMenu = new JMenu("Equipe");
+           menubar.add(equipeFabMenu);
+           
+         JMenuItem creerEquipeMenuItem = new JMenuItem("Créer Equipe");
+         AjouterClientMenuItem.setMnemonic(KeyEvent.VK_A);
+         equipeFabMenu.add(creerEquipeMenuItem);
+         creerEquipeMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Créer Equipe");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new AjoutEquipe();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         
+         JMenuItem chercherEquipeMenuItem = new JMenuItem("Chercher Equipe");
+         chercherEquipeMenuItem.setMnemonic(KeyEvent.VK_A);
+         equipeFabMenu.add(chercherEquipeMenuItem);
+         chercherEquipeMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Chercher Equipe");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new ChercherEquipe();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         JMenuItem ajoutEmployeMenuItem = new JMenuItem("Ajouter Employé");
+         ajoutEmployeMenuItem.setMnemonic(KeyEvent.VK_A);
+         equipeFabMenu.add(ajoutEmployeMenuItem);
+         ajoutEmployeMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Ajouter Employé");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new AjoutEmploye();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         JMenuItem creerEmployeMenuItem = new JMenuItem("Chercher Employé");
+         creerEmployeMenuItem.setMnemonic(KeyEvent.VK_A);
+         equipeFabMenu.add(creerEmployeMenuItem);
+         creerEmployeMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Chercher Employé");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new ChercherEmploye();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         JMenuItem ficheEmployeMenuItem = new JMenuItem("Fiche Employé");
+         ficheEmployeMenuItem.setMnemonic(KeyEvent.VK_A);
+         equipeFabMenu.add(ficheEmployeMenuItem);
+         ficheEmployeMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Fiche Employé");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new AfficherFicheEmploye();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+         JMenuItem ficheEmployeGlobaleMenuItem = new JMenuItem("Fiche Employé Globale");
+         ficheEmployeGlobaleMenuItem.setMnemonic(KeyEvent.VK_A);
+         equipeFabMenu.add(ficheEmployeGlobaleMenuItem);
+         ficheEmployeGlobaleMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Fiche Employé Globale");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new AfficherFicheGlobaleEmploye();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+     
+        /*Menu Ordre de fabrication 
+         * 
+         */
+        
+         
+          ordreFabMenu = new JMenu("Ordre de Fabrication");
+          menubar.add(ordreFabMenu);
+        JMenuItem creerOrdreMenuItem = new JMenuItem("Créer Order de Fabrication");
+        AjouterClientMenuItem.setMnemonic(KeyEvent.VK_A);
+        ordreFabMenu.add(creerOrdreMenuItem);
+        creerOrdreMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Créer Order de fabrication");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new CreerOrdreFabrication();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+     
+      
+        JMenuItem lancerOrdreMenuItem = new JMenuItem("Lancer Order de Fabrication");
+        lancerOrdreMenuItem.setMnemonic(KeyEvent.VK_A);
+        ordreFabMenu.add(lancerOrdreMenuItem);
+        lancerOrdreMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Lancer Order de fabrication");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new LancerOrdreFabrication();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        JMenuItem terminerOrdreMenuItem = new JMenuItem("Terminer Order de Fabrication");
+        terminerOrdreMenuItem.setMnemonic(KeyEvent.VK_A);
+        ordreFabMenu.add(terminerOrdreMenuItem);
+        terminerOrdreMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Terminer Order de Fabrication");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new TerminerOrdreFabrication(new Production(),"","");
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        JMenuItem afficherCoutDechetMenuItem = new JMenuItem("Afficher Cout total des déchets");
+        afficherCoutDechetMenuItem.setMnemonic(KeyEvent.VK_A);
+     //   ordreFabMenu.add(afficherCoutDechetMenuItem);
+        afficherCoutDechetMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Afficher Cout total des déchets");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new CoutDechetProduction();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        JMenuItem afficherCompteStockMPMenuItem = new JMenuItem("Afficher Compte Stock Matière Première");
+        afficherCompteStockMPMenuItem.setMnemonic(KeyEvent.VK_A);
+        ordreFabMenu.add(afficherCompteStockMPMenuItem);
+        afficherCompteStockMPMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Afficher Compte Stock Matière Première");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AfficherCompteStockMP();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        JMenuItem ChargeVariableProductionMenuItem = new JMenuItem("Saisir Charge Production Variable");
+        ChargeVariableProductionMenuItem.setMnemonic(KeyEvent.VK_A);
+        ordreFabMenu.add(ChargeVariableProductionMenuItem);
+        ChargeVariableProductionMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Saisir Charge Production Variable");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjoutChargeVariableProd();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        
+        JMenuItem ChargeFixeProductionMenuItem = new JMenuItem("Saisir Charge Production Fixe");
+        ChargeFixeProductionMenuItem.setMnemonic(KeyEvent.VK_A);
+        ordreFabMenu.add(ChargeFixeProductionMenuItem);
+        ChargeFixeProductionMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Saisir Charge Production Fixe");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjoutChargeFixeProd();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        
+        JMenuItem CoutProductionMenuItem = new JMenuItem("Cout Production");
+        CoutProductionMenuItem.setMnemonic(KeyEvent.VK_A);
+        ordreFabMenu.add(CoutProductionMenuItem);
+        CoutProductionMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Cout Production");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new CoutProduction();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        
+        /*Menu Production Carton 
+         * 
+         */
+        
+         
+        prodCartMenu = new JMenu("Production Carton");
+        menubar.add(prodCartMenu);
+       
+        JMenuItem creerordrefabricationmpMenuItem = new JMenuItem("Créer Ordre de Fabrication MP");
+        creerordrefabricationmpMenuItem.setMnemonic(KeyEvent.VK_A);
+        prodCartMenu.add(creerordrefabricationmpMenuItem);
+        creerordrefabricationmpMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Créer Ordre de Fabrication MP");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new CreerOrdreFabricationMP();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        
+        
+        
+        JMenuItem lancerorderfabricationmpMenuItem = new JMenuItem("Lancer Ordre de Fabrication MP");
+        lancerorderfabricationmpMenuItem.setMnemonic(KeyEvent.VK_A);
+        prodCartMenu.add(lancerorderfabricationmpMenuItem);
+        lancerorderfabricationmpMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Lancer Ordre de Fabrication MP");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new LancerOrdreFabricationMP();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+       
+        
+    
+         
+        
+         JMenuItem terminerorderfabricationmpMenuItem = new JMenuItem("Terminer Ordre de Fabrication MP");
+         terminerorderfabricationmpMenuItem.setMnemonic(KeyEvent.VK_A);
+         prodCartMenu.add(terminerorderfabricationmpMenuItem);
+         terminerorderfabricationmpMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Terminer Ordre de Fabrication MP");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new TerminerOrdreFabricationMP(new ProductionMP(),"","");
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+        
+        
+        
+        
+        
+        
+        /*Menu Stock produit fini
+         * 
+         */
+       
+         stockPFMenu = new JMenu("Stock Produit Fini");
+        menubar.add(stockPFMenu);
+       
+        JMenuItem afficherPFMenuItem = new JMenuItem("Afficher Stock Produit Fini");
+        afficherPFMenuItem.setMnemonic(KeyEvent.VK_A);
+        stockPFMenu.add(afficherPFMenuItem);
+        afficherPFMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Afficher Stock Produit Fini");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AfficherStockPF();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+    
+         
+        
+         JMenuItem sortirPFMenuItem = new JMenuItem("Sortir Stock Produit Fini");
+         sortirPFMenuItem.setMnemonic(KeyEvent.VK_A);
+         stockPFMenu.add(sortirPFMenuItem);
+         sortirPFMenuItem.addActionListener(new ActionListener() {
+                                                             public void actionPerformed(ActionEvent event) {
+                                                             	title.setText("Sortir Stock Produit Fini");
+                                                             	titlePanel.add(title);
+                                                             	contentPane  = new SortirStockPF();
+                                                             	
+                                                                 contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                 generalScrollPane.setViewportView(contentPane);                
+                                                                 contentPane.setOpaque(true);
+                                                                 
+
+                                                                      }
+                                                                  });
+        
+        
+        /*Menu Paramètres
+         * 
+         */
+        
+          parametreMenu = new JMenu("Paramètres");
+          menubar.add(parametreMenu);
+          
+          JMenuItem ajouterPrixClientMenuItem = new JMenuItem("Ajouter Prix Client ");
+          ajouterPrixClientMenuItem.setMnemonic(KeyEvent.VK_A);
+          parametreMenu.add(ajouterPrixClientMenuItem);
+          ajouterPrixClientMenuItem.addActionListener(new ActionListener() {
+                                                              public void actionPerformed(ActionEvent event) {
+                                                              	title.setText("Ajouter Prix Client");
+                                                              	titlePanel.add(title);
+                                                              	contentPane  = new AjouterPrixClientMP();
+                                                              	
+                                                                  contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                  generalScrollPane.setViewportView(contentPane);                
+                                                                  contentPane.setOpaque(true);
+                                                                  
+
+                                                                       }
+                                                                   });
+        JMenuItem BloquerEmployeMenuItem = new JMenuItem("Bloquer Employé");
+        BloquerEmployeMenuItem.setMnemonic(KeyEvent.VK_A);
+        parametreMenu.add(BloquerEmployeMenuItem);
+        BloquerEmployeMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Bloquer Employé");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjoutEmployeBloque();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+
+        JMenuItem ajoutParametreMenuItem = new JMenuItem("Ajouter Paramètre");
+        ajoutParametreMenuItem.setMnemonic(KeyEvent.VK_A);
+        parametreMenu.add(ajoutParametreMenuItem);
+        ajoutParametreMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajouter Paramètre");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjoutParametre();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        JMenuItem ajoutUtilisateurMenuItem = new JMenuItem("Ajouter Utilisateur");
+        ajoutUtilisateurMenuItem.setMnemonic(KeyEvent.VK_A);
+        parametreMenu.add(ajoutUtilisateurMenuItem);
+        ajoutUtilisateurMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajout Utilisateur");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjoutUtilisateur();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                                 });
+        
+        JMenuItem gererUtilisateurMenuItem = new JMenuItem("Gérer Authorisation");
+        gererUtilisateurMenuItem.setMnemonic(KeyEvent.VK_A);
+        parametreMenu.add(gererUtilisateurMenuItem);
+        gererUtilisateurMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Gérer Authorisation");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new GererAuthUtilisateur();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+
+                                                                     }
+                                                            
+                                                                 });
+        
+        
+        JMenuItem ChargesMenuItem = new JMenuItem("Ajouter Charges");
+        ChargesMenuItem.setMnemonic(KeyEvent.VK_A);
+        parametreMenu.add(ChargesMenuItem);
+        ChargesMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajout Charges");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjoutCharges();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+                                                                     }
+                                                            
+                                                                 });
+																 
+																 
+																  JMenuItem OffreMenuItem = new JMenuItem("Ajouter Offre");
+        OffreMenuItem.setMnemonic(KeyEvent.VK_A);
+        parametreMenu.add(OffreMenuItem);
+        OffreMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Ajout Offre");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new AjoutOffre();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+                                                                     }
+                                                            
+                                                                 });
+        
+        JMenuItem ActiverOffreMenuItem = new JMenuItem("Activer Offre");
+        ActiverOffreMenuItem.setMnemonic(KeyEvent.VK_A);
+        parametreMenu.add(ActiverOffreMenuItem);
+        ActiverOffreMenuItem.addActionListener(new ActionListener() {
+                                                            public void actionPerformed(ActionEvent event) {
+                                                            	title.setText("Activer Offre");
+                                                            	titlePanel.add(title);
+                                                            	contentPane  = new ActiverOffre();
+                                                            	
+                                                                contentPane.setPreferredSize(new Dimension((int)dim.getWidth()+100,(int)dim.getHeight()-70));
+                                                                generalScrollPane.setViewportView(contentPane);                
+                                                                contentPane.setOpaque(true);
+                                                                
+                                                                     }
+                                                            
+                                                                 });
+        
+        
+        setJMenuBar(menubar);
+        autoriseMenuUtilisateur();
+        
+      //  depotMenu.setVisible(false);
+    }
+ 
+ public void moveToTheNewWindow() {
+		this.dispose();
+		AuthentificationView authentification = new AuthentificationView();
+		authentification.setVisible(true);
+		authentification.setLocationRelativeTo(null);
+	}
+ 
+ void autoriseMenuUtilisateur(){
+	 
+	 List<Habilitation> listHabilitation=habilitationDAO.findHabilitationByUtilisateur(utilisateur.getId());
+	 
+	 for(int i=0;i<listHabilitation.size();i++){
+		 Habilitation habilitation =listHabilitation.get(i);
+		 
+		 if(habilitation.getMenu().getCode().equals(MENU_DEPOT)){
+			 depotMenu.setVisible(habilitation.isAutorise());
+		 }
+		 
+		 if(habilitation.getMenu().getCode().equals(MENU_MATIERE_PREMIERE)){
+			 MatierePremierMenu.setVisible(habilitation.isAutorise());
+		 }
+		 if(habilitation.getMenu().getCode().equals(MENU_ARTICLE)){
+			 articleMenu.setVisible(habilitation.isAutorise());
+		 }
+		 if(habilitation.getMenu().getCode().equals(MENU_STOCK_MATIERE_PREMIERE)){
+			 stockMPMenu.setVisible(habilitation.isAutorise());
+		 }
+		 if(habilitation.getMenu().getCode().equals(MENU_MACHINE)){
+			 uniteFabMenu.setVisible(habilitation.isAutorise());
+		 }
+		 if(habilitation.getMenu().getCode().equals(MENU_EQUIPE)){
+			 equipeFabMenu.setVisible(habilitation.isAutorise());
+		 }
+		 if(habilitation.getMenu().getCode().equals(MENU_ORDRE_FABRICATION)){
+			 ordreFabMenu.setVisible(habilitation.isAutorise());
+		 }
+		 if(habilitation.getMenu().getCode().equals(MENU_STOCK_PRODUIT_FINI)){
+			 stockPFMenu.setVisible(habilitation.isAutorise());
+		 }
+		 if(habilitation.getMenu().getCode().equals(MENU_PARAMETRE)){
+			 parametreMenu.setVisible(habilitation.isAutorise());
+		 }
+		 if(habilitation.getMenu().getCode().equals(MENU_CLIENT)){
+			 parametreMenu.setVisible(habilitation.isAutorise());
+		 }
+    	 
+	 }
+	 
+ }
+}
+
+

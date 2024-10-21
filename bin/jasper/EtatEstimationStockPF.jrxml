@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MouvementStockGlobale" language="groovy" pageWidth="854" pageHeight="602" orientation="Landscape" columnWidth="814" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="4"/>
+	<parameter name="titre" class="java.lang.String"/>
+	<parameter name="totalmontantinitial" class="java.math.BigDecimal"/>
+	<parameter name="totalmontantachat" class="java.math.BigDecimal"/>
+	<parameter name="totalmontantproduction" class="java.math.BigDecimal"/>
+	<parameter name="totalmontantvente" class="java.math.BigDecimal"/>
+	<parameter name="totalmontantfinale" class="java.math.BigDecimal"/>
+	<parameter name="totalmontantavoir" class="java.math.BigDecimal"/>
+	<field name="sousFamille.liblle" class="java.lang.String"/>
+	<field name="montantInitial" class="java.math.BigDecimal"/>
+	<field name="montantAchat" class="java.math.BigDecimal"/>
+	<field name="montantFinale" class="java.math.BigDecimal"/>
+	<field name="achatRevendu" class="java.math.BigDecimal"/>
+	<field name="montantSortie" class="java.math.BigDecimal"/>
+	<field name="marge" class="java.math.BigDecimal"/>
+	<field name="margePourcentage" class="java.math.BigDecimal"/>
+	<field name="montantProduction" class="java.math.BigDecimal"/>
+	<field name="montantAvoir" class="java.math.BigDecimal"/>
+	<field name="montantAvoirAnneePrecedente" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="192" y="0" width="405" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="18" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ETAT ESTIMATION STOCK PRODUIT FINI]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="13" y="0" width="721" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="1" width="68" height="23" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[SOUS FAMILLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="78" y="1" width="75" height="23" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[STOCK INITIAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="153" y="1" width="80" height="23" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ACHAT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="444" y="1" width="84" height="23" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[STOCK FINALE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="528" y="1" width="77" height="23" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ACHAT REVENDU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="605" y="1" width="76" height="23" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[CHIFFRE D'AFFAIRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="681" y="1" width="76" height="23" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[MARGE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="757" y="1" width="47" height="23" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[MARGE %]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="233" y="1" width="71" height="23" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[PRODUCTION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="304" y="1" width="67" height="23" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[RRR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="371" y="1" width="73" height="23" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[RRR ( N-1 )]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="0" width="68" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sousFamille.liblle}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="78" y="0" width="75" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montantInitial}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="153" y="0" width="80" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montantAchat}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="444" y="0" width="84" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montantFinale}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="528" y="0" width="77" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{achatRevendu}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="605" y="0" width="76" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montantSortie}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="681" y="0" width="76" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marge}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="757" y="0" width="47" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{margePourcentage}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="233" y="0" width="71" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montantProduction}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="304" y="0" width="67" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montantAvoir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="371" y="0" width="73" height="24"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montantAvoirAnneePrecedente}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="87" splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="155" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MouvementStockGlobale" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b53bca59-581c-4d84-8b8b-5f718d872246">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="1017"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="titre" class="java.lang.String"/>
+	<field name="mp.nom" class="java.lang.String"/>
+	<field name="quantiteSortie" class="java.math.BigDecimal"/>
+	<field name="quantiteDechet" class="java.math.BigDecimal"/>
+	<field name="quantiteService" class="java.math.BigDecimal"/>
+	<field name="quantiteDechetService" class="java.math.BigDecimal"/>
+	<field name="quantiteOffreProduction" class="java.math.BigDecimal"/>
+	<field name="quantiteOffreService" class="java.math.BigDecimal"/>
+	<field name="sousFamille" class="java.lang.String"/>
+	<field name="famille" class="java.lang.String"/>
+	<field name="quantiteTransfertMPPF" class="java.math.BigDecimal"/>
+	<field name="quantiteAvoir" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="221" y="16" width="405" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="85f54828-c1a4-4317-be40-ef2b2e1acb2d"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="18" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ETAT QUANTITE MP TRANSFORMER]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="54" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="11" y="0" width="791" height="20" uuid="82e58d77-f941-4fdf-a6f4-e2415f3f5274"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="162" y="31" width="640" height="23" forecolor="#000000" backcolor="#CCCCCC" uuid="b5379b90-5ab0-4926-8dfc-70d24df26aba"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="281" y="0" width="58" height="26" backcolor="#CCCCCC" uuid="1778d426-9c64-4c8a-b0d3-dfc73f72a306"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Quantité Sortie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="4" y="-23" width="158" height="49" forecolor="#000000" backcolor="#CCCCCC" uuid="e13f3d2b-68c9-4672-9361-c0dcc47f3b6a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Matiere Premiere]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="339" y="0" width="55" height="26" backcolor="#CCCCCC" uuid="cd8eafbc-e5a3-476c-b9bb-1388939198b1"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Quantité Dechet]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="459" y="0" width="54" height="26" backcolor="#CCCCCC" uuid="64425192-398e-4743-8198-f620c0a63540"/>
+				<box leftPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantité Service]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="513" y="0" width="68" height="26" backcolor="#CCCCCC" uuid="ae3091e2-6b90-4db3-b6f7-a1ebca25a6c8"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantite Dechet Service]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="394" y="0" width="65" height="26" backcolor="#CCCCCC" uuid="3e8f722b-8275-4578-92c4-1f9adb40eaad"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Quantité Offre Production]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="581" y="0" width="70" height="26" backcolor="#CCCCCC" uuid="6f2f1add-1226-43ea-b59f-fd2183d11f46"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantite Offre Service]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="162" y="0" width="59" height="26" forecolor="#000000" backcolor="#CCCCCC" uuid="52c7191a-9df9-48f2-9089-d7a7de0da78c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Famille]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="221" y="0" width="60" height="26" forecolor="#000000" backcolor="#CCCCCC" uuid="9f1b9239-f17f-496a-8dbb-be5046807c85"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Sous Famille]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="710" y="0" width="92" height="26" backcolor="#CCCCCC" uuid="b4f2e8bc-eeeb-4973-9316-3b0fe36790bc"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantite Transfert MP PF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="651" y="0" width="59" height="26" backcolor="#CCCCCC" uuid="4a63fe2b-3c77-49a1-a233-79eb1644954e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantite Avoir]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="###0.00;###0.00-">
+				<reportElement x="4" y="0" width="158" height="20" uuid="3a1a8126-9d27-4118-93fb-8c1aa46f0b44"/>
+				<box leftPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mp.nom}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000;-#,##0.000000">
+				<reportElement x="339" y="0" width="55" height="20" uuid="f30923c6-d592-4abf-929a-a40fa4ae04e3"/>
+				<box leftPadding="2" rightPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteDechet}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000;-#,##0.000000">
+				<reportElement x="459" y="0" width="54" height="20" uuid="b00a2e05-7931-4ba5-99b0-bcf03df6dbcc"/>
+				<box leftPadding="2" rightPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteService}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000;-#,##0.000000">
+				<reportElement x="513" y="0" width="68" height="20" uuid="80025080-0717-4166-8f7f-9f0128cf7140"/>
+				<box leftPadding="2" rightPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteDechetService}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000;-#,##0.000000">
+				<reportElement x="281" y="0" width="58" height="20" uuid="c39d7df9-5b60-43f5-a5d7-99558e9d8342"/>
+				<box leftPadding="2" rightPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteSortie}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.000000;-###0.000000">
+				<reportElement x="394" y="0" width="65" height="20" uuid="f5ddd1a8-7235-4474-aa55-0f5ee2f5817d"/>
+				<box leftPadding="2" rightPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteOffreProduction}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.000000;-###0.000000">
+				<reportElement x="581" y="0" width="70" height="20" uuid="96fc8194-0d27-467e-a379-f0e7c6f14156"/>
+				<box leftPadding="2" rightPadding="1">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteOffreService}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="0" width="59" height="20" uuid="ba799cf4-c442-4c2b-874b-5f886bdb25ae"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{famille}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="221" y="0" width="60" height="20" uuid="ff7e4388-9565-4aca-a0a1-4d52e2b3a73e"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sousFamille}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.000000">
+				<reportElement x="710" y="0" width="92" height="20" uuid="8531211b-2135-43c6-8d73-b2a7785d6380"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteTransfertMPPF}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.000000">
+				<reportElement x="651" y="0" width="59" height="20" uuid="003afec1-2609-4629-aa78-07e9362cb2b9"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteAvoir}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="87" splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="155" splitType="Stretch"/>
+	</summary>
+</jasperReport>

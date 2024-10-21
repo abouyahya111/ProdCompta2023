@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="40"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1"/>
+	<parameter name="quanititetotal" class="java.lang.Float"/>
+	<parameter name="couttotal" class="java.lang.Float"/>
+	<parameter name="couttotalchargefix" class="java.lang.Float"/>
+	<parameter name="couttotalchargevariable" class="java.lang.Float"/>
+	<parameter name="sommecouts" class="java.lang.Float"/>
+	<parameter name="coutunitaire" class="java.lang.Float"/>
+	<parameter name="coutmp" class="java.lang.Float"/>
+	<parameter name="coutemploye" class="java.lang.Float"/>
+	<parameter name="coutdechet" class="java.lang.Float"/>
+	<parameter name="pourcentagecoutmp" class="java.lang.Float"/>
+	<parameter name="pourcentagecoutemploye" class="java.lang.Float"/>
+	<parameter name="pourcentagecoutdechet" class="java.lang.Float"/>
+	<parameter name="coutunitairemp" class="java.lang.Float"/>
+	<parameter name="coutunitaireemploye" class="java.lang.Float"/>
+	<parameter name="pourcentagedhmp" class="java.lang.Float"/>
+	<parameter name="pourcentagedhemploye" class="java.lang.Float"/>
+	<parameter name="pourcentagedhdechet" class="java.lang.Float"/>
+	<parameter name="datedebut" class="java.lang.String"/>
+	<parameter name="datefin" class="java.lang.String"/>
+	<parameter name="coutunitairedechet" class="java.lang.Float"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\eclipse\\WorkSpace\\GestionProduction\\src\\jasper\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pourcentagecouttotal" class="java.lang.Float"/>
+	<parameter name="pourcentagequantitechargefix" class="java.lang.Float"/>
+	<parameter name="pourcentagequantitechargevariable" class="java.lang.Float"/>
+	<parameter name="listChargeFixMP" class="java.util.List"/>
+	<parameter name="listChargeVariableMP" class="java.util.List"/>
+	<parameter name="depot" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="143" y="5" width="267" height="20" forecolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Détail Cout production]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="295" splitType="Stretch">
+			<rectangle>
+				<reportElement x="112" y="20" width="343" height="21" backcolor="#66FFCC"/>
+			</rectangle>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="116" y="20" width="57" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Periode  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="51" width="75" height="14" backcolor="#66FFCC"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Production]]></text>
+			</staticText>
+			<line>
+				<reportElement x="75" y="58" width="431" height="1"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="88" y="183" width="137" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Quantite Total ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="88" y="86" width="137" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Total      ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="88" y="99" width="137" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Total charge Fixe  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="88" y="112" width="137" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Total charge Variable ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="169" width="75" height="14" backcolor="#66FFCC"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Production]]></text>
+			</staticText>
+			<line>
+				<reportElement x="75" y="176" width="431" height="1"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="88" y="207" width="137" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Unitaire     ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="88" y="144" width="137" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Total Couts]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="221" width="52" height="14" backcolor="#66FFCC"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="52" y="227" width="454" height="1"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="88" y="248" width="137" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Matiere Premiere]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="88" y="261" width="137" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Employé  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="88" y="274" width="137" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Dechet  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="225" y="235" width="61" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="286" y="235" width="69" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cout Unitaire]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="355" y="235" width="66" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Pourcentage]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="421" y="235" width="85" height="13" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Pourcentage DH]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement x="225" y="183" width="100" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{quanititetotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="225" y="86" width="100" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{couttotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="225" y="99" width="100" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{couttotalchargefix}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="225" y="112" width="100" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{couttotalchargevariable}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="225" y="144" width="100" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{sommecouts}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="225" y="207" width="100" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{coutunitaire}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="225" y="248" width="61" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{coutmp}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="225" y="261" width="61" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{coutemploye}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="225" y="274" width="61" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{coutdechet}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="286" y="248" width="69" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{coutunitairemp}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="286" y="261" width="69" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{coutunitaireemploye}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="286" y="274" width="69" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{coutunitairedechet}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00 %">
+				<reportElement x="355" y="248" width="66" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pourcentagecoutmp}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00 %">
+				<reportElement x="355" y="261" width="66" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pourcentagecoutemploye}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00 %">
+				<reportElement x="355" y="274" width="66" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pourcentagecoutdechet}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="421" y="248" width="85" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pourcentagedhmp}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="421" y="261" width="85" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pourcentagedhemploye}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="421" y="274" width="85" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pourcentagedhdechet}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="173" y="22" width="96" height="17"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{datedebut}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00 %">
+				<reportElement x="325" y="86" width="100" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pourcentagecouttotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00 %">
+				<reportElement x="325" y="99" width="100" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pourcentagequantitechargefix}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00 %">
+				<reportElement x="325" y="112" width="100" height="13"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pourcentagequantitechargevariable}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="279" y="19" width="37" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Depot  :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="318" y="19" width="137" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{depot}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<subreport>
+				<reportElement isPrintRepeatedValues="false" x="0" y="1" width="555" height="42">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()==1)]]></printWhenExpression>
+				</reportElement>
+				<dataSourceExpression><![CDATA[new  net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{listChargeFixMP})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "CoutProduction_subreportChargeFixe.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement isPrintRepeatedValues="false" x="0" y="1" width="555" height="49">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()==1)]]></printWhenExpression>
+				</reportElement>
+				<dataSourceExpression><![CDATA[new  net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{listChargeVariableMP})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "CoutProduction_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="80" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="73" splitType="Stretch">
+			<textField>
+				<reportElement x="460" y="53" width="55" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" Sur"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="53" width="40" height="19"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

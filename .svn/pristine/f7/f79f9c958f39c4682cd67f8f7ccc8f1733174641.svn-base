@@ -1,0 +1,45 @@
+package dao.entity;
+
+import java.util.Date;
+
+public class RecapFicheEmploye {
+	
+	private double delaiEmploye;
+	private double coutTotal;
+	private double  remise;
+	private double avance;
+	private Date dateSituation;
+	public double getDelaiEmploye() {
+		return delaiEmploye;
+	}
+	public void setDelaiEmploye(double delaiEmploye) {
+		this.delaiEmploye = delaiEmploye;
+	}
+	public double getCoutTotal() {
+		return coutTotal;
+	}
+	public void setCoutTotal(double coutTotal) {
+		this.coutTotal = coutTotal;
+	}
+	public double getRemise() {
+		return remise;
+	}
+	public void setRemise(double remise) {
+		this.remise = remise;
+	}
+	public Date getDateSituation() {
+		return dateSituation;
+	}
+	public void setDateSituation(Date dateSituation) {
+		this.dateSituation = dateSituation;
+	}
+	public double getAvance() {
+		return avance;
+	}
+	public void setAvance(double avance) {
+		this.avance = avance;
+	}
+	
+	
+
+}

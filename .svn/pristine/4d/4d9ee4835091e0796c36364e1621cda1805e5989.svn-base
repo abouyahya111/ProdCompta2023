@@ -1,0 +1,142 @@
+package dao.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.*;
+
+
+
+
+/**
+ * The persistent class for the production database table.
+ * 
+ */
+@Entity
+@Table(name="detail_frais_depot")
+@NamedQuery(name="DetailFraisDepot.findAll", query="SELECT p FROM DetailFraisDepot p")
+public class DetailFraisDepot implements Serializable {
+	
+
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+	
+	
+	
+	//bi-directional many-to-one association to MatierePremier
+	@ManyToOne
+	@JoinColumn(name="id_mat_pre")
+	private MatierePremier matierePremier;
+	
+	@Column(name="QUANTITE")
+	private double quantite;
+	
+	@Column(name="prix_unitaire")
+	private double prix;
+	
+	@Column(name="MONTANT")
+	private double montant;
+	
+	
+	@ManyToOne(cascade =CascadeType.ALL)
+	@JoinColumn(name="id_Charge_Depot")
+	private FraisDepot FraisDepot;
+	
+	
+	
+
+	public DetailFraisDepot() {
+	}
+
+
+
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public MatierePremier getMatierePremier() {
+		return matierePremier;
+	}
+
+
+
+	public void setMatierePremier(MatierePremier matierePremier) {
+		this.matierePremier = matierePremier;
+	}
+
+
+
+	public double getQuantite() {
+		return quantite;
+	}
+
+
+
+	public void setQuantite(double quantite) {
+		this.quantite = quantite;
+	}
+
+
+
+	public double getPrix() {
+		return prix;
+	}
+
+
+
+	public void setPrix(double prix) {
+		this.prix = prix;
+	}
+
+
+
+	public double getMontant() {
+		return montant;
+	}
+
+
+
+	public void setMontant(double montant) {
+		this.montant = montant;
+	}
+
+
+
+	public FraisDepot getFraisDepot() {
+		return FraisDepot;
+	}
+
+
+
+	public void setFraisDepot(FraisDepot fraisDepot) {
+		FraisDepot = fraisDepot;
+	}
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+
+
+
+
+
+	
+	
+
+	
+
+}

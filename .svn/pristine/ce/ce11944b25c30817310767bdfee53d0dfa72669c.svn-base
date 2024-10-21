@@ -1,0 +1,1694 @@
+package main;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
+import javax.swing.table.DefaultTableModel;
+
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.JXTitledSeparator;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+
+import util.Constantes;
+import util.JasperUtils;
+import Production.CreerOrdreFabrication;
+import Production.SaisieDelaiEquipeGen;
+import dao.daoManager.CompteurEmployeProdDAO;
+import dao.daoManager.CompteurProductionDAO;
+import dao.daoManager.CompteurResponsableProdDAO;
+import dao.daoManager.DetailProdGenDAO;
+import dao.daoManager.EquipeDAO;
+import dao.daoManager.FicheEmployeDAO;
+import dao.daoManager.ParametreDAO;
+import dao.daoManager.ProductionDAO;
+import dao.daoManager.StockMPDAO;
+import dao.daoManager.StockPFDAO;
+import dao.daoManager.TransferStockPFDAO;
+import dao.entity.Articles;
+import dao.entity.CompteurEmployeProd;
+import dao.entity.CompteurProduction;
+import dao.entity.CoutMP;
+import dao.entity.DetailEstimation;
+import dao.entity.DetailProdGen;
+import dao.entity.DetailProduction;
+import dao.entity.DetailResponsableProd;
+import dao.entity.DetailTransferProduitFini;
+import dao.entity.Employe;
+import dao.entity.Equipe;
+import dao.entity.FicheEmploye;
+import dao.entity.Parametre;
+import dao.entity.Production;
+import dao.entity.StockMP;
+import dao.entity.StockPF;
+import dao.entity.TransferStockPF;
+
+
+public class Terminer extends JLayeredPane implements Constantes{
+	public JLayeredPane contentPane;	
+	
+	private DefaultTableModel	 modeleMP;
+	private DefaultTableModel	 modeleEmploye;
+	private DefaultTableModel	 modeleEquipeEm;
+	private JXTable table= new JXTable();
+	private JXTable table_1= new JXTable();
+	private JXTable tableEmploye= new JXTable();
+	private ImageIcon imgModifier;
+	private ImageIcon imgAjouter;
+	private ImageIcon imgInit;
+	
+	private JButton btnChercherOF;
+	private JButton btnImprimer;
+	private JButton btnAnnulerOF;
+	private JButton btnTerminerOF;
+	private JButton btnRechercher;
+	private JTextField txtNbreHeure;
+	private JTextField codeArticle;
+	
+	private JComboBox<String> comboMachine;
+	private JComboBox<String> comboLigneMachine;
+	
+	private JComboBox categorie;
+	
+	private List<CoutMP> listCoutMP =new ArrayList<CoutMP>();
+	private List<Employe> listEmploye=new ArrayList<Employe>();
+	
+	private List<DetailProduction> listDetailProduction =new ArrayList<DetailProduction>();
+	private List<DetailProdGen> listeDetailProdGen=new ArrayList<DetailProdGen>();
+	private Production production = new Production();
+	
+	private Map< Integer, String> mapDelaiEmploye = new HashMap<>();
+	private Map< Integer, String> mapDelaiEmployeEmabalage = new HashMap<>();
+	
+	private Map< Integer, String> mapHeureSupp25EmployeProd = new HashMap<>();
+	private Map< Integer, String> mapHeureSupp50EmployeProd = new HashMap<>();
+	
+	private Map< Integer, String> mapHeureSupp25EmployeEmbalage = new HashMap<>();
+	private Map< Integer, String> mapHeureSupp50EmployeEmbalage = new HashMap<>();
+	
+	private Map< String, String> mapQuantiteConsomme = new HashMap<>();
+	private Map< String, String> mapQuantiteDechet = new HashMap<>();
+	private Map< String, String> mapQuantiteReste = new HashMap<>();
+	
+	private JComboBox<String> comboEquipe;
+	private JTextField txtNumOF;
+	private JTextField txtQuantiteRealise;
+	private JLabel lblQuantitRalise;
+	
+	private float coutTotalEmploye=0;
+	private float coutTotalEmployeEmbalage=0;
+	private float coutTotalAutreEmploye=0;
+	private float coutTotalMP=0;
+	private float coutTotalDechet=0;
+	private JButton btnSaisieDelaiEquipeGen;
+	private float delaiTotal=0;
+	private float delaiTotalEquipeEmbalage;
+	
+	private DetailProdGenDAO detailProdGenDAO;
+	private CompteurProductionDAO compteurProductionDAO;
+	private StockMPDAO stockMPDAO;
+	private StockPFDAO stockPFDAO;
+	private ProductionDAO productionDAO;
+	private TransferStockPFDAO transferStockPFDAO;
+	private ParametreDAO parametreDAO;
+	private FicheEmployeDAO ficheEmployeDAO;
+	private CompteurResponsableProdDAO compteurResponsableProdDAO;
+	private CompteurEmployeProdDAO compteurEmployeProdDAO;
+	private  EquipeDAO equipeDAO;
+	
+	/**
+	 * Launch the application.
+	 */
+
+
+	/**
+	 * Create the application.
+	 */
+	@SuppressWarnings("serial")
+	public Terminer() {
+		setOpaque(true);
+	
+
+		final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(0, 0, 1284, 623);
+        try{
+        	delaiTotalEquipeEmbalage=0;
+        	delaiTotal=0;
+        	coutTotalEmployeEmbalage=0;
+        	coutTotalDechet=0;
+        	coutTotalMP=0;
+        	
+        	listCoutMP =new ArrayList<CoutMP>();
+        	listEmploye=new ArrayList<Employe>();
+        	listDetailProduction =new ArrayList<DetailProduction>();
+        	listeDetailProdGen=new ArrayList<DetailProdGen>();
+        	production = new Production();
+        	mapDelaiEmploye = new HashMap<>();
+        	mapDelaiEmployeEmabalage= new HashMap<>();
+        	mapQuantiteConsomme = new HashMap<>();
+        	mapQuantiteDechet = new HashMap<>();
+        	mapQuantiteReste = new HashMap<>();
+        	
+        	mapHeureSupp25EmployeEmbalage= new HashMap<>();
+        	mapHeureSupp50EmployeEmbalage= new HashMap<>();
+        	mapHeureSupp25EmployeProd= new HashMap<>();
+        	mapHeureSupp50EmployeProd= new HashMap<>();
+        	
+        	productionDAO=ProdLauncher.productionDAO;
+        	detailProdGenDAO=ProdLauncher.detailProdGenDAO;
+        	compteurProductionDAO=ProdLauncher.compteurProductionDAO;
+        	transferStockPFDAO=ProdLauncher.transferStockPFDAO;
+        	stockMPDAO=ProdLauncher.stockMPDAO;
+        	stockPFDAO=ProdLauncher.stockPFDAO;
+        	parametreDAO=ProdLauncher.parametreDAO;
+        	ficheEmployeDAO=ProdLauncher.ficheEmployeDAO;
+        	compteurResponsableProdDAO=ProdLauncher.compteurResponsableProdDAO;
+        	compteurEmployeProdDAO=ProdLauncher.compteurEmployeProdDAO;
+        	equipeDAO=ProdLauncher.equipeDAO;
+        	
+       }catch(Exception exp){exp.printStackTrace();		
+       JOptionPane.showMessageDialog(null, "Erreur de connexion Ã  la base de donnÃ©es", "Erreur", JOptionPane.ERROR_MESSAGE);
+}
+		
+        String codeDepot=AuthentificationView.utilisateur.getCodeDepot();	
+	
+        try{
+            imgAjouter = new ImageIcon(this.getClass().getResource("/img/ajout.png"));
+            imgInit= new ImageIcon(this.getClass().getResource("/img/init.png"));
+            imgModifier= new ImageIcon(this.getClass().getResource("/img/modifier.png"));
+          } catch (Exception exp){exp.printStackTrace();}
+    
+		
+		
+				  		  btnImprimer = new JButton("Imprimer");
+				  		  btnImprimer.addActionListener(new ActionListener() {
+				  		  	public void actionPerformed(ActionEvent e) {
+				  		  		
+				  		  
+							 List<CoutMP> listCoutMP=productionDAO.listeCoutMP(production.getId());
+							 
+							Map parameters = new HashMap();
+							parameters.put("numOF", production.getNumOF());
+							parameters.put("ligneMachine", production.getLigneMachine().getNom());
+							parameters.put("machine", production.getLigneMachine().getMachine().getNom());
+							parameters.put("equipe", production.getEquipe().getNomEquipe());
+							parameters.put("magasin", production.getMagasinProd().getLibelle());
+							parameters.put("depot", production.getMagasinProd().getDepot().getLibelle());
+							
+							parameters.put("article", production.getArticles().getLiblle());
+							parameters.put("CodeArticle", production.getArticles().getCodeArticle());
+							parameters.put("quantiteDemande", production.getQuantiteEstime()+"");
+							parameters.put("equipeGen", production.getEquipeGen().getNomEquipe());
+							parameters.put("periode", production.getPeriode());
+							
+							parameters.put("quantiteRealise", production.getQuantiteReel()+"");
+							parameters.put("heureTravaile", production.getNbreHeure()+"");
+							
+							
+							JasperUtils.imprimerDetailOrdreFabrication(listCoutMP,parameters,production.getNumOF());
+							
+							//JOptionPane.showMessageDialog(null, "PDF exporté avec succès", "Succès", JOptionPane.INFORMATION_MESSAGE);
+				  		  	}
+				  		  });
+				  		
+				  		  		intialiserTableMP();
+				  		  		initialiserTableauEmploye();
+				  		  		initialiserTableauEquipeEmbalage();
+				  		 
+				  		  
+				  		
+				  		txtNumOF = new JTextField();
+				  		btnImprimer.setIcon(imgModifier);
+				  		 btnImprimer.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		 btnImprimer.setBounds(760, 557, 112, 24);
+				  		 add(btnImprimer);
+				  		 
+				  		  btnChercherOF = new JButton("Chercher OF");
+				  		  btnChercherOF.setHorizontalAlignment(SwingConstants.LEADING);
+				  		  btnChercherOF.addActionListener(new ActionListener() {
+				  		  	public void actionPerformed(ActionEvent e) {
+				  		  		
+					  			production=productionDAO.findByNumOF(txtNumOF.getText(),codeDepot);
+					  			if(production!=null){
+					  			    
+							  		 if(txtQuantiteRealise.getText().equals("")){
+							  			JOptionPane.showMessageDialog(null, "Il faut saisir la quantité réalisée", "Erreur", JOptionPane.ERROR_MESSAGE);
+									  }	else {
+							  	List<CoutMP>	listCoutMPTmp=productionDAO.listeCoutMP(production.getId());
+							  	afficherDetailPorduction(production.getArticles().getDetailEstimation(),listCoutMPTmp);
+					  			
+					  			
+					  			codeArticle.setText(production.getArticles().getCodeArticle());
+					  			categorie.addItem(production.getArticles().getLiblle());
+					  			categorie.setSelectedItem(production.getArticles().getLiblle());
+					  			
+					  			comboEquipe.addItem(production.getEquipe().getNomEquipe());
+					  			comboEquipe.setSelectedItem(production.getEquipe().getNomEquipe());
+					  			
+					  			comboLigneMachine.addItem(production.getLigneMachine().getNom());
+					  			comboLigneMachine.setSelectedItem(production.getLigneMachine().getNom());
+					  			
+					  			comboMachine.addItem(production.getLigneMachine().getMachine().getNom());
+					  			comboMachine.setSelectedItem(production.getLigneMachine().getMachine().getNom());
+					  			
+					  			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				  				String dateDebutPrev=dateFormat.format(production.getDate_debFabPre());
+				  				String dateFinPrev=dateFormat.format(production.getDateFinFabPre());
+				  				
+				  				List<DetailProdGen> listDetailProdGen=productionDAO.listeDetailProdGen(production.getId());
+				  				List<DetailProduction> listDetailProduction=productionDAO.listeDetailProduction(production.getId());
+					  			afficher_tableMP(listCoutMPTmp);
+					  			afficher_tableEmploye(listDetailProduction);
+					  			afficher_tableEmployeEmabalage(listDetailProdGen);
+					  			
+									  }
+					  			}else{
+					  			  JOptionPane.showMessageDialog(null, "OF n'existe pas", "Erreur", JOptionPane.ERROR_MESSAGE);
+					  				
+					  			}
+				  		  	}
+				  		  });
+				  		btnChercherOF.setIcon(new ImageIcon(CreerOrdreFabrication.class.getResource("/img/chercher.png")));
+				  		 btnChercherOF.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		 btnChercherOF.setBounds(882, 13, 120, 23);
+				  		 add(btnChercherOF);
+				  		    
+				  		    btnTerminerOF = new JButton("Terminer OF");
+				  		    btnTerminerOF.setBounds(369, 557, 112, 24);
+				  		    add(btnTerminerOF);
+				  		    btnTerminerOF.setIcon(imgAjouter);
+				  		    btnTerminerOF.addActionListener(new ActionListener() {
+				  		     	public void actionPerformed(ActionEvent e) {
+				  		     	  int reponse = JOptionPane.showConfirmDialog(null, "Vous voulez vraiment Terminer cet Ordre de Fabrication?", 
+											"Satisfaction", JOptionPane.YES_NO_OPTION);
+									 
+									if(reponse == JOptionPane.YES_OPTION )
+										{
+				  		     		if(txtQuantiteRealise.getText().equals("")){
+				  		     			JOptionPane.showMessageDialog(null, "Il faut saisir la quantité réalisé!", "Erreur", JOptionPane.ERROR_MESSAGE);
+				  		     		}else if(txtNbreHeure.getText().equals("")){
+				  		     			JOptionPane.showMessageDialog(null, "Il faut saisir le nombre heures travaillé!", "Erreur", JOptionPane.ERROR_MESSAGE);
+				  		     		}else if(production.getListDetailProdGen()==null || production.getListDetailProdGen().size()<0){
+				  		     			JOptionPane.showMessageDialog(null, "Il faut valider les équipes avant de terminer OF!", "Erreur", JOptionPane.ERROR_MESSAGE);
+				  		     		}
+				  		     		else {
+				  		     		if(production.getStatut().equals(Constantes.ETAT_OF_LANCER )) {
+				  		     			float coutTotal=coutTotalAutreEmploye+coutTotalEmploye+coutTotalEmployeEmbalage+coutTotalMP;
+				  		     			
+				  		     		production.setNbreHeure(Float.parseFloat(txtNbreHeure.getText()));
+				  		     		production.setQuantiteReel(Float.parseFloat(txtQuantiteRealise.getText()));
+				  		     		production.setDateDebFabRee(new Date());
+				  		     		production.setUtilisateurMAJ(AuthentificationView.utilisateur);
+				  		     		
+				  		     		/* délai des employés Production*/
+				  		     		for(int j=0;j<tableEmploye.getRowCount();j++){
+				  		     			
+				  		     			if(!tableEmploye.getValueAt(j, 3).toString().equals("")){
+				  		     			mapDelaiEmploye.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), tableEmploye.getValueAt(j, 3).toString());
+				  		     			delaiTotal=delaiTotal+Float.parseFloat(tableEmploye.getValueAt(j, 3).toString());
+				  		     			}else 
+			  		     				mapDelaiEmploye.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), String.valueOf(0));
+				  		     			
+				  		     			if(!tableEmploye.getValueAt(j, 4).toString().equals("")){
+					  		     				mapHeureSupp25EmployeProd.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), tableEmploye.getValueAt(j, 4).toString());
+					  		     			}else 
+					  		     				mapHeureSupp25EmployeProd.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), String.valueOf(0));
+				  		     			
+				  		     			if(!tableEmploye.getValueAt(j, 5).toString().equals("")){
+				  		     				mapHeureSupp50EmployeProd.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), tableEmploye.getValueAt(j, 5).toString());
+				  		     			}else 
+				  		     				mapHeureSupp50EmployeProd.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), String.valueOf(0));
+				  		     		}
+				  		     		
+				  		     		/* délai des employés Emabalege*/
+				  		     		for(int j=0;j<table_1.getRowCount();j++){
+				  		     			if(!table_1.getValueAt(j, 4).toString().equals("")){
+				  		     			mapDelaiEmployeEmabalage.put(Integer.parseInt(table_1.getValueAt(j, 0).toString()), table_1.getValueAt(j, 4).toString());
+				  		     			delaiTotalEquipeEmbalage=delaiTotalEquipeEmbalage+Float.parseFloat(table_1.getValueAt(j, 4).toString());
+				  		     			}
+				  		     			else 
+				  		     				mapDelaiEmployeEmabalage.put(Integer.parseInt(table_1.getValueAt(j, 0).toString()), String.valueOf(0));
+				  		     			
+				  		     			if(!table_1.getValueAt(j, 4).toString().equals("")){
+				  		     				mapHeureSupp25EmployeEmbalage.put(Integer.parseInt(table_1.getValueAt(j, 0).toString()), table_1.getValueAt(j, 4).toString());
+				  		     			}else 
+				  		     				mapHeureSupp25EmployeEmbalage.put(Integer.parseInt(table_1.getValueAt(j, 0).toString()), String.valueOf(0));
+			  		     			
+			  		     			if(!tableEmploye.getValueAt(j, 5).toString().equals("")){
+			  		     				mapHeureSupp50EmployeEmbalage.put(Integer.parseInt(table_1.getValueAt(j, 0).toString()), table_1.getValueAt(j, 5).toString());
+			  		     			}else 
+			  		     				mapHeureSupp50EmployeEmbalage.put(Integer.parseInt(table_1.getValueAt(j, 0).toString()), String.valueOf(0));
+				  		     			}
+				  		     		
+				  		     		listeDetailProdGen=productionDAO.listeDetailProdGen(production.getId());
+				  		     		listDetailProduction=productionDAO.listeDetailProduction(production.getId());
+				  		     		
+				  		     		production.setDetailProductions(calculeCoutEmploye(listDetailProduction,mapDelaiEmploye));
+				  		     		production.setListDetailProdGen(calculeCoutEmployeEmbalage(listeDetailProdGen,mapDelaiEmployeEmabalage));
+				  		     		remplirQuantite();
+				  		     		
+				  		     		
+				  		     		 
+				  		     		production.setListCoutMP(calculeCoutMatierePremiere(production.getListCoutMP()));
+				  		     		
+				  		     		production.setDateDebFabRee(new Date());
+				  		     		production.setStatut(Constantes.ETAT_OF_TERMINER);
+				  		     		List<DetailResponsableProd> listDetailResponsableProd=calculRemiseResponsableProduction(production.getDate(), production.getPeriode());
+				  		     		production.setListDetailResponsableProd(listDetailResponsableProd);
+				  		     		
+				  		     		production.setCoutTotalMP(coutTotalMP);
+				  		     		production.setCoutTotalEmployeGen(coutTotalAutreEmploye);
+				  		     		production.setCoutTotalEmployeEmbalage( coutTotalEmployeEmbalage);
+				  		     		production.setCoutTotalEmploye(coutTotalEmploye);
+				  		     		production.setCoutDechet(coutTotalDechet);
+				  		     		coutTotal=coutTotalAutreEmploye+coutTotalEmploye+coutTotalEmployeEmbalage+coutTotalMP;
+				  		     		production.setCoutTotal(coutTotal);
+				  		     		
+				  		     		
+				  		     		
+				  		     		productionDAO.edit(production);
+				  		     		calculerStockCoutProduitFini(coutTotal);
+				  		     		JOptionPane.showMessageDialog(null, "Ordre de Fabrication Terminé avec succès!", "Succès", JOptionPane.INFORMATION_MESSAGE);
+				  		     		}else{
+				  		     			JOptionPane.showMessageDialog(null, "Ordre de Fabrication n'est pas encore lancé ou terminé!", "Attention", JOptionPane.INFORMATION_MESSAGE);
+				  		     		}
+				  		     	  }
+				  		     	 }
+				  		     	}
+				  		     });
+				  		    	btnTerminerOF.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		    	btnAnnulerOF = new JButton("Annuler OF");
+				  		    	btnAnnulerOF.setBounds(491, 557, 112, 24);
+				  		    	add(btnAnnulerOF);
+				  		    	btnAnnulerOF.addActionListener(new ActionListener() {
+				  		     	public void actionPerformed(ActionEvent e) {
+				  		     	intialiser();
+				  		     		
+				  		     	}
+				  		     });
+				  		     btnAnnulerOF.setIcon(imgInit);
+				  		     btnAnnulerOF.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		     
+				  		     table_1.setShowVerticalLines(true);
+				  		     table_1.setSelectionBackground(new Color(51, 204, 255));
+				  		     table_1.setRowHeightEnabled(true);
+				  		     table_1.setBackground(new Color(255, 255, 255));
+				  		     table_1.setHighlighters(HighlighterFactory.createSimpleStriping());
+				  		     table_1.setColumnControlVisible(true);
+				  		     table_1.setForeground(Color.BLACK);
+				  		     table_1.setGridColor(new Color(0, 0, 255));
+				  		     table_1.setAutoCreateRowSorter(true);
+				  		     table_1.setBounds(2, 27, 411, 198);
+				  		     table_1.setRowHeight(20);
+				  		  
+				  		     table.setShowVerticalLines(true);
+				  		     table.setSelectionBackground(new Color(51, 204, 255));
+				  		     table.setRowHeightEnabled(true);
+				  		     table.setBackground(new Color(255, 255, 255));
+				  		     table.setHighlighters(HighlighterFactory.createSimpleStriping());
+				  		     table.setColumnControlVisible(true);
+				  		     table.setForeground(Color.BLACK);
+				  		     table.setGridColor(new Color(0, 0, 255));
+				  		     table.setAutoCreateRowSorter(true);
+				  		     table.setBounds(2, 27, 411, 198);
+				  		     table.setRowHeight(20);
+				  		     	
+				  		     	JScrollPane scrollPane = new JScrollPane(table);
+				  		     	scrollPane.setBounds(9, 101, 1213, 186);
+				  		     	add(scrollPane);
+				  		     	scrollPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+				  		     	
+				  		     	JXTitledSeparator titledSeparator = new JXTitledSeparator();
+				  		     	titledSeparator.setTitle("Liste Mati\u00E8res Premi\u00E8res ");
+				  		     	titledSeparator.setBounds(9, 72, 1213, 30);
+				  		     	add(titledSeparator);
+				  		  
+		txtNumOF.addKeyListener(new KeyAdapter() {
+		  	@Override
+		  	public void keyReleased(KeyEvent e)
+		  	{
+		  		if (e.getKeyCode() == e.VK_ENTER)
+		  		{
+		  			
+		  			
+		  				
+		  			production=productionDAO.findByNumOF(txtNumOF.getText(),codeDepot);
+		  			if(production!=null){
+		  			    
+				  		
+				  		  if(txtQuantiteRealise.getText().equals("")){
+				  			JOptionPane.showMessageDialog(null, "Il faut saisir la quantité réalisée", "Erreur", JOptionPane.ERROR_MESSAGE);
+						  }	else {
+				  	List<CoutMP>	listCoutMPTmp=production.getListCoutMP();
+				  	afficherDetailPorduction(production.getArticles().getDetailEstimation(),listCoutMPTmp);
+		  			listEmploye=production.getEquipe().getListEmploye();
+		  			//txtDescription.setText(production.getDescription());
+		  			//txtNbreHeure.setText(""+production.getQuantiteEstime());
+		  			codeArticle.setText(production.getArticles().getCodeArticle());
+		  			categorie.addItem(production.getArticles().getLiblle());
+		  			categorie.setSelectedItem(production.getArticles().getLiblle());
+		  			
+		  			comboEquipe.addItem(production.getEquipe().getNomEquipe());
+		  			comboEquipe.setSelectedItem(production.getEquipe().getNomEquipe());
+		  			
+		  			comboLigneMachine.addItem(production.getLigneMachine().getNom());
+		  			comboLigneMachine.setSelectedItem(production.getLigneMachine().getNom());
+		  			
+		  			comboMachine.addItem(production.getLigneMachine().getMachine().getNom());
+		  			comboMachine.setSelectedItem(production.getLigneMachine().getMachine().getNom());
+		  			
+		  			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	  				String dateDebutPrev=dateFormat.format(production.getDate_debFabPre());
+	  				String dateFinPrev=dateFormat.format(production.getDateFinFabPre());
+		  			
+		  			afficher_tableMP(listCoutMPTmp);
+		  		//	afficher_tableEmploye(listEmploye);
+						  }
+		  			}else{
+		  			  JOptionPane.showMessageDialog(null, "OF n'existe pas", "Erreur", JOptionPane.ERROR_MESSAGE);
+		  				
+		  			}
+
+		  		}}});
+		
+		txtNumOF.setBounds(82, 11, 153, 26);
+		add(txtNumOF);
+		txtNumOF.setColumns(10);
+		
+		JLabel lblNumOF = new JLabel("Num\u00E9ro OF");
+		lblNumOF.setBounds(20, 12, 89, 24);
+		add(lblNumOF);
+		
+		JScrollPane scrollPane_1 = new JScrollPane(tableEmploye);
+		scrollPane_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		scrollPane_1.setBounds(9, 315, 594, 231);
+		add(scrollPane_1);
+		tableEmploye.setHighlighters(HighlighterFactory.createSimpleStriping());
+		tableEmploye.setShowVerticalLines(true);
+		tableEmploye.setSelectionBackground(new Color(51, 204, 255));
+		tableEmploye.setRowHeightEnabled(true);
+		tableEmploye.setRowHeight(20);
+		tableEmploye.setGridColor(new Color(0, 0, 255));
+		tableEmploye.setForeground(Color.BLACK);
+		tableEmploye.setColumnControlVisible(true);
+		tableEmploye.setBackground(new Color(255, 255, 255));
+		tableEmploye.setAutoCreateRowSorter(true);
+	//	scrollPane_1.setViewportView(tableEmploye);
+		
+		JXTitledSeparator titledSeparator_1 = new JXTitledSeparator();
+		GridBagLayout gridBagLayout = (GridBagLayout) titledSeparator_1.getLayout();
+		gridBagLayout.rowWeights = new double[]{0.0};
+		gridBagLayout.rowHeights = new int[]{0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0};
+		titledSeparator_1.setTitle("Saisir D\u00E9lai Equipe Production");
+		titledSeparator_1.setBounds(9, 285, 594, 30);
+		add(titledSeparator_1);
+				  		    		  		     	categorie = new JComboBox();
+				  		    		  		     	categorie.setForeground(Color.BLACK);
+				  		    		  		     	
+				  		    		  		     	JLayeredPane layeredPane = new JLayeredPane();
+				  		    		  		     	layeredPane.setBounds(9, 47, 1213, 29);
+				  		    		  		     	add(layeredPane);
+				  		    		  		     	layeredPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+				  		  codeArticle = new JTextField();
+				  		  codeArticle.setDisabledTextColor(Color.BLACK);
+				  		  codeArticle.setBackground(Color.WHITE);
+				  		  codeArticle.setEnabled(false);
+				  		  codeArticle.setBounds(74, 1, 153, 26);
+				  		  layeredPane.add(codeArticle);
+				  		  codeArticle.setColumns(10);
+				  		  
+				  		    JLabel lblCodeArticle = new JLabel("Code Article");
+				  		    lblCodeArticle.setBounds(0, 1, 82, 26);
+				  		    layeredPane.add(lblCodeArticle);
+				  		    lblCodeArticle.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		    
+				  		    JLabel label = new JLabel("Article:");
+				  		    label.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				  		    label.setBounds(253, 0, 102, 26);
+				  		    layeredPane.add(label);
+				  		    categorie.setBackground(Color.WHITE);
+				  		    categorie.setBounds(310, 1, 194, 26);
+				  		    layeredPane.add(categorie);
+				  		    
+				  		    JLabel lblMachine = new JLabel("Machine");
+				  		    lblMachine.setBounds(529, 1, 58, 24);
+				  		    layeredPane.add(lblMachine);
+				  		    lblMachine.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				  		    
+				  		   comboMachine = new JComboBox();
+				  		   comboMachine.setBounds(588, 2, 157, 24);
+				  		   layeredPane.add(comboMachine);
+				  		    		  		     	
+				  		   JLabel lblGroupe = new JLabel("Ligne Machine");
+				  		   lblGroupe.setBounds(755, 1, 77, 24);
+				  		    		  		     	layeredPane.add(lblGroupe);
+				  		    		  		     	lblGroupe.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				  		    		  		     	comboLigneMachine = new JComboBox();
+				  		    		  		     	comboLigneMachine.setBounds(844, 2, 157, 24);
+				  		    		  		     	layeredPane.add(comboLigneMachine);
+				  		    		  		     	
+				  		    		  		     	JLabel lblEquipe = new JLabel("Equipe");
+				  		    		  		     	lblEquipe.setBounds(1011, 1, 51, 26);
+				  		    		  		     	layeredPane.add(lblEquipe);
+				  		    		  		     	comboEquipe = new JComboBox<String>();
+				  		    		  		     	comboEquipe.setBounds(1056, 2, 157, 24);
+				  		    		  		     	layeredPane.add(comboEquipe);
+				  		    		  		     	comboEquipe.addItem("");
+				  		    		  		     	comboMachine.addItem("");
+				  		    
+				  		    btnSaisieDelaiEquipeGen = new JButton("Saisir Delai Equipe");
+				  		    btnSaisieDelaiEquipeGen.addActionListener(new ActionListener() {
+				  		    	public void actionPerformed(ActionEvent e) {
+				  		    	  JFrame popupJFrame = new SaisieDelaiEquipeGen(production);
+				  		    	  popupJFrame.setVisible(true);
+				                 
+				  		    		}
+				  		    });
+				  		    btnSaisieDelaiEquipeGen.setBounds(882, 557, 137, 24);
+				  		    add(btnSaisieDelaiEquipeGen);
+				  		    
+				  		    JButton btnValiderSaisie = new JButton("Valider Saisie");
+				  		    btnValiderSaisie.addActionListener(new ActionListener() {
+				  		    	public void actionPerformed(ActionEvent e) {
+				  		    		
+				  		    		remplirQuantite();
+				  		    		List<CoutMP>	listCoutMPTmp=productionDAO.listeCoutMP(production.getId());
+								  	afficherDetailPorduction(production.getArticles().getDetailEstimation(),listCoutMPTmp);
+				  		    		validerSaisiQuantiteDechetReste(listCoutMPTmp);
+				  		    	}
+				  		    });
+				  		    btnValiderSaisie.setBounds(625, 557, 112, 24);
+				  		    add(btnValiderSaisie);
+				  		    
+				  		    txtQuantiteRealise = new JTextField();
+				  		    txtQuantiteRealise.setBounds(343, 11, 153, 26);
+				  		    add(txtQuantiteRealise);
+				  		    txtQuantiteRealise.setColumns(10);
+				  		    
+				  		    lblQuantitRalise = new JLabel("Quantit\u00E9 r\u00E9alis\u00E9e:");
+				  		    lblQuantitRalise.setBounds(256, 11, 102, 26);
+				  		    add(lblQuantitRalise);
+				  		    lblQuantitRalise.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		    
+				  		    JScrollPane scrollPane_2 = new JScrollPane(table_1);
+				  		    scrollPane_2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+				  		    scrollPane_2.setBounds(628, 316, 594, 230);
+				  		    add(scrollPane_2);
+				  		    
+				  		    JXTitledSeparator titledSeparator_2 = new JXTitledSeparator();
+				  		    GridBagLayout gridBagLayout_1 = (GridBagLayout) titledSeparator_2.getLayout();
+				  		    gridBagLayout_1.rowWeights = new double[]{0.0};
+				  		    gridBagLayout_1.rowHeights = new int[]{0};
+				  		    gridBagLayout_1.columnWeights = new double[]{0.0, 0.0, 0.0};
+				  		    gridBagLayout_1.columnWidths = new int[]{0, 0, 0};
+				  		    titledSeparator_2.setTitle("Saisir D\u00E9lai Equipe Embalage");
+				  		    titledSeparator_2.setBounds(628, 285, 594, 30);
+				  		    add(titledSeparator_2);
+				  		    
+				  		    txtNbreHeure = new JTextField();
+				  		    txtNbreHeure.setBounds(598, 11, 153, 26);
+				  		    add(txtNbreHeure);
+				  		    txtNbreHeure.setColumns(10);
+				  		    
+				  		    JLabel lblQuantite = new JLabel("Nombre H travail\u00E9");
+				  		    lblQuantite.setBounds(506, 11, 108, 26);
+				  		    add(lblQuantite);
+				  		    lblQuantite.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		    
+				  		    JButton btnValiderEquipeProduction = new JButton("Valider Equipe Production ");
+				  		    btnValiderEquipeProduction.addActionListener(new ActionListener() {
+				  		    	public void actionPerformed(ActionEvent e) {
+				  		    		List<Employe> listEmployeProd =new ArrayList<Employe>();
+				  		     		List<Employe> listEmployeGen =new ArrayList<Employe>();
+				  		    		
+				  		    		listEmployeGen= equipeDAO.findListeEmployeByEquipe(production.getEquipeGen().getId());
+				  		    		listEmployeProd= equipeDAO.findListeEmployeByEquipe(production.getEquipe().getId());
+				  		    		List<DetailProdGen> listDetailProdGen=remplieDetailProdGen(listEmployeGen);
+				  		    		List<DetailProduction> listDetailProduction=remplieDetailProdcution(listEmployeProd);
+				  		    		
+				  		    		afficher_tableEmploye(listDetailProduction);
+						  			afficher_tableEmployeEmabalage(listDetailProdGen);
+				  		    		
+				  		    	}
+				  		    });
+				  		    btnValiderEquipeProduction.setBounds(184, 558, 175, 23);
+				  		    add(btnValiderEquipeProduction);
+				  		    
+				  		    JButton btnAnnuler = new JButton("Annuler");
+				  		    btnAnnuler.addActionListener(new ActionListener() {
+				  		    	public void actionPerformed(ActionEvent e) {
+				  		    		
+				  		    		if(production.getId()<0){
+				  		    			 JOptionPane.showMessageDialog(null, "Il faut Cherercher l'OF à Annuler", "Message", JOptionPane.ERROR_MESSAGE);
+				  		    			
+				  		    		}else {
+				  		    			
+				  		    			
+				  		    			if(!production.getStatut().equals(ETAT_OF_ANNULER)){
+				  		    				 if(production.getStatut().equals(ETAT_OF_TERMINER)){
+				  		    					 
+				  		    					CompteurProduction compteurProduction=compteurProductionDAO.findByDateProdPeriode(production.getDate(),production.getPeriode());
+								    			 int compteurProd=compteurProduction.getCompteur();
+								    			 compteurProd=compteurProd-1;
+								    			 compteurProduction.setCompteur(compteurProd);
+				  		    					 
+				  		    			annulerStockMatierePremiere(production.getListCoutMP(),production.getMagasinProd().getId(),production.getMagasinStockage().getId());
+				  		    			
+				  		    			annulerStockProduitFini();
+				  		    			
+				  		    			deleteListeObject(ficheEmployeDAO.findByNumOf(production.getNumOF()));
+				  		    			production.setStatut(ETAT_OF_ANNULER);
+				  		    			production.setUtilisateurAnnulation(AuthentificationView.utilisateur);
+				  		    			productionDAO.edit(production);
+				  		    			compteurProductionDAO.edit(compteurProduction);
+				  		    			JOptionPane.showMessageDialog(null, "OF Annulé avec succès", "Message", JOptionPane.ERROR_MESSAGE); 
+				  		    				 }else{
+				  		    					JOptionPane.showMessageDialog(null, "OF doit étre Terminé", "Message", JOptionPane.ERROR_MESSAGE); 
+				  		    				 }
+				  		    			
+				  		    			}else{
+				  		    				JOptionPane.showMessageDialog(null, "OF est déjà Annulé", "Message", JOptionPane.ERROR_MESSAGE);
+				  		    			}
+				  		    		}
+				  		    		
+				  		    		
+				  		    	}
+				  		    });
+				  		    btnAnnuler.setBounds(1035, 558, 143, 23);
+				  		    add(btnAnnuler);
+				  		    
+				  		
+	}
+	
+	
+void intialiser()
+	{
+		txtNbreHeure.setText("");
+		codeArticle.setText("");
+		categorie.setSelectedItem("");
+		
+	}
+	
+void	intialiserTableMP(){
+		 modeleMP =new DefaultTableModel(
+	  		     	new Object[][] {
+	  		     	},
+	  		     	new String[] {
+	  		     			"Code","Nom MP","Quantité Calculée","Quantité Existante","Quantité Chargée","Charge Supp", "Quantité Consommée", "Quantité Déchet", "Quantité Restée", "Ecart"
+	  		     	}
+	  		     ) {
+	  		     	boolean[] columnEditables = new boolean[] {
+	  		     			false,false,false,false,false,false, true, true, true,false
+	  		     	};
+	  		     	public boolean isCellEditable(int row, int column) {
+	  		     		return columnEditables[column];
+	  		     	}
+	  		     };
+	  		     
+	  		   table.setModel(modeleMP); 
+	  		   table.getColumnModel().getColumn(0).setPreferredWidth(40);
+	  		   table.getColumnModel().getColumn(1).setPreferredWidth(160);
+	  		   table.getColumnModel().getColumn(2).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(3).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(4).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(5).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(6).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(7).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(8).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(9).setPreferredWidth(60);
+	}
+	
+void afficher_tableMP(List<CoutMP> listCoutMP)
+	{
+	
+	
+	intialiserTableMP();
+		  int i=0;
+		  NumberFormat nf = new DecimalFormat("0.###");
+		
+			while(i<listCoutMP.size())
+			{	
+				CoutMP coutMP=listCoutMP.get(i);
+			
+				float quantiteTotal=coutMP.getQuantite();
+				float quantiteExistante=coutMP.getQuantExistante();
+				float quantiteCharge=coutMP.getQuantCharge();
+				float quantitechargeSupp=coutMP.getQuantChargeSupp();
+				float quantiteConsomme=coutMP.getQuantConsomme();
+				float quantiteDechet=coutMP.getQuantDechet();
+				float quantiteReste=coutMP.getQuantReste();
+				double ecart=(quantiteCharge+quantitechargeSupp+quantiteExistante)-(quantiteConsomme+quantiteDechet+quantiteReste);
+				
+				//ecart=NumberUtils.roundHalfDown(ecart,2 );
+				  String strEcart = nf.format(ecart);
+				
+				Object []ligne={coutMP.getMatierePremier().getCode(),coutMP.getMatierePremier().getNom(),quantiteTotal+" "+coutMP.getMatierePremier().getCategorieMp().getSubCategorieMp().getUnite(),quantiteExistante,quantiteCharge,quantitechargeSupp,quantiteConsomme,quantiteDechet,quantiteReste,strEcart};
+
+				modeleMP.addRow(ligne);
+				i++;
+			}
+			  table.setModel(modeleMP); 
+	}
+	
+
+void afficher_tableEmploye(List<DetailProduction> listDetailProduction)
+	{
+	initialiserTableauEmploye();
+	float delai; 
+	float heureSupp25; 
+	float heureSupp50; 
+		  int i=0;
+			while(i<listDetailProduction.size())
+			{	
+				DetailProduction detailProduction=listDetailProduction.get(i);
+				delai=detailProduction.getDelaiEmploye();
+				heureSupp25=detailProduction.getHeureSupp25();
+				heureSupp50=detailProduction.getHeureSupp50();
+				Object []ligne={detailProduction.getEmploye().getId(),detailProduction.getEmploye().getNumDossier(),detailProduction.getEmploye().getNom(),delai,heureSupp25,heureSupp50};
+
+				modeleEmploye.addRow(ligne);
+				i++;
+			}
+			tableEmploye.setModel(modeleEmploye);
+	}
+
+void afficher_tableEmployeEmabalage(List<DetailProdGen> listDetailProdGen)
+{
+	initialiserTableauEquipeEmbalage();
+	float delai; 
+	float heureSupp25; 
+	float heureSupp50; 
+	  int i=0;
+		while(i<listDetailProdGen.size())
+		{	
+			DetailProdGen detailProdGen=listDetailProdGen.get(i);
+			
+			delai =detailProdGen.getDelaiEmploye();
+			heureSupp25=detailProdGen.getHeureSupp25();
+			heureSupp50=detailProdGen.getHeureSupp50();
+			Object []ligne={detailProdGen.getEmploye().getId(),detailProdGen.getEmploye().getNumDossier(),detailProdGen.getEmploye().getNom(),delai,heureSupp25,heureSupp50};
+
+			modeleEquipeEm.addRow(ligne);
+			i++;
+		}
+		table_1.setModel(modeleEquipeEm);
+}
+	
+List<DetailProduction> calculeCoutEmploye(List<DetailProduction> listDetailProduction,Map< Integer, String> mapDelaiEmploye){
+		float delai=0;
+		
+		float remise=0;
+		float coutHoraire=0;
+		float heureSupp25; 
+		float heureSupp50; 
+		
+		float coutSupp25=0;
+		float coutSupp50=0;
+		
+		List<DetailProduction> listDetailProductionTmp= new ArrayList<DetailProduction>();
+		for(int i=0;i<listDetailProduction.size();i++){
+			
+			DetailProduction detailProduction =listDetailProduction.get(i);
+			delai=Float.parseFloat(mapDelaiEmploye.get(detailProduction.getEmploye().getId()));
+			heureSupp25=Float.parseFloat(mapHeureSupp25EmployeProd.get(detailProduction.getEmploye().getId()));
+			heureSupp50=Float.parseFloat(mapHeureSupp50EmployeProd.get(detailProduction.getEmploye().getId()));
+			
+			remise=delai*determinerRemiseEmploye(detailProduction.getEmploye().getEquipe());
+			coutHoraire=detailProduction.getEmploye().getCoutHoraire()*delai;
+			coutSupp25=heureSupp25*COUT_HEURE_SUPPLEMENTAIRE_25;
+			coutSupp50=heureSupp50*COUT_HEURE_SUPPLEMENTAIRE_50;
+			
+			coutTotalEmploye=coutTotalEmploye+coutHoraire+remise+coutSupp25+coutSupp50;
+			detailProduction.setCoutTotal(coutHoraire);
+			detailProduction.setDelaiEmploye(delai);
+			detailProduction.setHeureSupp25(heureSupp25);
+			detailProduction.setHeureSupp50(heureSupp50);
+			detailProduction.setCoutSupp25(coutSupp25);
+			detailProduction.setCoutSupp50(coutSupp50);
+			detailProduction.setRemise(remise);
+			
+			FicheEmploye ficheEmploye =ficheEmployeDAO.findFicheByEmployeOF(production.getNumOF(), detailProduction.getEmploye().getId());
+			if(ficheEmploye!=null){
+			/*Remplir fiche programme*/
+			ficheEmploye.setCoutTotal(coutHoraire);
+			ficheEmploye.setNumOF(production.getNumOF());
+			ficheEmploye.setDateSituation(production.getDate());
+			ficheEmploye.setDelaiEmploye(delai);
+			ficheEmploye.setEmploye(detailProduction.getEmploye());;
+			ficheEmploye.setRemise(remise);
+			ficheEmploye.setHeureSupp25(heureSupp25);
+			ficheEmploye.setHeureSupp50(heureSupp50);
+			ficheEmploye.setCoutSupp25(coutSupp25);
+			ficheEmploye.setCoutSupp50(coutSupp50);
+			ficheEmployeDAO.edit(ficheEmploye);
+			
+			} else{
+				ficheEmploye =new FicheEmploye();
+				ficheEmploye.setCoutTotal(coutHoraire);
+				ficheEmploye.setNumOF(production.getNumOF());
+				ficheEmploye.setDateSituation(production.getDate());
+				ficheEmploye.setDelaiEmploye(delai);
+				ficheEmploye.setEmploye(detailProduction.getEmploye());;
+				ficheEmploye.setRemise(remise);
+				ficheEmploye.setHeureSupp25(heureSupp25);
+				ficheEmploye.setHeureSupp50(heureSupp50);
+				ficheEmploye.setCoutSupp25(coutSupp25);
+				ficheEmploye.setCoutSupp50(coutSupp50);
+				ficheEmployeDAO.add(ficheEmploye);
+				
+			}
+			
+			listDetailProductionTmp.add(detailProduction);
+		}
+		return listDetailProductionTmp;
+		
+	}
+
+
+List<DetailProdGen> calculeCoutEmployeEmbalage(List<DetailProdGen> listDetailProdGen,Map< Integer, String> mapDelaiEmployeEmabalage){
+	float delai=0;
+	float remise=0;
+	float coutHoraire=0;
+	float heureSupp25; 
+	float heureSupp50; 
+	
+	float coutSupp25=0;
+	float coutSupp50=0;
+	List<DetailProdGen> listDetailDetailProdGenTmp= new ArrayList<DetailProdGen>();
+	for(int i=0;i<listDetailProdGen.size();i++){
+		
+		DetailProdGen detailProdGen =listDetailProdGen.get(i);
+		delai=Float.parseFloat(mapDelaiEmployeEmabalage.get(detailProdGen.getEmploye().getId()));
+		heureSupp25=Float.parseFloat(mapHeureSupp25EmployeEmbalage.get(detailProdGen.getEmploye().getId()));
+		heureSupp50=Float.parseFloat(mapHeureSupp50EmployeEmbalage.get(detailProdGen.getEmploye().getId()));
+		remise=delai*determinerRemiseEmployeEmbalage(detailProdGen.getEmploye().getEquipe());
+		coutHoraire=detailProdGen.getEmploye().getCoutHoraire()*delai;
+		
+		coutTotalEmployeEmbalage=coutTotalEmployeEmbalage+coutHoraire+remise+coutSupp25+coutSupp50;
+		detailProdGen.setCoutTotal(coutHoraire);
+		detailProdGen.setDelaiEmploye(delai);
+		detailProdGen.setRemise(remise);
+		detailProdGen.setHeureSupp25(heureSupp25);
+		detailProdGen.setHeureSupp50(heureSupp50);
+		detailProdGen.setCoutSupp25(coutSupp25);
+		detailProdGen.setCoutSupp50(coutSupp50);
+		FicheEmploye ficheEmploye =ficheEmployeDAO.findFicheByEmployeOF(production.getNumOF(), detailProdGen.getEmploye().getId());
+		if(ficheEmploye!=null){
+		/*Remplir fiche programme*/
+		ficheEmploye.setCoutTotal(coutHoraire);
+		ficheEmploye.setNumOF(production.getNumOF());
+		ficheEmploye.setDateSituation(production.getDate());
+		ficheEmploye.setDelaiEmploye(delai);
+		ficheEmploye.setEmploye(detailProdGen.getEmploye());;
+		ficheEmploye.setRemise(remise);
+		ficheEmploye.setHeureSupp25(heureSupp25);
+		ficheEmploye.setHeureSupp50(heureSupp50);
+		ficheEmploye.setCoutSupp25(coutSupp25);
+		ficheEmploye.setCoutSupp50(coutSupp50);
+		ficheEmployeDAO.edit(ficheEmploye);
+		}else {
+			ficheEmploye =new FicheEmploye();
+			ficheEmploye.setCoutTotal(coutHoraire);
+			ficheEmploye.setNumOF(production.getNumOF());
+			ficheEmploye.setDateSituation(production.getDate());
+			ficheEmploye.setDelaiEmploye(delai);
+			ficheEmploye.setEmploye(detailProdGen.getEmploye());;
+			ficheEmploye.setRemise(remise);
+			ficheEmploye.setHeureSupp25(heureSupp25);
+			ficheEmploye.setHeureSupp50(heureSupp50);
+			ficheEmploye.setCoutSupp25(coutSupp25);
+			ficheEmploye.setCoutSupp50(coutSupp50);
+			ficheEmployeDAO.add(ficheEmploye);
+			
+		}
+		listDetailDetailProdGenTmp.add(detailProdGen);
+	}
+	return listDetailDetailProdGenTmp;
+	
+}
+
+boolean remplirQuantite(){
+	boolean trouve=false;
+	for(int j=0;j<table.getRowCount();j++){
+		
+		if(!table.getValueAt(j, 7).toString().equals("")){
+			mapQuantiteDechet.put(table.getValueAt(j, 0).toString(), table.getValueAt(j, 7).toString()); 
+			trouve=true;
+		}else {
+			mapQuantiteDechet.put(table.getValueAt(j, 0).toString(), String.valueOf(0));
+		}
+		if(!table.getValueAt(j, 8).toString().equals("")){
+			mapQuantiteReste.put(table.getValueAt(j, 0).toString(), table.getValueAt(j, 8).toString());
+			trouve=true;
+		}else {
+			mapQuantiteReste.put(table.getValueAt(j, 0).toString(),  String.valueOf(0));
+		}
+		
+	}
+	return trouve;
+}
+List<CoutMP> validerSaisiQuantiteDechetReste(List<CoutMP> listCoutMP) {
+	
+	float quantiteDechet=0;
+	float quantiteReste=0;
+	
+	List<CoutMP> listCoutMPTmp=new ArrayList<CoutMP>();
+	
+for(int i=0;i<listCoutMP.size();i++){ 
+		
+		CoutMP coutMP=listCoutMP.get(i);
+		
+		quantiteDechet=Float.parseFloat(mapQuantiteDechet.get(coutMP.getMatierePremier().getCode()));
+		quantiteReste=Float.parseFloat(mapQuantiteReste.get(coutMP.getMatierePremier().getCode()));
+		
+		coutMP.setQuantDechet(quantiteDechet);
+		coutMP.setQuantReste(quantiteReste);
+		//listCoutMP.set(i,coutMP);
+		listCoutMPTmp.add(coutMP);
+}
+afficher_tableMP(listCoutMPTmp);
+
+return listCoutMPTmp;
+	
+}
+
+List<CoutMP>  calculeCoutMatierePremiere(List<CoutMP> listCoutMP){
+	float quantiteDechet=0;
+	float quantiteConsomme=0;
+	float quantiteReste=0;
+	float quantiteMP=0;
+	
+	float prixMP=0;
+	float coutDechet=0;
+	List<CoutMP> listCoutMPTmp=new ArrayList<CoutMP>();
+	for(int i=0;i<listCoutMP.size();i++){ 
+		
+		CoutMP coutMP=listCoutMP.get(i);
+
+		StockMP stockmp=stockMPDAO.findStockByMagasinMP(coutMP.getMatierePremier().getId(), production.getMagasinProd().getId());
+		
+		//quantiteConsomme=Integer.parseInt(mapQuantiteConsomme.get(coutMP.getMatierePremier().getCode()));
+		quantiteConsomme=coutMP.getQuantConsomme();
+		quantiteDechet=Float.parseFloat(mapQuantiteDechet.get(coutMP.getMatierePremier().getCode()));
+		quantiteReste=Float.parseFloat(mapQuantiteReste.get(coutMP.getMatierePremier().getCode()));
+		coutMP.setQuantConsomme(quantiteConsomme);
+		coutMP.setQuantDechet(quantiteDechet);
+		//quantiteMP=quantiteConsomme+coutMP.getQuantChargeSupp();
+		prixMP=quantiteConsomme*coutMP.getPrixUnitaire();
+		coutDechet=quantiteDechet*coutMP.getPrixUnitaire();
+		coutMP.setPrixTotal(prixMP);
+		coutMP.setCoutDechet(coutDechet);
+		coutTotalMP=coutTotalMP+prixMP;
+		coutTotalDechet=coutTotalDechet+coutDechet;
+		//quantiteReste=stockmp.getStock()-quantiteConsomme;
+		stockmp.setStock(quantiteReste);
+		stockMPDAO.edit(stockmp);
+	}
+	return listCoutMPTmp;
+  }
+void afficherDetailPorduction(List<DetailEstimation> lisDetailEstimation,List<CoutMP> listCoutMP){
+	DetailEstimation detailEstimation=new DetailEstimation();
+	CoutMP coutMP=new CoutMP();
+	CoutMP coutMPTmp=new CoutMP();
+	int position=-1;
+	float quantiteConsommme=0;
+	float quantiteRealise=Float.parseFloat(txtQuantiteRealise.getText());
+	boolean trouve =false;
+	int priorite=0;
+	float quantiteTotalCharge=0;
+	
+	for(int i=0;i<lisDetailEstimation.size();i++){
+		trouve =false;
+		detailEstimation=lisDetailEstimation.get(i);
+		for(int j=0;j<listCoutMP.size();j++){
+			coutMP=listCoutMP.get(j);
+			
+			if(detailEstimation.getMatierePremier().getId()==coutMP.getMatierePremier().getId()){
+				if(detailEstimation.getPriorite()==0){
+				quantiteConsommme=detailEstimation.getQuantite()*Float.parseFloat(txtQuantiteRealise.getText());
+				coutMP.setQuantConsomme(quantiteConsommme);
+				listCoutMP.set(j,coutMP);
+				}else if(detailEstimation.getPriorite()>0){
+					
+					for(int k=0;k<listCoutMP.size();k++){
+					if(detailEstimation.getPriorite()==k){
+						quantiteTotalCharge=coutMP.getQuantCharge()+coutMP.getQuantExistante();
+						if(quantiteRealise<=quantiteTotalCharge){
+							coutMP.setQuantConsomme(quantiteRealise);
+							listCoutMP.set(j,coutMP);
+							quantiteRealise=0;
+							
+						}else {
+						
+							if(priorite<detailEstimation.getPriorite()){
+								priorite=detailEstimation.getPriorite();
+								position=j;
+							}
+							quantiteTotalCharge=coutMP.getQuantCharge()+coutMP.getQuantExistante();
+							coutMP.setQuantConsomme(quantiteTotalCharge);
+							listCoutMP.set(j,coutMP);
+							quantiteRealise=quantiteRealise-quantiteTotalCharge;
+							
+						}
+						}
+					}
+				}
+				
+			}else {
+				/*if(detailEstimation.getPriorite()>0 && trouve==false){
+					k++;
+					trouve=true;*/
+				//coutMP.setQuantConsomme(Float.parseFloat(txtQuantiteRealise.getText()));
+				}
+			}
+			
+		}
+	
+	if(quantiteRealise>0){
+		
+			coutMP=listCoutMP.get(position);
+			float quantite=coutMP.getQuantConsomme()+quantiteRealise;
+			coutMP.setQuantConsomme(quantite);
+			listCoutMP.set(position, coutMP);
+		
+	}
+		
+	}
+
+
+
+
+
+
+void calculerStockCoutProduitFini(float coutTotal){
+	
+	float coutPF=0;
+	float nouveauCout=0;
+	float quantiteTotal=0 ;
+	float coutStock=0;
+	
+	
+	//coutTotal=production.getCoutTotalEmploye()+production.getCoutTotalEmployeGen()+production.getCoutTotalMP()+production.getCoutTotalEmployeEmbalage();
+	
+	coutPF=coutTotal/production.getQuantiteReel();
+	
+	 StockPF stockPF = stockPFDAO.findStockByMagasinPF(production.getArticles().getId(),production.getMagasinPF().getId());
+	 
+	 quantiteTotal=stockPF.getStock()+production.getQuantiteReel();
+	 coutStock=stockPF.getStock()*stockPF.getPrixUnitaire();
+	 
+	 nouveauCout=(coutTotal+coutStock)/quantiteTotal;
+	 
+	 stockPF.setArticles(production.getArticles());
+	 stockPF.setPrixUnitaire(nouveauCout);
+	 stockPF.setStock(quantiteTotal);
+	 
+	
+	 DetailTransferProduitFini detailTransferProduitFini =new DetailTransferProduitFini();
+	 TransferStockPF transferStockPF =new TransferStockPF();
+	 List<DetailTransferProduitFini> listeDetailTransferProduitFini=new ArrayList<DetailTransferProduitFini>();
+	
+	 
+	detailTransferProduitFini.setArticle(production.getArticles());
+	detailTransferProduitFini.setDateTransfer(new Date());
+	detailTransferProduitFini.setMagasinDestination(stockPF.getMagasin());
+	detailTransferProduitFini.setMagasinSouce(production.getMagasinProd());
+	detailTransferProduitFini.setQuantite(production.getQuantiteReel());
+	detailTransferProduitFini.setPrixUnitaire(coutPF);
+	detailTransferProduitFini.setTypeTransfer(Constantes.TYPE_TRANSFER_PRODUIT_FINI_ENTRE);
+	detailTransferProduitFini.setTransferStockPF(transferStockPF);
+	
+	 listeDetailTransferProduitFini.add(detailTransferProduitFini);
+	 
+	 transferStockPF.setCodeTransfer(production.getNumOF());
+	 transferStockPF.setCreerPar(AuthentificationView.utilisateur);
+	 transferStockPF.setDate(new Date());
+	 transferStockPF.setDateTransfer(new Date());
+	 transferStockPF.setListDetailTransferProduitFini(listeDetailTransferProduitFini);
+	 transferStockPF.setStatut(STATUT_TRANSFER_PRODUIT_FINI_ENTRE);
+	 
+	
+	stockPFDAO.edit(stockPF);
+	transferStockPFDAO.add(transferStockPF);
+}
+
+float determinerRemiseEmploye(Equipe equipe){
+	float remiseEmploye = 0;
+	float quantiteTounage=0; 
+	Articles article=production.getArticles();
+	
+	if(delaiTotal!=0){
+		if(article.getConditionnement()==2){ 
+			Parametre parametre = parametreDAO.findByCode(PARAMETRE_CODE_QUANTITE_TOUNAGE_500G);
+			quantiteTounage=parametre.getValeur();
+		}
+		if(article.getConditionnement()==5){ 
+			Parametre parametre = parametreDAO.findByCode(PARAMETRE_CODE_QUANTITE_TOUNAGE_200G);
+			quantiteTounage=parametre.getValeur();
+		}
+		if(article.getConditionnement()==10){ 
+			Parametre parametre = parametreDAO.findByCode(PARAMETRE_CODE_QUANTITE_TOUNAGE_100G);
+			quantiteTounage=parametre.getValeur();
+		}
+	
+	if(production.getQuantiteReel()>=quantiteTounage)
+		remiseEmploye=equipe.getRemise()/delaiTotal;
+	}
+	
+	return remiseEmploye;
+	
+}
+
+float determinerRemiseEmployeEmbalage(Equipe equipe){
+	float remiseEmploye = 0;
+	float quantiteTounage=0; 
+	Articles article=production.getArticles();
+	if(delaiTotalEquipeEmbalage!=0){
+		if(article.getConditionnement()==2){ 
+			Parametre parametre = parametreDAO.findByCode(PARAMETRE_CODE_QUANTITE_TOUNAGE_500G);
+			quantiteTounage=parametre.getValeur();
+		}
+		if(article.getConditionnement()==5){ 
+			Parametre parametre = parametreDAO.findByCode(PARAMETRE_CODE_QUANTITE_TOUNAGE_200G);
+			quantiteTounage=parametre.getValeur();
+		}
+		if(article.getConditionnement()==10){ 
+			Parametre parametre = parametreDAO.findByCode(PARAMETRE_CODE_QUANTITE_TOUNAGE_100G);
+			quantiteTounage=parametre.getValeur();
+		}
+			
+		if(production.getQuantiteReel()>=quantiteTounage)
+			remiseEmploye=equipe.getRemise()/delaiTotalEquipeEmbalage;
+	}
+	
+	return remiseEmploye;
+	
+}
+
+List<DetailResponsableProd> calculRemiseResponsableProduction(Date dateProd, String periode){
+	float quantiteTounage=0; 
+	float coutResponsableProd=0;
+	
+	Articles article=production.getArticles();
+	
+	if(article.getConditionnement()==2){ 
+		Parametre parametre = parametreDAO.findByCode(PARAMETRE_CODE_QUANTITE_TOUNAGE_500G);
+		quantiteTounage=parametre.getValeur();
+	}
+	if(article.getConditionnement()==5){ 
+		Parametre parametre = parametreDAO.findByCode(PARAMETRE_CODE_QUANTITE_TOUNAGE_200G);
+		quantiteTounage=parametre.getValeur();
+	}
+	if(article.getConditionnement()==10){ 
+		Parametre parametre = parametreDAO.findByCode(PARAMETRE_CODE_QUANTITE_TOUNAGE_100G);
+		quantiteTounage=parametre.getValeur();
+	}
+	coutTotalAutreEmploye=0;
+	Parametre parametreRemiseChefProd=parametreDAO.findByCode(PARAMETRE_CODE_REMISE_CHEF_PROD);
+	Parametre parametreRemiseTec=parametreDAO.findByCode(PARAMETRE_CODE_REMISE_TECHNICIEN);
+	Parametre parametreRemiseAideTec=parametreDAO.findByCode(PARAMETRE_CODE_REMISE_AIDE_TECHNICIEN);
+	Parametre parametreRemiseChefEquipe=parametreDAO.findByCode(PARAMETRE_CODE_REMISE_CHEF_EQUIPE);
+	Parametre parametreRemiseAutreEmploye=parametreDAO.findByCode(PARAMETRE_CODE_REMISE_EQUIPE_GENERIQUE);
+
+	 List<Production> listeProduction =productionDAO.listeProductionByDateByPeriode(dateProd,periode);
+	 int taileListeProduction=listeProduction.size();
+	 List<DetailResponsableProd> listeDetailResponsableProdTmp = new ArrayList<DetailResponsableProd>();
+	 float remiseChefProd=parametreRemiseChefProd.getValeur()/taileListeProduction;
+	 float remiseTechnicien=parametreRemiseTec.getValeur()/taileListeProduction;
+	 float remiseAideTechnicien=parametreRemiseAideTec.getValeur()/taileListeProduction;
+	 float remiseChefEquipe=parametreRemiseChefEquipe.getValeur()/taileListeProduction;	
+	 float remiseAutreEmploye=parametreRemiseAutreEmploye.getValeur()/taileListeProduction;
+	 /*#############################################
+	  Metter à jour les délais des employés Génériques
+	   ###########################################*/
+	 majDelaiEmployeGenerique(listeProduction);
+	 /*###########################################*/
+	 
+	// for(int i=0;i<listeProduction.size();i++){
+		 
+	//	 Production production =listeProduction.get(i);
+		 if(production.getStatut().equals(ETAT_OF_TERMINER) ){
+			 List<DetailResponsableProd> listeDetailResponsableProd =production.getListDetailResponsableProd();
+			 
+			 
+			 for(int j=0;j<listeDetailResponsableProd.size();j++){
+
+				 DetailResponsableProd detailResponsableProd=listeDetailResponsableProd.get(j);
+				 
+				 Employe employe=detailResponsableProd.getEmploye();
+			
+				 
+				 if(employe.getTypeResEmploye().getCode().equals(TYPE_EMPLOYE_CHEF_PRODUCTION)){
+					 float remise =0;
+					if( detailResponsableProd.getNote()!=0 && production.getQuantiteReel()>quantiteTounage){
+						float nbreTypeResponsable=detailResponsableProd.getNbreTypeEmploye();
+						remise=remiseChefProd/nbreTypeResponsable;
+					}
+						detailResponsableProd.setRemise(remise);
+						coutTotalAutreEmploye=coutTotalAutreEmploye+detailResponsableProd.getCoutTotal()+detailResponsableProd.getCoutSupp25()+detailResponsableProd.getCoutSupp50()+remise;
+						
+					//	if(!detailResponsableProd.getEmploye().isSalarie()){
+							
+							FicheEmploye ficheEmploye =ficheEmployeDAO.findByPeriodeDateSitutation(production.getDate(), detailResponsableProd.getEmploye().getId());
+							if(ficheEmploye!=null){
+								/*Remplir fiche programme*/
+								/*ficheEmploye.setCoutTotal(detailResponsableProd.getEmploye().getCoutHoraire());
+								ficheEmploye.setNumOF(production.getNumOF());
+								ficheEmploye.setDateSituation(production.getDate());
+								ficheEmploye.setDelaiEmploye(detailResponsableProd.getDelaiEmploye());
+								ficheEmploye.setEmploye(detailResponsableProd.getEmploye());*/
+								float remiseExistante=ficheEmploye.getRemise();
+								remise=remise+remiseExistante;
+								ficheEmploye.setRemise(remise);
+								ficheEmployeDAO.edit(ficheEmploye);
+								}/*else {
+									ficheEmploye =new FicheEmploye();
+									ficheEmploye.setCoutTotal(detailResponsableProd.getCoutTotal());
+									ficheEmploye.setNumOF(production.getNumOF());
+									ficheEmploye.setDateSituation(production.getDate());
+									ficheEmploye.setDelaiEmploye(detailResponsableProd.getDelaiEmploye());
+									ficheEmploye.setEmploye(detailResponsableProd.getEmploye());
+									ficheEmploye.setRemise(detailResponsableProd.getEmploye().getRemise());
+									
+									ficheEmployeDAO.add(ficheEmploye);
+									
+								}*/
+							
+							
+							//} FIN TESTE IS SALAIRE
+						listeDetailResponsableProdTmp.add(detailResponsableProd);
+				 
+				 }
+				 if(employe.getTypeResEmploye().getCode().equals(TYPE_EMPLOYE_RESPONSABLE_EQUIPE)){
+
+					 float remise =0;
+					if( detailResponsableProd.getNote()!=0 && production.getQuantiteReel()>quantiteTounage){
+						float nbreTypeResponsable=detailResponsableProd.getNbreTypeEmploye();
+						remise=remiseChefEquipe/nbreTypeResponsable;
+					}
+						detailResponsableProd.setRemise(remise);
+						coutTotalAutreEmploye=coutTotalAutreEmploye+detailResponsableProd.getCoutTotal()+detailResponsableProd.getCoutSupp25()+detailResponsableProd.getCoutSupp50()+remise;
+						
+					//	if(!detailResponsableProd.getEmploye().isSalarie()){
+							
+							FicheEmploye ficheEmploye =ficheEmployeDAO.findByPeriodeDateSitutation(production.getDate(), detailResponsableProd.getEmploye().getId());
+							if(ficheEmploye!=null){
+								/*Remplir fiche programme
+								ficheEmploye.setCoutTotal(detailResponsableProd.getEmploye().getCoutHoraire());
+								ficheEmploye.setNumOF(production.getNumOF());
+								ficheEmploye.setDateSituation(production.getDate());
+								ficheEmploye.setDelaiEmploye(detailResponsableProd.getDelaiEmploye());
+								ficheEmploye.setEmploye(detailResponsableProd.getEmploye());;*/
+								float remiseExistante=ficheEmploye.getRemise();
+								remise=remise+remiseExistante;
+								ficheEmploye.setRemise(remise);
+								ficheEmployeDAO.edit(ficheEmploye);
+								}/*else {
+									ficheEmploye =new FicheEmploye();
+									ficheEmploye.setCoutTotal(detailResponsableProd.getEmploye().getCoutHoraire());
+									ficheEmploye.setNumOF(production.getNumOF());
+									ficheEmploye.setDateSituation(production.getDate());
+									ficheEmploye.setDelaiEmploye(detailResponsableProd.getDelaiEmploye());
+									ficheEmploye.setEmploye(detailResponsableProd.getEmploye());;
+									ficheEmploye.setRemise(detailResponsableProd.getEmploye().getRemise());
+									
+									ficheEmployeDAO.add(ficheEmploye);
+									
+								}*/
+							
+							
+						//	}
+						listeDetailResponsableProdTmp.add(detailResponsableProd);
+				 }
+				 if(employe.getTypeResEmploye().getCode().equals(EMPLOYE_RESPONSABILITE_TECHNITIEN)){
+
+					 float remise =0;
+					if( detailResponsableProd.getNote()!=0 && production.getQuantiteReel()>quantiteTounage){
+						float nbreTypeResponsable=detailResponsableProd.getNbreTypeEmploye();
+						remise=remiseTechnicien/nbreTypeResponsable;
+					}
+						detailResponsableProd.setRemise(remise);
+						coutTotalAutreEmploye=coutTotalAutreEmploye+detailResponsableProd.getCoutTotal()+detailResponsableProd.getCoutSupp25()+detailResponsableProd.getCoutSupp50()+remise;
+						
+					//	if(!detailResponsableProd.getEmploye().isSalarie()){
+							
+							FicheEmploye ficheEmploye =ficheEmployeDAO.findByPeriodeDateSitutation(production.getDate(), detailResponsableProd.getEmploye().getId());
+							if(ficheEmploye!=null){
+								/*Remplir fiche programme
+								ficheEmploye.setCoutTotal(detailResponsableProd.getEmploye().getCoutHoraire());
+								ficheEmploye.setNumOF(production.getNumOF());
+								ficheEmploye.setDateSituation(production.getDate());
+								ficheEmploye.setDelaiEmploye(detailResponsableProd.getDelaiEmploye());
+								ficheEmploye.setEmploye(detailResponsableProd.getEmploye());*/
+								float remiseExistante=ficheEmploye.getRemise();
+								remise=remise+remiseExistante;
+								ficheEmploye.setRemise(remise);
+								ficheEmployeDAO.edit(ficheEmploye);
+								}/*else {
+									ficheEmploye =new FicheEmploye();
+									ficheEmploye.setCoutTotal(detailResponsableProd.getEmploye().getCoutHoraire());
+									ficheEmploye.setNumOF(production.getNumOF());
+									ficheEmploye.setDateSituation(production.getDate());
+									ficheEmploye.setDelaiEmploye(detailResponsableProd.getDelaiEmploye());
+									ficheEmploye.setEmploye(detailResponsableProd.getEmploye());;
+									ficheEmploye.setRemise(detailResponsableProd.getEmploye().getRemise());
+									
+									ficheEmployeDAO.add(ficheEmploye);
+									
+								}*/
+							
+							
+						//	}
+						
+						
+						listeDetailResponsableProdTmp.add(detailResponsableProd);
+				 }
+				 if(employe.getTypeResEmploye().getCode().equals(EMPLOYE_RESPONSABILITE_AIDE_TECHNITIEN)){
+
+					 float remise =0;
+					if( detailResponsableProd.getNote()!=0 && production.getQuantiteReel()>quantiteTounage){
+						float nbreTypeResponsable=detailResponsableProd.getNbreTypeEmploye();
+						remise=remiseAideTechnicien/nbreTypeResponsable;
+					}
+						detailResponsableProd.setRemise(remise);
+						coutTotalAutreEmploye=coutTotalAutreEmploye+detailResponsableProd.getCoutTotal()+detailResponsableProd.getCoutSupp25()+detailResponsableProd.getCoutSupp50()+remise;
+						
+					//	if(!detailResponsableProd.getEmploye().isSalarie()){
+							
+							FicheEmploye ficheEmploye =ficheEmployeDAO.findByPeriodeDateSitutation(production.getDate(), detailResponsableProd.getEmploye().getId());
+							if(ficheEmploye!=null){
+								/*Remplir fiche programme
+								ficheEmploye.setCoutTotal(detailResponsableProd.getEmploye().getCoutHoraire());
+								ficheEmploye.setNumOF(production.getNumOF());
+								ficheEmploye.setDateSituation(production.getDate());
+								ficheEmploye.setDelaiEmploye(detailResponsableProd.getDelaiEmploye());
+								ficheEmploye.setEmploye(detailResponsableProd.getEmploye());*/
+								float remiseExistante=ficheEmploye.getRemise();
+								remise=remise+remiseExistante;
+								ficheEmploye.setRemise(remise);
+								ficheEmployeDAO.edit(ficheEmploye);
+								}/*else {
+									ficheEmploye =new FicheEmploye();
+									ficheEmploye.setCoutTotal(detailResponsableProd.getEmploye().getCoutHoraire());
+									ficheEmploye.setNumOF(production.getNumOF());
+									ficheEmploye.setDateSituation(production.getDate());
+									ficheEmploye.setDelaiEmploye(detailResponsableProd.getDelaiEmploye());
+									ficheEmploye.setEmploye(detailResponsableProd.getEmploye());;
+									ficheEmploye.setRemise(detailResponsableProd.getEmploye().getRemise());
+									
+									ficheEmployeDAO.add(ficheEmploye);
+									
+								}*/
+							
+							
+						//	}
+						
+						listeDetailResponsableProdTmp.add(detailResponsableProd);
+				 }
+				 if(employe.getTypeResEmploye().getCode().equals(TYPE_EMPLOYE_MAIN_OUVRE_PRODUCTION)){
+
+					 float remise =0;
+					if( detailResponsableProd.getNote()!=0 && production.getQuantiteReel()>quantiteTounage){
+						float nbreTypeResponsable=detailResponsableProd.getNbreTypeEmploye();
+						remise=remiseAutreEmploye/nbreTypeResponsable;
+					}
+						detailResponsableProd.setRemise(remise);
+						coutTotalAutreEmploye=coutTotalAutreEmploye+detailResponsableProd.getCoutTotal()+detailResponsableProd.getCoutSupp25()+detailResponsableProd.getCoutSupp50()+remise;
+						
+					//	if(!detailResponsableProd.getEmploye().isSalarie()){
+							
+							FicheEmploye ficheEmploye=ficheEmployeDAO.findByPeriodeDateSitutation(production.getDate(), detailResponsableProd.getEmploye().getId());
+							if(ficheEmploye!=null){
+								
+								/*Remplir fiche programme
+								ficheEmploye.setCoutTotal(detailResponsableProd.getEmploye().getCoutHoraire());
+								ficheEmploye.setNumOF(production.getNumOF());
+								ficheEmploye.setDateSituation(production.getDate());
+								ficheEmploye.setDelaiEmploye(detailResponsableProd.getDelaiEmploye());
+								ficheEmploye.setEmploye(detailResponsableProd.getEmploye());*/
+								
+								float remiseExistante=ficheEmploye.getRemise();
+								remise=remise+remiseExistante;
+								ficheEmploye.setRemise(remise);
+								ficheEmployeDAO.edit(ficheEmploye);
+								}/*else {
+									ficheEmploye =new FicheEmploye();
+									ficheEmploye.setCoutTotal(detailResponsableProd.getEmploye().getCoutHoraire());
+									ficheEmploye.setNumOF(production.getNumOF());
+									ficheEmploye.setDateSituation(production.getDate());
+									ficheEmploye.setDelaiEmploye(detailResponsableProd.getDelaiEmploye());
+									ficheEmploye.setEmploye(detailResponsableProd.getEmploye());;
+									ficheEmploye.setRemise(detailResponsableProd.getEmploye().getRemise());
+									
+									ficheEmployeDAO.add(ficheEmploye);
+									
+								}*/
+							
+							
+						//	}
+						
+						listeDetailResponsableProdTmp.add(detailResponsableProd);
+						
+				 }
+				 
+			 }
+		 }
+		 
+		 
+	// }
+	
+	return listeDetailResponsableProdTmp;
+}
+
+void initialiserTableauEmploye(){
+	modeleEmploye =new DefaultTableModel(
+		     	new Object[][] {
+		     	},
+		     	new String[] {
+		     			"ID","Matricule","Nom", "Délai Travaillé", "H Supp 25%", "H Supp 50%"
+		     	}
+		     ) {
+		     	boolean[] columnEditables = new boolean[] {
+		     			false,false,false,true, true,true
+		     	};
+		     	public boolean isCellEditable(int row, int column) {
+		     		return columnEditables[column];
+		     	}
+		     };
+		   tableEmploye.setModel(modeleEmploye); 
+		   tableEmploye.getColumnModel().getColumn(0).setPreferredWidth(1);
+		   tableEmploye.getColumnModel().getColumn(1).setPreferredWidth(60);
+		   tableEmploye.getColumnModel().getColumn(2).setPreferredWidth(160);
+		   tableEmploye.getColumnModel().getColumn(3).setPreferredWidth(60);
+		   tableEmploye.getColumnModel().getColumn(4).setPreferredWidth(60);
+		   tableEmploye.getColumnModel().getColumn(5).setPreferredWidth(60);
+}
+
+void initialiserTableauEquipeEmbalage(){
+	
+	modeleEquipeEm =new DefaultTableModel(
+		     	new Object[][] {
+		     	},
+		     	new String[] {
+		     			"ID","Matricule","Nom","Délai Travaillé", "H Supp 25%", "H Supp 50%"
+		     	}
+		     ) {
+		     	boolean[] columnEditables = new boolean[] {
+		     			false,false,false,true, true,true
+		     	};
+		     	public boolean isCellEditable(int row, int column) {
+		     		return columnEditables[column];
+		     	}
+		     };
+		     
+		     table_1.setModel(modeleEquipeEm); 
+		     table_1.getColumnModel().getColumn(0).setPreferredWidth(1);
+		     table_1.getColumnModel().getColumn(1).setPreferredWidth(60);
+		     table_1.getColumnModel().getColumn(2).setPreferredWidth(160);
+		     table_1.getColumnModel().getColumn(3).setPreferredWidth(60);
+		     table_1.getColumnModel().getColumn(4).setPreferredWidth(60);
+		     table_1.getColumnModel().getColumn(5).setPreferredWidth(60);
+	
+}
+
+List<DetailProdGen> remplieDetailProdGen(List<Employe> listEmploye){
+	List<DetailProdGen> listDetailProdGen=new ArrayList<DetailProdGen>();
+	for(int i=0;i<listEmploye.size();i++){
+		DetailProdGen detailProdGen= new DetailProdGen();
+		Employe employe =listEmploye.get(i);
+		detailProdGen.setCoutTotal(0);
+		detailProdGen.setRemise(employe.getRemise());
+		detailProdGen.setEmploye(employe);
+		detailProdGen.setProductionGen(production);
+		
+		listDetailProdGen.add(detailProdGen);
+	}
+	
+	production.setListDetailProdGen(listDetailProdGen);
+	productionDAO.edit(production);
+	return listDetailProdGen;
+  }
+
+List<DetailProduction>  remplieDetailProdcution(List<Employe> listEmploye){
+	List<DetailProduction> listDetailProdcution=new ArrayList<DetailProduction>();
+
+	
+	for(int i=0;i<listEmploye.size();i++){
+		DetailProduction detailProd= new DetailProduction();
+		Employe employe =listEmploye.get(i);
+		detailProd.setCoutTotal(0);
+		detailProd.setRemise(employe.getRemise());
+		detailProd.setEmploye(employe);
+		detailProd.setProduction(production);
+		
+		//listDetailProdcution.add(detailProd);
+		production.getDetailProductions().add(detailProd);
+	}
+//	production.setDetailProductions(listDetailProdcution);
+	
+	
+/*	List<DetailProduction> listDetailProdcutionTmp=production.getDetailProductions();
+	DetailProduction detailProdDeleted=new DetailProduction();
+	if(listDetailProdcutionTmp!=null && listDetailProdcutionTmp.size()>0){
+	for(int j=0;j<listDetailProdcutionTmp.size();j++){
+		DetailProduction detailProd= listDetailProdcutionTmp.get(j);
+		if(!listEmploye.contains(detailProd.getEmploye())){
+			detailProdDeleted=production.removeDetailProduction(detailProd);
+			System.out.println("######"+detailProdDeleted.getId());
+		}
+	}
+	
+	}*/
+	productionDAO.edit(production);
+	
+	return production.getDetailProductions();
+  }
+
+
+void  annulerStockMatierePremiere(List<CoutMP> listCoutMP,int idMagasinProd,int idMagasinStockage){
+	float quantiteStockage=0;
+	float quantiteCharge=0;
+	float quantiteExistante=0;
+	for(int i=0;i<listCoutMP.size();i++){ 
+		quantiteStockage=0;
+		CoutMP coutMP=listCoutMP.get(i);
+	
+		quantiteExistante=coutMP.getQuantExistante();
+		 quantiteCharge=coutMP.getQuantCharge();
+		StockMP stockMPProd=stockMPDAO.findStockByMagasinMP(coutMP.getMatierePremier().getId(),idMagasinProd );
+		StockMP stockMPStockage=stockMPDAO.findStockByMagasinMP(coutMP.getMatierePremier().getId(),idMagasinStockage );
+		
+		
+		quantiteStockage=stockMPStockage.getStock()+quantiteCharge;
+		
+		
+		stockMPProd.setStock(quantiteExistante);
+		stockMPStockage.setStock(quantiteStockage);
+		
+		stockMPDAO.edit(stockMPStockage);
+		stockMPDAO.edit(stockMPProd);
+		
+		
+	}
+  }
+void  annulerStockProduitFini(){
+	float quantiteAannuler=0;
+	float quantite=0;
+	
+			StockPF stockPF = stockPFDAO.findStockByMagasinPF(production.getArticles().getId(),production.getMagasinPF().getId());
+			TransferStockPF transferStockPF=transferStockPFDAO.findByCodeTransfert(production.getNumOF());
+			quantiteAannuler=production.getQuantiteReel();
+			quantite=stockPF.getStock()-quantiteAannuler;
+
+			stockPF.setStock(quantite);
+
+			transferStockPFDAO.deleteObject(transferStockPF);
+
+			stockPFDAO.edit(stockPF);
+
+}
+
+void deleteListeObject(List<FicheEmploye> listFicheEmploye){
+	
+	for(int i=0;i<listFicheEmploye.size();i++){
+		FicheEmploye ficheEmploye=listFicheEmploye.get(i);
+		ficheEmployeDAO.deleteObject(ficheEmploye);
+	}
+}
+
+void modifierHeuresEmploye(){
+	
+}
+
+void majDelaiEmployeGenerique(List<Production> listeProduction){
+	
+	// List<Production> listeProduction =productionDAO.listeProductionByDateByPeriode(dateProd,periode);
+	 float coutResponsableProd=0;
+	 float delaiEmploye=0;
+for(int i=0;i<listeProduction.size();i++){
+		 
+		 Production production =listeProduction.get(i);
+		 if(production.getStatut().equals(ETAT_OF_TERMINER) ){
+			 List<DetailResponsableProd> listeDetailResponsableProd =production.getListDetailResponsableProd();
+			 
+			 
+			 for(int j=0;j<listeDetailResponsableProd.size();j++){
+
+				 DetailResponsableProd detailResponsableProd=listeDetailResponsableProd.get(j);
+				 
+				 if(!detailResponsableProd.getEmploye().isSalarie()){
+				 
+				 Employe employe=detailResponsableProd.getEmploye();
+				 FicheEmploye ficheEmploye=ficheEmployeDAO.findByPeriodeDateSitutation(production.getDate(), detailResponsableProd.getEmploye().getId());
+				 
+				 CompteurEmployeProd compteurEmployeProd=compteurEmployeProdDAO.findByDateProdPeriode(production.getDate(),production.getPeriode(), employe.getId());
+				 int compteur=compteurEmployeProd.getCompteur();
+				 
+				 coutResponsableProd=ficheEmploye.getCoutTotal()/compteur;
+				 delaiEmploye=ficheEmploye.getDelaiEmploye()/compteur;
+				 
+				 detailResponsableProd.setCoutTotal(coutResponsableProd);
+				 detailResponsableProd.setDelaiEmploye(delaiEmploye);
+				 
+				 listeDetailResponsableProd.set(j, detailResponsableProd);
+				 }
+				 
+			 }
+			 
+			 production.setListDetailResponsableProd(listeDetailResponsableProd);
+			 productionDAO.edit(production);
+				 
+			 }
+		
+	
+		}
+	}
+}

@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DeclarationCapitauxMobiliers" pageWidth="595" pageHeight="842" columnWidth="571" leftMargin="12" rightMargin="12" topMargin="9" bottomMargin="9">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="376"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="titre" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{titre}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DATASOURCE" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
+	<parameter name="raisonSociale" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="adresse" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="ville" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="formeJuridique" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="identifiantFiscal" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="patente" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="perception" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="direction" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="subdivision" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="CODABAR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="enEtatLibelle" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="anonyme" class="java.lang.Boolean" isForPrompting="false"/>
+	<parameter name="activite" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="modeQualif" class="java.lang.Boolean" isForPrompting="false"/>
+	<parameter name="nom" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="prenom" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="image_dgi" class="java.lang.String"/>
+	<parameter name="image_sig" class="java.lang.String"/>
+	<field name="listConjoints" class="java.util.List"/>
+	<field name="listEnfants" class="java.util.List"/>
+	<field name="revenusCapitauxMobiliers.listRevenusSoumisAuTaux" class="java.util.List"/>
+	<field name="revenusCapitauxMobiliers.totalMontantBrut" class="java.lang.String"/>
+	<field name="revenusCapitauxMobiliers.totalFrais" class="java.lang.String"/>
+	<field name="revenusCapitauxMobiliers.totalMontantNet" class="java.lang.String"/>
+	<field name="revenusCapitauxMobiliers.totalMontantRetenueSource" class="java.lang.String"/>
+	<field name="revenusSourceEtrangere.listDetailRevenuSRCEtrangere" class="java.util.List"/>
+	<field name="revenuNetTaxable.revProfessionnels" class="java.lang.String"/>
+	<field name="revenuNetTaxable.revSalariaux" class="java.lang.String"/>
+	<field name="revenuNetTaxable.revAgricoles" class="java.lang.String"/>
+	<field name="revenuNetTaxable.revFonciers" class="java.lang.String"/>
+	<field name="revenuNetTaxable.revCapitauxMobiliers" class="java.lang.String"/>
+	<field name="revenuNetTaxable.revSourceEtrangere" class="java.lang.String"/>
+	<field name="revenuNetTaxable.revenuGlobalImposable" class="java.lang.String"/>
+	<field name="revenuNetTaxable.montantDons" class="java.lang.String"/>
+	<field name="revenuNetTaxable.montantInterets" class="java.lang.String"/>
+	<field name="revenuNetTaxable.montantTotalDeductionsII" class="java.lang.String"/>
+	<field name="revenuNetTaxable.revenuNetTaxable" class="java.lang.String"/>
+	<field name="revenuNetTaxable.montantPrimesAss" class="java.lang.String"/>
+	<field name="revenuNetTaxable.listCotisationsMinimales" class="java.util.List"/>
+	<field name="revenuNetTaxable.irsRevSalarEtAssimil" class="java.lang.String"/>
+	<field name="revenuNetTaxable.irsRevCapMobNonLiberatoire" class="java.lang.String"/>
+	<field name="revenuNetTaxable.deductionImpotEtrangerAquitte" class="java.lang.String"/>
+	<field name="revenuNetTaxable.deductionChargeFamil" class="java.lang.String"/>
+	<field name="revenuNetTaxable.deductionRetraitSourceEtrangere" class="java.lang.String"/>
+	<field name="numeroCINNew" class="java.lang.String"/>
+	<field name="villeNew.libelle" class="java.lang.String"/>
+	<field name="numeroTSCNew" class="java.lang.String"/>
+	<field name="activiteNew.libelle" class="java.lang.String"/>
+	<field name="nationaliteNew.libelle" class="java.lang.String"/>
+	<field name="numeroTelephoneNew" class="java.lang.String"/>
+	<field name="emailNew" class="java.lang.String"/>
+	<field name="situationFamilialeNew.libelle" class="java.lang.String"/>
+	<field name="listNatureRevenus" class="java.util.List"/>
+	<field name="exerciceFiscalDu" class="java.lang.String"/>
+	<field name="exerciceFiscalAu" class="java.lang.String"/>
+	<field name="adresseNew" class="java.lang.String"/>
+	<field name="autreProfessionNew" class="java.lang.String"/>
+	<field name="revenuAgricole.listResultatAgricole" class="java.util.List"/>
+	<field name="revenuAgricole.listPlusValue" class="java.util.List"/>
+	<field name="revenuAgricole.totalChiffreAffaire" class="java.lang.String"/>
+	<field name="revenuAgricole.totalBeneficeNetFiscal" class="java.lang.String"/>
+	<field name="revenuAgricole.totalDeficitFiscal" class="java.lang.String"/>
+	<group name="DETERMINATION_REVENU_NET_IMPOSABLE" isStartNewPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="720" splitType="Prevent">
+				<staticText>
+					<reportElement key="staticText-138" x="88" y="16" width="393" height="17" forecolor="#339900"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[A-DETERMINATION DU REVENU NET  IMPOSABLE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-139" x="21" y="41" width="532" height="15"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ I- REVENU GLOBAL IMPOSABLE]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement key="rectangle-30" x="31" y="74" width="340" height="24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-31" x="370" y="74" width="172" height="24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-32" x="31" y="98" width="340" height="24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-33" x="31" y="122" width="340" height="24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-34" x="31" y="146" width="340" height="24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-35" x="31" y="170" width="340" height="24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-36" x="31" y="194" width="340" height="24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-38" x="370" y="98" width="172" height="24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-39" x="370" y="122" width="172" height="24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-40" x="370" y="146" width="172" height="24"/>
+				</rectangle>
+				<staticText>
+					<reportElement key="staticText-140" x="103" y="79" width="155" height="17"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[NATURE DES REVENUS]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-141" x="386" y="80" width="118" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[MONTANTS en DH]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-142" x="35" y="103" width="177" height="15"/>
+					<textElement textAlignment="Left">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Revenus professionnels]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-143" x="35" y="127" width="177" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Revenus agricoles ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-144" x="35" y="152" width="177" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Revenus fonciers]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-145" x="35" y="175" width="177" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Revenus salariaux et assimilés]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-146" x="36" y="200" width="332" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Revenus de capitaux mobiliers (revenus de placements à revenu fixe)]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement key="rectangle-41" x="370" y="170" width="172" height="24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-42" x="370" y="194" width="172" height="24"/>
+				</rectangle>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="376" y="103" width="155" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.revProfessionnels}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="376" y="127" width="155" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.revAgricoles}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="376" y="152" width="155" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.revFonciers}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="376" y="175" width="155" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.revSalariaux}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="376" y="200" width="155" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.revCapitauxMobiliers}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="staticText-148" x="74" y="246" width="198" height="17"/>
+					<textElement>
+						<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[ I. Revenu global imposable (I)(R.G.I) :]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement key="rectangle-44" x="370" y="242" width="172" height="24"/>
+				</rectangle>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="376" y="246" width="155" height="18"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.revenuGlobalImposable}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement key="rectangle-45" x="31" y="218" width="340" height="24"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-46" x="370" y="218" width="172" height="24"/>
+				</rectangle>
+				<staticText>
+					<reportElement key="staticText-149" x="36" y="221" width="279" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Revenus et profits de source étrangère]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="376" y="222" width="155" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.revSourceEtrangere}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="staticText-150" x="21" y="272" width="521" height="15"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[ II- DEDUCTIONS SUR REVENU GLOBAL IMPOSABLE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-151" x="21" y="289" width="365" height="29"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[ -Montant des dons en argent ou en nature prévus à l'article 28-I et octroyés aux organismes visés                à l'article 10-I-B-2° du CGI :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-152" x="21" y="355" width="365" height="17"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[ -Montant des Primes ou cotisations d'assurance retraite dans la limite de 6% du R.G.I :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-153" x="21" y="322" width="365" height="30"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[ -Montant des intérêts des prêts, ou montant de la rémunération convenue dans le cadre d'un contrat « Mourabaha », pour l'acquisition ou la construction de logement à usage d'habitation principale. (dans la limite de 10% du R.G.I) :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-154" x="21" y="375" width="365" height="21"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[ II. Total des déductions(II):]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-155" x="21" y="398" width="365" height="18"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[ Revenu net global imposable (I-II) :]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="408" y="289" width="134" height="29"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.montantDons}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="407" y="322" width="135" height="30"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.montantInterets}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="407" y="375" width="135" height="21"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.montantTotalDeductionsII}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="408" y="398" width="134" height="18"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.revenuNetTaxable}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" x="407" y="355" width="135" height="18"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.montantPrimesAss}]]></textFieldExpression>
+				</textField>
+				<subreport isUsingCache="true">
+					<reportElement key="subreport-13" positionType="Float" x="21" y="418" width="520" height="23"/>
+					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{revenuNetTaxable.listCotisationsMinimales})]]></dataSourceExpression>
+					<subreportExpression class="java.lang.String"><![CDATA["config/print/templates/tableau_Determination_revenu_net_imposable_cotisation_subreport.jasper"]]></subreportExpression>
+				</subreport>
+				<staticText>
+					<reportElement key="staticText-156" positionType="Float" x="26" y="445" width="200" height="15"/>
+					<textElement>
+						<font isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[II- IMPOT RETENU A LA SOURCE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-157" positionType="Float" x="26" y="466" width="222" height="16"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[a- Au titre des revenus salariaux et assimilés :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-158" positionType="Float" x="26" y="484" width="360" height="16"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[b-Au titre des produits de placement à revenu fixe soumis au taux de 20% :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-159" positionType="Float" x="27" y="503" width="359" height="17"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[c-Montant de l'impôt étranger acquitté (ou théorique en cas d'exonération) :]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" positionType="Float" x="401" y="460" width="135" height="16"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.irsRevSalarEtAssimil}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" positionType="Float" x="402" y="484" width="134" height="17"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.irsRevCapMobNonLiberatoire}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" positionType="Float" x="401" y="503" width="135" height="17"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.deductionImpotEtrangerAquitte}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="staticText-160" positionType="Float" x="21" y="523" width="211" height="18"/>
+					<textElement>
+						<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[C- REDUCTIONS D'IMPOT ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-161" positionType="Float" x="28" y="543" width="302" height="17"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[a-Pour charge de famille :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-162" positionType="Float" x="28" y="562" width="302" height="17"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[b-Au titre des retraites de source étrangère :]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" positionType="Float" x="404" y="542" width="135" height="18"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.deductionChargeFamil}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" positionType="Float" x="405" y="561" width="134" height="18"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenuNetTaxable.deductionRetraitSourceEtrangere}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="staticText-163" positionType="Float" x="305" y="598" width="233" height="15"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[A                                       ,le ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="FixRelativeToBottom" x="26" y="586" width="257" height="131"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[(1) A servir uniquement par les contribuables dont le revenu professionnel est déterminé d'après les régimes du résultat net simplifié ou du résultat net réel en cas de réalisation d’un bénéfice.
+(2)  Exonérés jusqu’au  31 décembre 2013.
+(3) Cette déduction n’est pas cumulable avec celle  prévue  au titre des revenus salariaux  et assimilés visée à l’article 59-V du CGI.
+(4)  Cf. renvoi 4 de l’annexe ADP013F-10E relative aux revenus salariaux.
+(5)  Joindre à titre de pièce justificative le volet du bordereau avis de versement dûment servi par la perception ou la recette concernée.
+(6)   Pour justifier les retenues à la source, joindre les pièces justificatives suivantes :
+    - Attestations de salaire et/ou attestation (s) de versement des pensions établie(s) par l’employeur et/ou le débirentier ;
+    - Attestation de la société ou de l’organisme bancaire distributeur ;
+    - Attestation de l’administration fiscale étrangère.]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="REVENU_CAPITAUX_MOBILIERS" isStartNewPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="450" splitType="Prevent">
+				<subreport isUsingCache="true">
+					<reportElement key="subreport-11" positionType="Float" x="1" y="11" width="537" height="20"/>
+					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{revenusCapitauxMobiliers.listRevenusSoumisAuTaux})]]></dataSourceExpression>
+					<subreportExpression class="java.lang.String"><![CDATA["config/print/templates/tableau_Revenu_capitaux_mobiliers_subreport.jasper"]]></subreportExpression>
+				</subreport>
+				<rectangle>
+					<reportElement key="rectangle-23" positionType="Float" x="7" y="31" width="127" height="23"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-24" positionType="Float" x="134" y="31" width="98" height="23"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-25" positionType="Float" x="232" y="31" width="100" height="23"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-26" positionType="Float" x="332" y="31" width="96" height="23"/>
+				</rectangle>
+				<rectangle>
+					<reportElement key="rectangle-29" positionType="Float" x="428" y="31" width="130" height="23"/>
+				</rectangle>
+				<staticText>
+					<reportElement key="staticText-137" positionType="Float" x="11" y="34" width="111" height="13"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Totaux]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" positionType="Float" x="243" y="34" width="79" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenusCapitauxMobiliers.totalFrais}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" positionType="Float" x="146" y="34" width="69" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenusCapitauxMobiliers.totalMontantBrut}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" positionType="Float" x="346" y="34" width="65" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenusCapitauxMobiliers.totalMontantNet}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="textField" positionType="Float" x="449" y="34" width="91" height="13"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revenusCapitauxMobiliers.totalMontantRetenueSource}]]></textFieldExpression>
+				</textField>
+				<subreport isUsingCache="true">
+					<reportElement key="subreport-12" positionType="Float" x="1" y="82" width="537" height="21"/>
+					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{revenusSourceEtrangere.listDetailRevenuSRCEtrangere})]]></dataSourceExpression>
+					<subreportExpression class="java.lang.String"><![CDATA["config/print/templates/tableau_Revenu_source_etrangere_subreport.jasper"]]></subreportExpression>
+				</subreport>
+				<staticText>
+					<reportElement positionType="FixRelativeToBottom" x="9" y="349" width="544" height="98"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[(1)  Joindre attestation de la société ou de l’organisme distributeur.
+(2)  - Joindre les pièces justificatives. - Sous réserve des conventions fiscales, les revenus et profits de source étrangère sont compris dans le revenu global imposable pour leur montant brut, à l’exclusion des revenus et profits de capitaux mobiliers de source étrangère visés à l’article 25 du CGI.
+    Lorsque ces revenus sont soumis à un impôt sur le revenu dans le pays de la source avec lequel le Maroc a conclu une convention tendant à éviter la double imposition, l’impôt étranger est déductible de l’impôt sur le revenu dans la limite de la fraction de cet impôt correspondant aux revenus étrangers. Toutefois, Lorsque ces revenus ont bénéficié d’une exonération dans le pays de la source, celle-ci vaut paiement. La déduction de cet impôt est subordonnée à la production d’attestation de l’administration fiscale du pays d’origine.
+(3) - Les pensions de retraite de source étrangère bénéficient d’une réduction de 80% d’impôt dû au titre de leur pension et correspondant aux sommes transférées à titre  définitif en dirhams non convertibles.
+- Joindre attestation de versement des pensions établie par le débirentier ou tout autre document en tenant lieu.
+- Joindre attestation de l’établissement de crédit ou tout autre organisme intervenant dans le paiement des pensions, justifiant le transfert définitif en dirhams non  convertibles. ]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="RS_ASSIMILES2">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Prevent"/>
+		</groupFooter>
+	</group>
+	<group name="RS_ASSIMILES1">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Prevent"/>
+		</groupFooter>
+	</group>
+	<group name="RF_PROPRIETES_AGRICOLES" isStartNewPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Prevent"/>
+		</groupFooter>
+	</group>
+	<group name="RFPNA">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Prevent"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Prevent"/>
+		</groupFooter>
+	</group>
+	<group name="RP_RNS_RNR">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Prevent"/>
+		</groupFooter>
+	</group>
+	<group name="RP">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Prevent"/>
+		</groupFooter>
+	</group>
+	<group name="Identification">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Prevent"/>
+		</groupFooter>
+	</group>
+	<group name="declaration">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Prevent"/>
+		</groupHeader>
+		<groupFooter>
+			<band splitType="Stretch"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="1" splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Prevent"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Prevent">
+			<staticText>
+				<reportElement key="staticText-112" x="97" y="-163" width="0" height="0"/>
+				<textElement/>
+				<text><![CDATA[Texte statique]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

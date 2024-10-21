@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MouvementStockGlobale" pageWidth="854" pageHeight="602" orientation="Landscape" columnWidth="814" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7e60e477-8376-4145-87a4-7809c2fd66b7">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="144"/>
+	<parameter name="titre" class="java.lang.String"/>
+	<parameter name="totalmontantinitial" class="java.math.BigDecimal"/>
+	<parameter name="totalmontantachat" class="java.math.BigDecimal"/>
+	<parameter name="totalmontantproduction" class="java.math.BigDecimal"/>
+	<parameter name="totalmontantvente" class="java.math.BigDecimal"/>
+	<parameter name="totalmontantfinale" class="java.math.BigDecimal"/>
+	<parameter name="totalmontantavoir" class="java.math.BigDecimal"/>
+	<parameter name="totalmontantgratuit" class="java.math.BigDecimal"/>
+	<field name="totalInitial" class="java.math.BigDecimal"/>
+	<field name="totalAchat" class="java.math.BigDecimal"/>
+	<field name="totalProduction" class="java.math.BigDecimal"/>
+	<field name="totalRRR2020" class="java.math.BigDecimal"/>
+	<field name="totalRRRCredit" class="java.math.BigDecimal"/>
+	<field name="totalFinale" class="java.math.BigDecimal"/>
+	<field name="totalAchatRevendu" class="java.math.BigDecimal"/>
+	<field name="totalVente" class="java.math.BigDecimal"/>
+	<field name="totalMarge" class="java.math.BigDecimal"/>
+	<field name="totalMargePourcentage" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="192" y="0" width="405" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="41a125e3-e494-4af6-871a-0f8812dc0a36"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="18" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ETAT MARGE GLOBAL]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="331" splitType="Stretch">
+			<textField>
+				<reportElement x="13" y="0" width="721" height="20" uuid="4c8c6339-cb82-4415-9ea9-32db5e76178e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="56" width="97" height="27" backcolor="#999999" uuid="0199d756-0dc1-4b05-ab5d-42a74828f190"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="83" width="97" height="27" backcolor="#999999" uuid="3956d252-ede5-4103-9550-922f4bf75318"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="110" width="97" height="27" backcolor="#999999" uuid="0d2820a3-0ae1-4e09-9e12-4dfe266e3166"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACHAT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="137" width="97" height="27" backcolor="#999999" uuid="aff03cb6-ed1f-42a2-a7ce-a22dc9b52c71"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RRR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="164" width="97" height="27" backcolor="#999999" uuid="00188119-049c-4490-83e3-b17510dc7dcc"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RRR CREDIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="191" width="97" height="27" backcolor="#999999" uuid="d1151c73-b789-4036-a4f0-c3d159dd2872"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="218" width="97" height="27" backcolor="#999999" uuid="c8680031-71ac-41c1-8cb2-6ce7b7dfbc23"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACHAT REVENDU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="245" width="97" height="27" backcolor="#999999" uuid="3499381e-5974-47c8-8f98-6764f7c7f561"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="272" width="97" height="27" backcolor="#999999" uuid="142eeb78-2431-4237-9895-20172804b090"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MARGE ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="299" width="97" height="27" backcolor="#999999" uuid="e04d0bb8-fc5f-462d-a28a-9f9d3d49d4ea"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[% ]]></text>
+			</staticText>
+			<textField pattern="#,##0.000000">
+				<reportElement x="110" y="56" width="166" height="27" uuid="00f61ced-cd1d-4b4d-97d0-47fd68ba303c"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalInitial}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="110" y="83" width="166" height="27" uuid="41840179-7d68-4d79-9d38-afd64dd6e8e1"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalProduction}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="110" y="110" width="166" height="27" uuid="c9126aa5-7e7a-45f2-897a-4e9e3909f9b2"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalAchat}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="110" y="137" width="166" height="27" uuid="a702a6d7-6693-4175-a83f-e968a7784ed7"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalRRR2020}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="110" y="164" width="166" height="27" uuid="8400cf9c-7a61-4cb0-acbd-7e4ac40d4879"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalRRRCredit}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="110" y="191" width="166" height="27" uuid="a6bbc505-b15a-4048-be0e-88c001241ae6"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalFinale}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="110" y="218" width="166" height="27" uuid="2477d5ff-5ffb-4d99-99f0-f613db4a8afb"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalAchatRevendu}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="110" y="245" width="166" height="27" uuid="2e0a3c8f-92fb-4d08-9145-fdec1973a542"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalVente}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.000000">
+				<reportElement x="110" y="272" width="166" height="27" uuid="48014375-3c7d-4fb3-b1ef-9f2295e3a281"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalMarge}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="110" y="299" width="166" height="27" uuid="2ade5baf-b9f2-4604-a485-d7e5d3894a69"/>
+				<box leftPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalMargePourcentage}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch"/>
+	</columnHeader>
+	<columnFooter>
+		<band height="87" splitType="Stretch"/>
+	</columnFooter>
+	<summary>
+		<band height="155" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,266 @@
+package dao.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+
+/**
+ * The persistent class for the detail_commande database table.
+ * 
+ */
+@Entity
+@Table(name="Cout_MP")
+@NamedQuery(name="CoutMP.findAll", query="SELECT d FROM CoutMP d")
+public class CoutMP implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+
+	private float quantite;
+	
+	@Column(name="prix_unitaire")
+	private  float prixUnitaire;
+	
+	@Column(name="prix_total")
+	private  float prixTotal;
+	
+	@Column(name="COUT_DECHET")
+	private  float coutDechet;
+
+	//bi-directional many-to-one association to MatierePremier
+	@ManyToOne
+	@JoinColumn(name="id_mat_pre")
+	private MatierePremier matierePremier;
+
+	//bi-directional many-to-one association to Commande
+	@ManyToOne
+	@JoinColumn( name="id_production")
+	private Production prodcutionCM;
+	
+	
+	@Column(name="quantite_charge_supp")
+	private  float quantChargeSupp;
+	
+	@Column(name="quantite_consomme")
+	private  float quantConsomme;
+	
+	@Column(name="quantite_existante")
+	private  float quantExistante;
+	
+	@Column(name="quantite_CHARGE")
+	private  float quantCharge;
+	
+	@Column(name="quantite_ESTIME")
+	private  float quantEstime;
+	
+	@Column(name="quantite_dechet")
+	private  float quantDechet;
+	
+	@Column(name="QUANTITE_RESTE")
+	private  float quantReste;
+	
+	
+	
+	@Column(name="QUANTITE_DECHET_FOURNISSEUR")
+	private  float quantDechetFournisseur;
+	
+	@Column(name="COUT_DECHET_FOURNISSEUR")
+	private  float coutDechetFournisseur;
+	
+	@Column(name="QUANTITE_OFFRE")
+	private  float quantiteOffre;
+	
+	@Column(name="COUT_OFFRE")
+	private  float coutOffre;
+	
+	@Column(name="QUANTITE_MANQUANTE")
+	private  float quantiteManquante;
+	
+	@Column(name="COUT_MANQUANTE")
+	private  float coutManquante;
+	
+
+
+	public CoutMP() {
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public float getQuantite() {
+		return quantite;
+	}
+
+	public void setQuantite(float quantite) {
+		this.quantite = quantite;
+	}
+
+	public MatierePremier getMatierePremier() {
+		return matierePremier;
+	}
+
+	public void setMatierePremier(MatierePremier matierePremier) {
+		this.matierePremier = matierePremier;
+	}
+	
+
+	public float getPrixUnitaire() {
+		return prixUnitaire;
+	}
+
+	public void setPrixUnitaire(float prixUnitaire) {
+		this.prixUnitaire = prixUnitaire;
+	}
+
+	public float getPrixTotal() {
+		return prixTotal;
+	}
+
+	public void setPrixTotal(float prixTotal) {
+		this.prixTotal = prixTotal;
+	}
+
+	public float getQuantChargeSupp() {
+		return quantChargeSupp;
+	}
+
+	public void setQuantChargeSupp(float quantChargeSupp) {
+		this.quantChargeSupp = quantChargeSupp;
+	}
+
+	public float getQuantConsomme() {
+		return quantConsomme;
+	}
+
+	public void setQuantConsomme(float quantConsomme) {
+		this.quantConsomme = quantConsomme;
+	}
+
+	public float getQuantDechet() {
+		return quantDechet;
+	}
+
+	public void setQuantDechet(float quantDechet) {
+		this.quantDechet = quantDechet;
+	}
+
+	public float getQuantExistante() {
+		return quantExistante;
+	}
+
+	public void setQuantExistante(float quantExistante) {
+		this.quantExistante = quantExistante;
+	}
+
+	public Production getProdcutionCM() {
+		return prodcutionCM;
+	}
+
+	public void setProdcutionCM(Production prodcutionCM) {
+		this.prodcutionCM = prodcutionCM;
+	}
+
+	public float getQuantCharge() {
+		return quantCharge;
+	}
+
+	public void setQuantCharge(float quantCharge) {
+		this.quantCharge = quantCharge;
+	}
+
+	public float getQuantReste() {
+		return quantReste;
+	}
+
+	public void setQuantReste(float quantReste) {
+		this.quantReste = quantReste;
+	}
+
+	public float getCoutDechet() {
+		return coutDechet;
+	}
+
+	public void setCoutDechet(float coutDechet) {
+		this.coutDechet = coutDechet;
+	}
+
+	public float getQuantEstime() {
+		return quantEstime;
+	}
+
+	public void setQuantEstime(float quantEstime) {
+		this.quantEstime = quantEstime;
+	}
+
+	public float getQuantDechetFournisseur() {
+		return quantDechetFournisseur;
+	}
+
+	public void setQuantDechetFournisseur(float quantDechetFournisseur) {
+		this.quantDechetFournisseur = quantDechetFournisseur;
+	}
+
+	public float getCoutDechetFournisseur() {
+		return coutDechetFournisseur;
+	}
+
+	public void setCoutDechetFournisseur(float coutDechetFournisseur) {
+		this.coutDechetFournisseur = coutDechetFournisseur;
+	}
+
+	public float getQuantiteOffre() {
+		return quantiteOffre;
+	}
+
+	public void setQuantiteOffre(float quantiteOffre) {
+		this.quantiteOffre = quantiteOffre;
+	}
+
+	public float getCoutOffre() {
+		return coutOffre;
+	}
+
+	public void setCoutOffre(float coutOffre) {
+		this.coutOffre = coutOffre;
+	}
+
+	public float getQuantiteManquante() {
+		return quantiteManquante;
+	}
+
+	public void setQuantiteManquante(float quantiteManquante) {
+		this.quantiteManquante = quantiteManquante;
+	}
+
+	public float getCoutManquante() {
+		return coutManquante;
+	}
+
+	public void setCoutManquante(float coutManquante) {
+		this.coutManquante = coutManquante;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	
+
+}

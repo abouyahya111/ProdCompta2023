@@ -1,0 +1,21 @@
+package dao.daoManager;
+
+import java.util.List;
+
+import dao.entity.DetailTransferProduitFini;
+
+public interface DetailTransferProduitFiniDAO {
+	
+	public  void add(DetailTransferProduitFini e);
+	
+	public  DetailTransferProduitFini edit(DetailTransferProduitFini e);
+	
+	public  void delete(int id); 
+	
+	public List<DetailTransferProduitFini> findAll();
+	
+	//public List<DetailTransferProduitFini> findStockByMagasinPF(int idArticle,int idMagasin);
+
+	public List<DetailTransferProduitFini> findByArticle(String codeArticle);
+
+}

@@ -1,0 +1,299 @@
+package presentation.stockMP;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.border.EtchedBorder;
+import javax.swing.table.DefaultTableModel;
+
+import main.AuthentificationView;
+import main.ProdLauncher;
+
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.JXTitledSeparator;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+
+import util.Constantes;
+import util.JasperUtils;
+import dao.daoManager.DepotDAO;
+import dao.daoManager.StockMPDAO;
+import dao.entity.CoutMP;
+import dao.entity.Depot;
+import dao.entity.Magasin;
+import dao.entity.StockMP;
+import dao.entity.Utilisateur;
+
+
+public class AfficherStockMP extends JLayeredPane implements Constantes{
+	public JLayeredPane contentPane;	
+
+	private DefaultTableModel	 modeleMP;
+
+	private JXTable table;
+	private ImageIcon imgModifier;
+	private ImageIcon imgSupprimer;
+	private ImageIcon imgAjouter;
+	private ImageIcon imgInit;
+	private JButton btnRechercher;
+	
+	
+	private JComboBox<String> comboDepot=new JComboBox();
+	private  JComboBox<String> comboMagasin=new JComboBox();
+
+	private Map< String, Integer> mapMagasin = new HashMap<>();
+	
+	
+	private Map< String, Integer> mapDepot = new HashMap<>();
+	private List<Depot> listDepot =new ArrayList<Depot>();
+	
+	private List<StockMP> listStockMP=new ArrayList<StockMP>();
+	
+	private DepotDAO depotDAO;
+	private StockMPDAO stockMPDAO;
+	private Utilisateur utilisateur;
+	/**
+	 * Launch the application.
+	 */
+
+
+	/**
+	 * Create the application.
+	 */
+	public AfficherStockMP() {
+		setOpaque(true);
+		setBackground(new Color(248, 248, 255));
+		setForeground(new Color(248, 248, 255));
+
+		final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(0, 0, 1284, 565);
+        try{
+        	
+        	
+        	depotDAO=ProdLauncher.depotDAO;
+        	stockMPDAO=ProdLauncher.stockMPDAO;
+        	utilisateur= AuthentificationView.utilisateur;
+
+       }catch(Exception exp){exp.printStackTrace();		
+       JOptionPane.showMessageDialog(null, "Erreur de connexion √† la base de donn√©es", "Erreur", JOptionPane.ERROR_MESSAGE);
+}
+		
+        //comboDepot.addItem("");
+	
+        try{
+            imgAjouter = new ImageIcon(this.getClass().getResource("/img/ajout.png"));
+            imgInit= new ImageIcon(this.getClass().getResource("/img/init.png"));
+            imgModifier= new ImageIcon(this.getClass().getResource("/img/modifier.png"));
+             imgSupprimer = new ImageIcon(this.getClass().getResource("/img/supp.png"));
+          } catch (Exception exp){exp.printStackTrace();}
+				  		     table = new JXTable();
+				  		     table.setShowVerticalLines(false);
+				  		     table.setSelectionBackground(new Color(51, 204, 255));
+				  		     table.setRowHeightEnabled(true);
+				  		     table.setBackground(new Color(255, 255, 255));
+				  		     table.setHighlighters(HighlighterFactory.createSimpleStriping());
+				  		     table.setColumnControlVisible(true);
+				  		     table.setForeground(Color.BLACK);
+				  		     table.setGridColor(new Color(0, 0, 255));
+				  		     table.setAutoCreateRowSorter(true);
+				  		     table.setBounds(2, 27, 411, 198);
+				  		     table.setRowHeight(20);
+				  		     intialiserTableau();
+				  		  
+				  		     	
+				  		     	JScrollPane scrollPane = new JScrollPane(table);
+				  		     	scrollPane.setBounds(9, 130, 782, 396);
+				  		     	add(scrollPane);
+				  		     	scrollPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+				  		     	
+				  		     	
+					  		      if(!utilisateur.getCodeDepot().equals(CODE_DEPOT_SIEGE)	) {
+					  		    	Depot depot=  depotDAO.findByCode(utilisateur.getCodeDepot());
+					  	    		comboDepot.addItem(depot.getLibelle());
+					  	    		
+					  	    		
+					  	    		List<Magasin> 	listMagasin = depotDAO.listeMagasinByTypeMagasinDepot(depot.getId(), Constantes.MAGASIN_CODE_TYPE_MP);
+						  		      if(listMagasin!=null){
+						  		    	  
+						  		    	  int j=0;
+							  		      	while(j<listMagasin.size())
+							  		      		{	
+							  		      			Magasin magasin=listMagasin.get(j);
+							  		      			comboMagasin.addItem(magasin.getLibelle());
+							  		      			mapMagasin.put(magasin.getLibelle(), magasin.getId());
+							  		      			j++;
+							  		      		}
+						  		      }
+					  	    }else {
+					  	    	
+					  	    	listDepot = depotDAO.findAll();	
+					  		      int i=0;
+					  		      	while(i<listDepot.size())
+					  		      		{	
+					  		      			Depot depot=listDepot.get(i);
+					  		      			mapDepot.put(depot.getLibelle(), i);
+					  		      			comboDepot.addItem(depot.getLibelle());
+					  		      			i++;
+					  		      		}
+					  	    	
+					  	    }
+					  		      comboDepot.addItemListener(new ItemListener() {
+					  		     	 	public void itemStateChanged(ItemEvent e) {
+					  		     	 	
+					  		     	 	 if(e.getStateChange() == ItemEvent.SELECTED) {
+					  		     	 	 List<Magasin> listMagasin=new ArrayList<Magasin>();
+						  		     	  	 // comboGroupe = new JComboBox();
+					  		     	 	comboMagasin.removeAllItems();
+					  		     	 Depot depot=new Depot();
+					  		     	 	//comboGroupe.addItem("");
+					  		     	 	if(!comboDepot.getSelectedItem().equals(""))
+						  		     	  	   	 depot =listDepot.get(mapDepot.get(comboDepot.getSelectedItem()));
+								  		       
+						  		     	  		listMagasin = depotDAO.listeMagasinByTypeMagasinDepot(depot.getId(), Constantes.MAGASIN_CODE_TYPE_MP);
+								  		      if(listMagasin!=null){
+								  		    	  
+								  		    	  int j=0;
+									  		      	while(j<listMagasin.size())
+									  		      		{	
+									  		      			Magasin magasin=listMagasin.get(j);
+									  		      			comboMagasin.addItem(magasin.getLibelle());
+									  		      			mapMagasin.put(magasin.getLibelle(), magasin.getId());
+									  		      			j++;
+									  		      		}
+								  		      }
+					  		     	 	 }
+					  		     	 	}
+					  		     	 });
+				  		     	
+				  		     	JXTitledSeparator titledSeparator = new JXTitledSeparator();
+				  		     	titledSeparator.setTitle("Liste Mati\u00E8res Premi\u00E8res ");
+				  		     	titledSeparator.setBounds(9, 101, 782, 30);
+				  		     	add(titledSeparator);
+				  		     	
+				  		     	JLayeredPane layeredPane = new JLayeredPane();
+				  		     	layeredPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+				  		     	layeredPane.setBounds(9, 36, 781, 54);
+				  		     	add(layeredPane);
+				  		     	
+				  		     	JLabel lblMachine = new JLabel("D\u00E9pot :");
+				  		     	lblMachine.setBounds(10, 11, 96, 24);
+				  		     	layeredPane.add(lblMachine);
+				  		     	lblMachine.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		     	
+				  		     	 
+				  		     	 comboDepot.setBounds(69, 11, 144, 24);
+				  		     	 layeredPane.add(comboDepot);
+				  		     	 
+				  		     	 
+				  		     	 JLabel lblGroupe = new JLabel("Magasin :");
+				  		     	 lblGroupe.setBounds(347, 10, 102, 24);
+				  		     	 layeredPane.add(lblGroupe);
+				  		     	 lblGroupe.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				  		     	
+				  		     	 comboMagasin.setBounds(414, 11, 191, 24);
+				  		     	 layeredPane.add(comboMagasin);
+		
+		JButton btnAfficherStock = new JButton("Afficher Stock");
+		btnAfficherStock.setBounds(639, 12, 113, 23);
+		layeredPane.add(btnAfficherStock);
+		btnAfficherStock.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			if(comboDepot.getSelectedItem().equals(""))	{
+				JOptionPane.showMessageDialog(null, "Il faut choisir un magasin", "Erreur", JOptionPane.ERROR_MESSAGE);
+			} else {
+				listStockMP=stockMPDAO.findSockNonVideByMagasin(mapMagasin.get(comboMagasin.getSelectedItem()));
+				
+				afficher_tableMP(listStockMP);
+			}
+		  }
+		});
+		btnAfficherStock.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		
+		JButton btnImprimer = new JButton("Imprimer ");
+		btnImprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+
+  		  		
+		  		  
+				 
+				 
+				Map parameters = new HashMap();
+				parameters.put("depot", comboDepot.getSelectedItem());
+				
+				parameters.put("magasin",comboMagasin.getSelectedItem());
+				
+				
+				
+				JasperUtils.imprimerSitutationStock(listStockMP, parameters);
+				
+				//JOptionPane.showMessageDialog(null, "PDF exportÈ avec succËs", "SuccËs", JOptionPane.INFORMATION_MESSAGE);
+	  		  	
+				
+				
+				
+			}
+		});
+		btnImprimer.setBounds(352, 537, 89, 23);
+		add(btnImprimer);
+	
+				  		     
+				  		 
+	}
+	
+void afficher_tableMP(List<StockMP> listStockMP)
+	{
+	intialiserTableau();
+		  int i=0;
+			while(i<listStockMP.size())
+			{	
+				
+				StockMP stockMP=listStockMP.get(i);
+				
+				
+				Object []ligne={stockMP.getMatierePremier().getCode(),stockMP.getMatierePremier().getNom(),stockMP.getStock()};
+
+				modeleMP.addRow(ligne);
+				i++;
+			}
+	}
+	
+void intialiserTableau(){
+	
+	 modeleMP =new DefaultTableModel(
+		     	new Object[][] {
+		     	},
+		     	new String[] {
+		     			"Code MatiËre PremiËre","MatiËre PremiËre", "QuantitÈ"
+		     	}
+		     ) {
+		     	boolean[] columnEditables = new boolean[] {
+		     			false,false,false
+		     	};
+		     	public boolean isCellEditable(int row, int column) {
+		     		return columnEditables[column];
+		     	}
+		     };
+		     
+		   table.setModel(modeleMP); 
+		   table.getColumnModel().getColumn(0).setPreferredWidth(160);
+		   table.getColumnModel().getColumn(1).setPreferredWidth(260);
+		   table.getColumnModel().getColumn(2).setPreferredWidth(160);
+}
+}

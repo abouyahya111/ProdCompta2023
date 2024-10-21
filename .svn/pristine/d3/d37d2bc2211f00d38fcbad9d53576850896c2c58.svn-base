@@ -1,0 +1,75 @@
+package dao.daoImplManager;
+
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import util.HibernateUtil;
+import dao.daoManager.ArticlesDAO;
+import dao.entity.Articles;
+import dao.entity.DetailEstimation;
+
+public class ArticlesDAOImpl implements ArticlesDAO {
+	Session session=HibernateUtil.openSession();
+
+	public void add(Articles e) {
+		session.beginTransaction();
+		session.save(e);
+		
+		session.getTransaction().commit();
+		//return p;
+	}
+
+	public Articles edit(Articles e) {
+		
+	session.beginTransaction();
+	Articles p= (Articles)session.merge(e);
+	session.getTransaction().commit();
+	
+	return p;
+	}
+
+	public void delete(int id) {
+		
+		session.beginTransaction();
+		Articles p= findById(id);
+		session.delete(p);
+		session.getTransaction().commit();
+		
+	}
+
+	public List<Articles> findAll() {
+		return session.createQuery("select c from Articles c").list();
+		}
+
+	public Articles findById(int id) {
+		return (Articles)session.get(Articles.class, id);
+		}
+
+	@Override
+	public Articles findByCode(String code) {
+		// TODO Auto-generated method stub
+		Articles articles= new Articles();
+		Query query= session.createQuery("select c from Articles c where codeArticle=:code");
+		query.setParameter("code", code);
+		
+		articles= (Articles) query.uniqueResult();
+		
+		return articles;
+	}
+	
+	@Override
+	public List<DetailEstimation> listeMatierePremierByArticleByMP(int id,String codeSubCat) {
+		// TODO Auto-generated method stub
+		Articles articles= new Articles();
+		Query query= session.createQuery("select c from DetailEstimation c where articles.id=:id and matierePremier.categorieMp.subCategorieMp.code=:codeSubCat");
+		query.setParameter("id", id);
+		query.setParameter("codeSubCat", codeSubCat);
+		return query.list();
+		
+		
+	}
+
+
+}

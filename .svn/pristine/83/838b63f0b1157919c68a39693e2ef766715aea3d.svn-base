@@ -1,0 +1,143 @@
+package dao.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.*;
+
+
+
+
+/**
+ * The persistent class for the production database table.
+ * 
+ */
+@Entity
+@Table(name="detail_chargevariable")
+@NamedQuery(name=" DetailChargeVariable.findAll", query="SELECT p FROM  DetailChargeVariable p")
+public class  DetailChargeVariable implements Serializable {
+	
+
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+	
+	@Column(name="LIBELLE")
+	private String libelle;
+
+
+	@ManyToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name="id_charge")
+	private Charges charge;
+
+	
+	@ManyToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name="id_ChargeProd")
+	private ChargeProduction chargeProd;
+	
+	
+	
+	@Column(name="MONTANT")
+	private float montant;
+	
+	@Column(name="COUTUNITAIRE")
+	private float coutunitaire=0;
+	
+	@Column(name="POURCENTAGE")
+	private float pourcentage=0;
+	
+	@Column(name="POURCENTAGEDH")
+	private float pourcentagedh=0;
+
+	public  DetailChargeVariable() {
+		
+	}
+
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	
+	public Charges getCharge() {
+		return charge;
+	}
+
+
+	public void setCharge(Charges charge) {
+		this.charge = charge;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+	public float getMontant() {
+		return montant;
+	}
+
+	public void setMontant(float montant) {
+		this.montant = montant;
+	}
+
+
+	public String getLibelle() {
+		return libelle;
+	}
+
+
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
+	}
+
+
+	public ChargeProduction getChargeProd() {
+		return chargeProd;
+	}
+
+
+	public void setChargeProd(ChargeProduction chargeProd) {
+		this.chargeProd = chargeProd;
+	}
+
+
+	public float getCoutunitaire() {
+		return coutunitaire;
+	}
+
+
+	public void setCoutunitaire(float coutunitaire) {
+		this.coutunitaire = coutunitaire;
+	}
+
+
+	public float getPourcentage() {
+		return pourcentage;
+	}
+
+
+	public void setPourcentage(float pourcentage) {
+		this.pourcentage = pourcentage;
+	}
+
+
+	public float getPourcentagedh() {
+		return pourcentagedh;
+	}
+
+
+	public void setPourcentagedh(float pourcentagedh) {
+		this.pourcentagedh = pourcentagedh;
+	}
+	
+	
+
+	
+
+}

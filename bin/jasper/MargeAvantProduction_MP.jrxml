@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MargeAvantProduction_MP" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d93c8dd0-dbb5-4ab9-ace7-7825ae14d4a0">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="sousFamille.liblle" class="java.lang.String"/>
+	<field name="stock" class="java.math.BigDecimal"/>
+	<field name="prixMoyen" class="java.math.BigDecimal"/>
+	<field name="coutService" class="java.math.BigDecimal"/>
+	<field name="totalPrix" class="java.math.BigDecimal"/>
+	<field name="montant" class="java.math.BigDecimal"/>
+	<pageHeader>
+		<band height="22">
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="3" width="100" height="17" backcolor="#66FFCC" uuid="808f3d9b-2f43-47df-8e7f-be26f61315d4"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Etat Stock MP]]></text>
+			</staticText>
+			<line>
+				<reportElement x="101" y="11" width="444" height="1" uuid="59d9ce30-82cc-4ff7-a2c0-d6b185825c74"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="2" width="151" height="20" backcolor="#999999" uuid="3ff9dd49-1251-4fc6-9854-a4331c7151a0"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="151" y="2" width="118" height="20" backcolor="#999999" uuid="7e365e5f-a374-485f-842c-9997b2a6cbfa"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STOCK REF ACTUELLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="269" y="2" width="78" height="20" backcolor="#999999" uuid="d534d1a5-ac5c-40b9-a4cf-b35492e5516e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRIX HT REF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="347" y="2" width="85" height="20" backcolor="#999999" uuid="8b54b85c-1d1e-4195-9892-b75d7d4282d1"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COUT SERVICE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="432" y="2" width="113" height="20" backcolor="#999999" uuid="69d4d18c-37a6-48cf-9e2f-0a8b8fe15b0d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL PRIX EN VRAC]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="151" height="20" uuid="b0d4f49a-bb19-4679-b3e7-6fd98a46cb94"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sousFamille.liblle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="151" y="0" width="118" height="20" uuid="91033ff0-86b1-4eca-99f3-dfadb607d843"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stock}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="269" y="0" width="78" height="20" uuid="627a5371-910e-4ecd-a1c3-701a35874132"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prixMoyen}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="432" y="0" width="113" height="20" uuid="0269c3e5-5dd5-40ff-b643-23deb5f4360a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPrix}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="347" y="0" width="85" height="20" uuid="762c0592-f0a7-44ee-9451-3d064f257538"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coutService}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

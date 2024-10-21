@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="96"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1"/>
+	<parameter name="dateDu" class="java.lang.String"/>
+	<parameter name="dateAu" class="java.lang.String"/>
+	<parameter name="matricule" class="java.lang.String"/>
+	<parameter name="nom" class="java.lang.String"/>
+	<parameter name="dateEntre" class="java.lang.String"/>
+	<parameter name="totalCout" class="java.lang.String"/>
+	<parameter name="totalAvance" class="java.lang.String"/>
+	<parameter name="qualif" class="java.lang.String"/>
+	<parameter name="service" class="java.lang.String"/>
+	<parameter name="tauxHoraire" class="java.lang.String"/>
+	<parameter name="nbreHoraire" class="java.lang.String"/>
+	<parameter name="taux226" class="java.lang.String"/>
+	<parameter name="taux448" class="java.lang.String"/>
+	<parameter name="salaireBrut" class="java.lang.String"/>
+	<parameter name="retenu448" class="java.lang.String"/>
+	<parameter name="retenu226" class="java.lang.String"/>
+	<parameter name="totalRetenu" class="java.lang.String"/>
+	<parameter name="netApayer" class="java.lang.String"/>
+	<field name="delaiEmploye" class="java.lang.String"/>
+	<field name="coutTotal" class="java.lang.String"/>
+	<field name="remise" class="java.lang.String"/>
+	<field name="avance" class="java.lang.String"/>
+	<field name="dateSituation" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="114" splitType="Stretch">
+			<staticText>
+				<reportElement x="183" y="0" width="216" height="20" forecolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[BULLETIN DE PAIE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="20" width="169" height="20"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EL NASS TEA PACKING
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="40" width="149" height="32"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ADRESSE: ZI Hay Nahda TANTAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="72" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CNSS : 1232323]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="20" width="182" height="84"/>
+			</rectangle>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="169" splitType="Stretch">
+			<staticText>
+				<reportElement x="14" y="75" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Matricule  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="55" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nom :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="113" y="75" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{matricule}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="55" width="235" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nom}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="201" y="0" width="73" height="20"/>
+				<textElement>
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Période du ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="274" y="1" width="92" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{dateDu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="423" y="1" width="100" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{dateAu}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="393" y="0" width="30" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Au :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="1" y="35" width="554" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="14" y="95" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date Entrée ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="35" width="553" height="20" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALARIE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="115" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nbre Enfant]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="135" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nbr.Déductible]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="75" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ville  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="95" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nationalité  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="115" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qualification  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="135" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Service]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="75" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[TANTAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="95" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[MAROCAINE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="55" width="554" height="114"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="183" y="1" width="371" height="21" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField>
+				<reportElement x="113" y="95" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateEntre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="374" y="115" width="139" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{qualif}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="374" y="135" width="139" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{service}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="113" y="115" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[0]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="135" width="100" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[0]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="374" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="11" width="555" height="203"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="31" y="11" width="201" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Déscription ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="11" width="215" height="20" backcolor="#CCCCCC"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="216" y="11" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="316" y="11" width="77" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="393" y="11" width="78" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="471" y="11" width="84" height="20"/>
+			</rectangle>
+			<line>
+				<reportElement x="216" y="11" width="1" height="203"/>
+			</line>
+			<staticText>
+				<reportElement x="6" y="34" width="201" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Salaire brut]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="103" width="201" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Retenue CNSS prestations sociales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="140" width="201" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Retenue CNSS AMO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="374" y="354" width="128" height="20"/>
+				<textElement/>
+				<text><![CDATA[Signature Employé]]></text>
+			</staticText>
+			<line>
+				<reportElement x="316" y="11" width="1" height="203"/>
+			</line>
+			<line>
+				<reportElement x="393" y="11" width="1" height="203"/>
+			</line>
+			<line>
+				<reportElement x="471" y="11" width="1" height="203"/>
+			</line>
+			<staticText>
+				<reportElement x="217" y="11" width="99" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Base]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="11" width="76" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Taux]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="393" y="12" width="78" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Gains]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="471" y="12" width="84" height="19"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Retenues]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="214" width="554" height="24"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="238" width="554" height="24"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="316" y="262" width="238" height="24"/>
+			</rectangle>
+			<line>
+				<reportElement x="216" y="214" width="1" height="48"/>
+			</line>
+			<line>
+				<reportElement x="113" y="214" width="1" height="48"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="214" width="112" height="24"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[C.J.T/ H ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="214" width="103" height="24"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[C . Salaire brut]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="316" y="286" width="238" height="24"/>
+			</rectangle>
+			<line>
+				<reportElement x="423" y="262" width="1" height="48"/>
+			</line>
+			<staticText>
+				<reportElement x="316" y="262" width="107" height="24"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Mode Paiement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="424" y="262" width="130" height="24"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Net A Payer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="217" y="214" width="176" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[C.Salaire net imposable]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="397" y="214" width="72" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[C . CNSS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="482" y="216" width="72" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[C . I G R]]></text>
+			</staticText>
+			<line>
+				<reportElement x="393" y="214" width="1" height="48"/>
+			</line>
+			<line>
+				<reportElement x="471" y="214" width="1" height="48"/>
+			</line>
+			<textField>
+				<reportElement x="317" y="34" width="76" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tauxHoraire}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="216" y="34" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nbreHoraire}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="316" y="140" width="77" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{taux226}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="316" y="103" width="77" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{taux448}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="34" width="70" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{salaireBrut}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="238" width="99" height="24"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{salaireBrut}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="474" y="103" width="80" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{retenu448}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="474" y="140" width="80" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{retenu226}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="396" y="240" width="72" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalRetenu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="286" width="129" height="24"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{netApayer}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="57" splitType="Stretch"/>
+	</columnFooter>
+	<lastPageFooter>
+		<band height="10"/>
+	</lastPageFooter>
+</jasperReport>

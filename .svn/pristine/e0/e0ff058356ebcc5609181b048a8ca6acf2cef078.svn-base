@@ -1,0 +1,102 @@
+package dao.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.*;
+
+
+/**
+ * The persistent class for the stock database table.
+ * 
+ */
+@Entity
+@Table(name="stock")
+@NamedQuery(name="StockMP.findAll", query="SELECT s FROM StockMP s")
+public class StockMP implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+
+	@Column(name="quantite_commande")
+	private double quantiteCommande;
+
+	private double stock;
+
+	@Column(name="stock_min")
+	private double stockMin;
+	
+	@Column(name="prix_unitaire")
+	private double prixUnitaire;
+
+	//bi-directional many-to-one association to MatierePremier
+	@ManyToOne
+	@JoinColumn(name="id_mat_pre")
+	private MatierePremier matierePremier;
+	
+	//bi-directional many-to-one association to MatierePremier
+		@ManyToOne
+		@JoinColumn(name="id_magasin")
+		private Magasin magasin;
+
+	public StockMP() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public double getQuantiteCommande() {
+		return this.quantiteCommande;
+	}
+
+	public void setQuantiteCommande(double quantiteCommande) {
+		this.quantiteCommande = quantiteCommande;
+	}
+
+	public double getStock() {
+		return this.stock;
+	}
+
+	public void setStock(double stock) {
+		this.stock = stock;
+	}
+
+	public double getStockMin() {
+		return this.stockMin;
+	}
+
+	public void setStockMin(double stockMin) {
+		this.stockMin = stockMin;
+	}
+
+	public MatierePremier getMatierePremier() {
+		return this.matierePremier;
+	}
+
+	public void setMatierePremier(MatierePremier matierePremier) {
+		this.matierePremier = matierePremier;
+	}
+
+	public Magasin getMagasin() {
+		return magasin;
+	}
+
+	public void setMagasin(Magasin magasin) {
+		this.magasin = magasin;
+	}
+
+	public double getPrixUnitaire() {
+		return prixUnitaire;
+	}
+
+	public void setPrixUnitaire(double prixUnitaire) {
+		this.prixUnitaire = prixUnitaire;
+	}
+
+}

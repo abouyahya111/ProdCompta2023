@@ -1,0 +1,492 @@
+package util;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import dao.entity.ChargeProduction;
+import dao.entity.CoutMP;
+import dao.entity.DetailFactureProduction;
+import dao.entity.DetailTransferProduitFini;
+import dao.entity.DetailTransferStockMP;
+import dao.entity.Employe;
+import dao.entity.FicheEmploye;
+import dao.entity.FicheEmployeGlobale;
+import dao.entity.MatierePremier;
+import dao.entity.StockMP;
+
+
+public class JasperUtils {
+	
+public static 	void imprimerListeEmploye( List<Employe> listEmploye, Map parameters,String nom){
+
+		
+		InputStream str =JasperUtils.class.getResourceAsStream("/jasper/listeEmploye.jasper");
+		
+		try {
+			//JasperDesign jasperDesign = JRXmlLoader.load(str);
+			//JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+			
+			JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listEmploye));
+			//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\EquipeProducion\\ListeEmploye_"+nom+".pdf");
+			JasperViewer.viewReport(JASPER_PRINT, false); 
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+public static 	void imprimerFicheEquipeGen( List<Employe> listEmploye, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/fichePointageEquipeGen.jasper");
+	
+	try {
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listEmploye));
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+
+
+public static 	void imprimerListeMatierePremiere( List<MatierePremier> listMatierePremiere, Map parameters){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/listeMatierePremiere.jasper");
+	
+	try {
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listMatierePremiere));
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerFicheEmployeGlobale( List<FicheEmployeGlobale> listFicheEmployeGlobale, Map parameters){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/FicheEmployeGlobale.jasper");
+	
+	try {
+	//	JasperDesign jasperDesign = JRXmlLoader.load(str);
+	//	JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listFicheEmployeGlobale));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\FicheEmploye\\FicheEmploye_"+nom+".pdf");
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch blockal
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerCoutProduction( List<ChargeProduction> listchargeproduction, Map parameters){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/CoutProduction.jasper");
+	
+	try {
+		//JasperDesign jasperDesign = JRXmlLoader.load(str);
+		//JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listchargeproduction));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\BonSortieMatierePremiere\\BonSortieMP_"+nom+".pdf");
+	//	JasperViewer.viewReport(JASPER_PRINT);
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+
+public static 	void imprimerFicheEquipeGen2( List<Employe> listEmploye, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/fichePointageEquipeGen2.jasper");
+	
+	try {
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listEmploye));
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+public static 	void imprimerDetailOrdreFabrication( List<CoutMP> listCoutMP, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/detailOrdreFabrication1.jasper");
+	
+	try {
+	//	JasperDesign jasperDesign = JRXmlLoader.load(str);
+	//	JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listCoutMP));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\OrdreFabrication\\DetailOrdreFabrication"+nom+".pdf");
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+
+
+public static 	void imprimerBonSortieMatierePremiere( List<CoutMP> listCoutMP, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/BonSortieMatierePremiere.jasper");
+	
+	try {
+		//JasperDesign jasperDesign = JRXmlLoader.load(str);
+		//JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listCoutMP));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\BonSortieMatierePremiere\\BonSortieMP_"+nom+".pdf");
+	//	JasperViewer.viewReport(JASPER_PRINT);
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerValiderBonSortieMatierePremiere( List<CoutMP> listCoutMP, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/ValiderBonSortieMatierePremiere.jasper");
+	
+	try {
+		
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listCoutMP));
+	
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerBonSortieMPChargeSupp( List<CoutMP> listCoutMP, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/BonSortieMPChargeSupp.jasper");
+	
+	try {
+	//	JasperDesign jasperDesign = JRXmlLoader.load(str);
+	//	JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listCoutMP));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\BonSortieChargeSupp\\BonSortieMPChargeSupp_"+nom+".pdf");
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerFicheCalculeMatierePremiere( List<CoutMP> listCoutMP, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/FicheCalculeMPResteDechet.jasper");
+	
+	try {
+	//	JasperDesign jasperDesign = JRXmlLoader.load(str);
+	//	JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listCoutMP));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\FicheDechetMatierePremiere\\FicheCalculeMP_"+nom+".pdf");
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch blockal
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerFicheEmploye( List<FicheEmploye> listFicheEmploye, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/FicheEmploye.jasper");
+	
+	try {
+	//	JasperDesign jasperDesign = JRXmlLoader.load(str);
+	//	JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listFicheEmploye));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\FicheEmploye\\FicheEmploye_"+nom+".pdf");
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch blockal
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerBulletinPaieEmploye( List<FicheEmploye> listFicheEmploye, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/BulltinPaieEmploye.jasper");
+	
+	try {
+	//	JasperDesign jasperDesign = JRXmlLoader.load(str);
+	//	JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listFicheEmploye));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\FicheEmploye\\BulletinPaieEmploye_"+nom+".pdf");
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch blockal
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerBonSortieMPDeplace( List<DetailTransferStockMP> listDetailTransferStockMP, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/BonSortieMPDeplace.jasper");
+	
+	
+	try {
+	
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listDetailTransferStockMP));
+	
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerBonTransfereMP( List<DetailTransferStockMP> listDetailTransferStockMP, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/BonTransfereMP.jasper");
+	
+	
+	try {
+	
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listDetailTransferStockMP));
+	
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerBonEntrerMP( List<DetailTransferStockMP> listDetailTransferStockMP, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/BonEntrerMP.jasper");
+	
+	
+	try {
+	
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listDetailTransferStockMP));
+	
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerBonTransfereMPProduitFini( List<DetailTransferStockMP> listDetailTransferStockMP, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/BonTransferMPProduitFini.jasper");
+	
+	
+	try {
+	
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listDetailTransferStockMP));
+	
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerBonSortiePF( List<DetailTransferProduitFini> listDetailTransferStockPF, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/BonSortiePF.jasper");
+	
+	
+	try {
+	
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listDetailTransferStockPF));
+	
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+/**
+ * 
+ * @param listDetailTransferStockMP
+ * @param parameters
+ * @param nom
+ * Méthode permet d'imprimer la situation de stock d'un magasin donné.
+ */
+public static 	void imprimerSitutationStock( List<StockMP> listStockMP, Map parameters){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/situtationStockMP.jasper");
+	
+	
+	try {
+	
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listStockMP));
+	
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+/*imprimer facture production */
+public static 	void imprimerFacutreProduction( List<DetailFactureProduction> listDetailFactureProduction, Map parameters,String nom){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/factureProduction.jasper");
+	
+	try {
+		//JasperDesign jasperDesign = JRXmlLoader.load(str);
+		//JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listDetailFactureProduction));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\BonSortieMatierePremiere\\BonSortieMP_"+nom+".pdf");
+	//	JasperViewer.viewReport(JASPER_PRINT);
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+
+
+/*####################################################################################*/
+
+public static 	void imprimerInterne( ){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/test.jasper");
+	CoutMP CoutMP =new CoutMP();
+	CoutMP.setPrixUnitaire(77777);
+	
+	List<CoutMP> listCoutMP=new ArrayList<CoutMP>();
+	listCoutMP.add(CoutMP);
+	Map parameters = new HashMap();
+	parameters.put("date", "TEST");
+	try {
+	//	JasperDesign jasperDesign = JRXmlLoader.load(str);
+	//	JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(str,parameters,new JRBeanCollectionDataSource(listCoutMP));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\BonSortieMPDéplacé\\BonSortieMPDeplace_"+nom+".pdf");
+		//JasperViewer.viewReport(JASPER_PRINT);
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerExterne(List<CoutMP> listCoutMP, Map parameters ){
+
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("C:/Edition/jasper/test.jasper");
+	
+	
+	
+	try {
+	//	JasperDesign jasperDesign = JRXmlLoader.load(str);
+	//	JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		JasperReport jasperReport = (JasperReport)JRLoader.loadObject("C:/Edition/jasper/BonSortieMatierePremiere.jasper");
+		
+		
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(jasperReport,parameters,new JRBeanCollectionDataSource(listCoutMP));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\BonSortieMPDéplacé\\BonSortieMPDeplace_"+nom+".pdf");
+		//JasperViewer.viewReport(JASPER_PRINT);
+		JasperViewer.viewReport(JASPER_PRINT, false); 
+
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+public static 	void imprimerTestSubReport( List<Employe> listEmploye, Map parameters,String nom){
+	
+	
+	InputStream str =JasperUtils.class.getResourceAsStream("/jasper/report1.jrxml");
+	InputStream strSubReport =JasperUtils.class.getResourceAsStream("/jasper/address_report_template.jrxml");
+	
+	try {
+		
+		String sqlPrint1="SELECT  name , english , maths , history , science from student where name='Thomas'";
+        JasperDesign jasperDesign;
+        jasperDesign = JRXmlLoader.load("C:/Program Files/TMS/reports/Master.jrxml");
+        JasperDesign jasperDesignSub1 = JRXmlLoader.load("C:/Program Files/TMS/reports/Master_subreport1.jrxml");
+        JasperDesign jasperDesignSub2 = JRXmlLoader.load("C:/Program Files/TMS/reports/Master_subreport2.jrxml");
+       
+        JasperReport jasperReport= JasperCompileManager.compileReport(jasperDesign);
+        JasperReport jasperReportSub1 = JasperCompileManager.compileReport(jasperDesignSub1);
+        JasperReport jasperReportSub2 = JasperCompileManager.compileReport(jasperDesignSub2);
+        Map perameters=new HashMap();
+      /* JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,perameters,conn);
+        JasperViewer.viewReport(jasperPrint,false);
+        } catch (JRException ex) {
+        Logger.getLogger(Subr.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+		
+		
+	//	JasperDesign jasperDesign = JRXmlLoader.load(str);
+		JasperDesign jasperDesignSub = JRXmlLoader.load(strSubReport);
+		JasperReport JASPER_REP = JasperCompileManager.compileReport(jasperDesign);
+		JasperReport JASPER_REP_SUB = JasperCompileManager.compileReport(jasperDesign);
+		
+		JasperPrint JASPER_PRINT =JasperFillManager.fillReport(JASPER_REP,parameters,new JRBeanCollectionDataSource(listEmploye));
+		//JasperExportManager.exportReportToPdfFile(JASPER_PRINT, "D:\\Edition\\EquipeProducion\\ListeEmploye_"+nom+".pdf");
+		JasperViewer.viewReport(JASPER_PRINT);
+	} catch (JRException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+
+}

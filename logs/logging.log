@@ -1,0 +1,153 @@
+2016-11-04 21:25:35 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2016-11-04 21:25:35 INFO  Version:54 - HHH000412: Hibernate Core {4.3.11.Final}
+2016-11-04 21:25:35 INFO  Environment:239 - HHH000206: hibernate.properties not found
+2016-11-04 21:25:35 INFO  Environment:346 - HHH000021: Bytecode provider name : javassist
+2016-11-04 21:25:35 INFO  Configuration:2075 - HHH000043: Configuring from resource: config/hibernate.cfg.xml
+2016-11-04 21:25:35 INFO  Configuration:2094 - HHH000040: Configuration resource: config/hibernate.cfg.xml
+2016-11-04 21:25:35 WARN  DTDEntityResolver:75 - HHH000223: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2016-11-04 21:25:35 INFO  Configuration:2216 - HHH000041: Configured SessionFactory: null
+2016-11-04 21:25:35 WARN  DriverManagerConnectionProviderImpl:93 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2016-11-04 21:25:35 INFO  DriverManagerConnectionProviderImpl:166 - HHH000401: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/gestionproduction]
+2016-11-04 21:25:35 INFO  DriverManagerConnectionProviderImpl:175 - HHH000046: Connection properties: {user=root, password=****}
+2016-11-04 21:25:35 INFO  DriverManagerConnectionProviderImpl:180 - HHH000006: Autocommit mode: false
+2016-11-04 21:25:35 INFO  DriverManagerConnectionProviderImpl:102 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-11-04 21:25:35 INFO  Dialect:145 - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2016-11-04 21:25:35 INFO  LobCreatorBuilder:97 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-11-04 21:25:35 INFO  TransactionFactoryInitiator:62 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2016-11-04 21:25:35 INFO  ASTQueryTranslatorFactory:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-11-04 21:25:35 INFO  SchemaUpdate:207 - HHH000228: Running hbm2ddl schema update
+2016-11-04 21:25:35 INFO  SchemaUpdate:218 - HHH000102: Fetching database metadata
+2016-11-04 21:25:35 INFO  SchemaUpdate:230 - HHH000396: Updating schema
+2016-11-04 21:25:35 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.articles
+2016-11-04 21:25:35 INFO  TableMetadata:66 - HHH000037: Columns: [prix_retour, libelle, centrecout1, centrecout3, centrecout2, centrecout5, prix_vente, centrecout4, date_creation, code_article, conditionnement, code_fonction, id, tva]
+2016-11-04 21:25:35 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:35 INFO  TableMetadata:69 - HHH000126: Indexes: [primary]
+2016-11-04 21:25:35 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.compteur_production
+2016-11-04 21:25:35 INFO  TableMetadata:66 - HHH000037: Columns: [compteur, id, dateprod, periode]
+2016-11-04 21:25:35 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:35 INFO  TableMetadata:69 - HHH000126: Indexes: [primary]
+2016-11-04 21:25:35 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.commande
+2016-11-04 21:25:35 INFO  TableMetadata:66 - HHH000037: Columns: [date, annuler_par, id_four, modifier_par, montant, creer_par, id, date_laivraison, statut]
+2016-11-04 21:25:35 INFO  TableMetadata:68 - HHH000108: Foreign keys: [commande_ibfk_4, commande_ibfk_3, commande_ibfk_2, commande_ibfk_1]
+2016-11-04 21:25:35 INFO  TableMetadata:69 - HHH000126: Indexes: [annuler_par, id_four, modifier_par, creer_par, primary]
+2016-11-04 21:25:35 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.cout_mp
+2016-11-04 21:25:35 INFO  TableMetadata:66 - HHH000037: Columns: [id_production, quantite_dechet, prix_total, id_mat_pre, quantite_charge_supp, quantite_consomme, quantite_existante, id, quantite_reste, quantite_charge, quantite, prix_unitaire]
+2016-11-04 21:25:35 INFO  TableMetadata:68 - HHH000108: Foreign keys: [cout_mp_ibfk_1, cout_mp_ibfk_2]
+2016-11-04 21:25:35 INFO  TableMetadata:69 - HHH000126: Indexes: [cout_mp_ibfk_1, cout_mp_ibfk_2, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.depot
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [code, libelle, id]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.detail_transfer_pf
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [id_article, typetransfer, datetransfer, id_magasin_destination, id, id_magasin_source, prix_unitaire, quantite]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [fk_240mevs4042981aksh3t9mgfh, fk_idod4vrmdv0vxtaufjmctqnek, fk_b8r0i327fouf24fowq4ljlmm9, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.detail_transfer_stockmp
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [id_transfer, id_mat_pre, id_magasin_destination, id, id_magasin_source, prix_unitaire, quantite]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [fk_3s5oh4r0wqi1yykmtny50rn1, fk_621rt1tghmh702b80jhs5110l, fk_s004b4t14e8koysiguvbfcp1j, fk_jav3bdc9jrc2795t4inlrnc1r, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.employe_bloque
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [date_modification, num_tel, matricule, adresse, id, util_creation, nom, date_naissance, util_maj, date_creation]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [fk_mkdk4u8l2tf70yd0kgm72hew7, fk_a1vj1i6j285utjbj742wu7oi0, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.employe
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [num_tel, matricule, id_equipe, remise, util_creation, nom, date_creation, date_modification, blocage_employe, ref_type_res, cout_horaire, adresse, id, responsabilite, util_maj, date_naissance]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: [fk_7td02o0x2yvxl0r6gos352xmr, fk_5cdob193k7gtxdyehqgthvgji, fk_2a1q6kfp57halwxey27pf4tm7]
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [fk_7td02o0x2yvxl0r6gos352xmr, fk_5cdob193k7gtxdyehqgthvgji, fk_2a1q6kfp57halwxey27pf4tm7, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.equipe
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [code_equipe, id, nom_equipe, remise, type_equipe]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.fiche_employe
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [avance, cout_horaire, datesituation, id, remise, delai_employe, id_employe]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [fk_sd3xxc005u2am1sl7mt627m6p, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.fournisseur
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [code, adresse, tel, id, nom, email]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.magasin_produit_fini
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [code, libelle, id_depot, id]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [fk_jaili7mmig1f9thvrcn363xdc, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.machine
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [matricule, stock_solofane, id, nom]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.magasin
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [code, typemagasin, libelle, id_depot, id]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: [fk_magasin]
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [fk_machine, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.parametre
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [code, valeur, libelle, id]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.production
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [date, nombre_heure, code_depot, id_equipe_gen, qte_rebute, cout_mp, periode, id_article, date_fin_fab_ree, description_of, cout_employe, cout_total, quantite_reel, id_ligne, id_magasin, id, quantite_estime, date-deb_fab_pre, date_fin_fab_pre, id_equipe, num_of, date_deb_fab_ree, id_magasin_stock, annuler_par, cout_employe_gene, modifier_par, creer_par, statut]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: [fk_n5c88petph87e2g6mlptbxyp6, production_ibfk_1, fk_4vpwapgbfxti4j8hmjmqyj9da, production_ibfk_2, production_ibfk_3, production_ibfk_4, production_ibfk_5, production_ibfk_6, fk_jpintu3laikwrsnt0vd0iiwoc]
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [annuler_par, fk_n5c88petph87e2g6mlptbxyp6, fk_4vpwapgbfxti4j8hmjmqyj9da, id_machine, modifier_par, creer_par, production_ibfk_6, id_produit, fk_jpintu3laikwrsnt0vd0iiwoc, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.stockpf
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [id_article, stock_min, id_magasin, id, stock, prix_unitaire]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [fk_bfv7eg7uwurgbqpudwhufyach, primary, fk_flygnhksje2s44guglgj584u0]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.type_equipe
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [sequence, code, libelle, id]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.type_res_employe
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [code, libelle, id, type_equipe]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.transfer_stockmp
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [date, code_transfer, modifier_par, date_transfer, creer_par, id, statut]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [fk_fhows6iy9b14whrx2xyakuqmc, fk_2bv3woynuressvf5calp55v5j, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.utilisateur
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [date_modification, password, id, login, nom, date_creation]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.categorie_mp
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [code, id, id_sub_cat, nom]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: [categorie_mp_ibfk_4]
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [id_sub_cat, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.detail_commande
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [id_commande, id_mat_pre, id, quantite, prix_unitaire]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: [detail_commande_ibfk_1, detail_commande_ibfk_2]
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [id_commande, id_mat_pre, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.detail_estimation
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [id_article, id_mat_pre, id, quantite]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: [detail_estimation_ibfk_1, detail_estimation_ibfk_2]
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [detail_estimation_ibfk_1, primary, detail_estimation_ibfk_2]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.detail_prod_gen
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [cout_total, id, remise, delai_employe, dateprod, id_employe, periode]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [fk_hwvtaqs123rd5ry0x2hk16lhc, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.detail_production
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [id_production, cout_total, id, remise, delai_employe, id_employe]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: [detail_production_ibfk_1, detail_production_ibfk_2]
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [id_production, id_employe, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.ligne_machine
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [matricule, stock_solofane, id_machine, stock_skoutch, id, stock_centure, nom]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: [fk_machine]
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [fk_machine, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.matiere_premier
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [code, deleted, id_cat, id, nom]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: [matiere_premier_ibfk_2]
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [id_cat, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.rip_fournisseur
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [code, id_four, rip, id]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: [rip_fournisseur_ibfk_2]
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [id_four, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.stock
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [stock_min, quantite_commande, id_mat_pre, id_magasin, id, stock, prix_unitaire]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: [stock_fk_1, stock_fk_2]
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [id_mat_pre, stock_fk_2, primary]
+2016-11-04 21:25:36 INFO  TableMetadata:65 - HHH000261: Table found: gestionproduction.sub_categorie_mp
+2016-11-04 21:25:36 INFO  TableMetadata:66 - HHH000037: Columns: [code, unite, id, nom]
+2016-11-04 21:25:36 INFO  TableMetadata:68 - HHH000108: Foreign keys: []
+2016-11-04 21:25:36 INFO  TableMetadata:69 - HHH000126: Indexes: [primary]
+2016-11-04 21:25:36 ERROR SchemaUpdate:261 - HHH000388: Unsuccessful: alter table Employe add constraint FK_2v0u1bxb5xxmh5y16o11b4jpp foreign key (REF_TYPE_RES) references TYPE_RES_EMPLOYE (id)
+2016-11-04 21:25:36 ERROR SchemaUpdate:262 - Can't create table 'gestionproduction.#sql-2310_15' (errno: 150)
+2016-11-04 21:25:36 ERROR SchemaUpdate:261 - HHH000388: Unsuccessful: alter table Equipe add constraint FK_1rykqv9vehfl5klhbk4959sr0 foreign key (TYPE_EQUIPE) references TYPE_EQUIPE (id)
+2016-11-04 21:25:36 ERROR SchemaUpdate:262 - Can't create table 'gestionproduction.#sql-2310_15' (errno: 150)
+2016-11-04 21:25:36 INFO  SchemaUpdate:267 - HHH000232: Schema update complete

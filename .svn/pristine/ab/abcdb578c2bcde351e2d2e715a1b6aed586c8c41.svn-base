@@ -1,0 +1,40 @@
+package dao.daoManager;
+
+import java.util.Date;
+import java.util.List;
+
+import dao.entity.CoutMP;
+import dao.entity.DetailProdGen;
+import dao.entity.DetailProduction;
+import dao.entity.DetailResponsableProd;
+import dao.entity.Production;
+
+public interface ProductionDAO {
+	
+	public  void add(Production e);
+	
+public  Production edit(Production e);
+	
+	public  void delete(int id); 
+	
+	public List<Production> findAll();
+	
+	public Production findById(int id);
+	
+	public int maxIdProduction();
+	
+	public Production findByNumOF(String numOF,String codeDepot);
+	
+	public List<CoutMP>  listeCoutMP(int idPord);
+
+	public List<Production> listeProductionByDateByPeriode(Date dateProd,String periode);
+
+	public List<DetailProduction> listeDetailProduction(int idPord);
+
+	public List<DetailProdGen> listeDetailProdGen(int idPord);
+	
+	public List<DetailResponsableProd> listeDetailResponsableProd(int idPord);
+
+	public List<Production> listeProductionEntreDeuxDate(Date dateDebut, Date dateFin);
+	public List<Production> listeProductionTerminerEntreDeuxDate(Date dateDebut,Date dateFin,String statut);
+}

@@ -1,0 +1,207 @@
+package dao.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+
+/**
+ * The persistent class for the detail_production database table.
+ * 
+ */
+@Entity
+
+@Table(name="FICHE_GLOBALE")
+public class FicheEmployeGlobale implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+
+	@Column(name="delai_employe")
+	private double delaiEmploye;
+	
+	@Column(name="cout_horaire")
+	private double coutTotal;
+	
+	@Column(name="remise")
+	private double remise;
+	
+	@Column(name="AVANCE")
+	private double avance;
+
+	//bi-directional many-to-one association to Employe
+	@ManyToOne
+	@JoinColumn(name="id_employe")
+	private Employe employe;
+
+	@Temporal(TemporalType.DATE)
+	@JoinColumn(name="DATE_SITUTAION")
+	private Date dateSituation;
+	
+	@Column(name="NUM_OF")
+	private String numOF;
+	
+	@Column(name="HEURE_SUPP25")
+	private double heureSupp25;
+	
+	@Column(name="HEURE_SUPP50")
+	private double heureSupp50;
+	
+	@Column(name="COUT_SUPP25")
+	private double coutSupp25;
+	
+	@Column(name="COUT_SUPP50")
+	private double coutSupp50;
+	
+	@Column(name="COMPTEUR")
+	private int compteur;
+	
+	@Column(name="REDUCTION")
+	private double reduction;
+
+	@Column(name="NETAPAYER")
+	private double netapayer;
+	
+	public FicheEmployeGlobale() {
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public double getDelaiEmploye() {
+		return delaiEmploye;
+	}
+
+	public void setDelaiEmploye(double delaiEmploye) {
+		this.delaiEmploye = delaiEmploye;
+	}
+
+	public double getCoutTotal() {
+		return coutTotal;
+	}
+
+	public void setCoutTotal(double coutTotal) {
+		this.coutTotal = coutTotal;
+	}
+
+	public double getRemise() {
+		return remise;
+	}
+
+	public void setRemise(double remise) {
+		this.remise = remise;
+	}
+
+	public double getAvance() {
+		return avance;
+	}
+
+	public void setAvance(double avance) {
+		this.avance = avance;
+	}
+
+	public Employe getEmploye() {
+		return employe;
+	}
+
+	public void setEmploye(Employe employe) {
+		this.employe = employe;
+	}
+
+	public Date getDateSituation() {
+		return dateSituation;
+	}
+
+	public void setDateSituation(Date dateSituation) {
+		this.dateSituation = dateSituation;
+	}
+
+	public String getNumOF() {
+		return numOF;
+	}
+
+	public void setNumOF(String numOF) {
+		this.numOF = numOF;
+	}
+
+	public double getHeureSupp25() {
+		return heureSupp25;
+	}
+
+	public void setHeureSupp25(double heureSupp25) {
+		this.heureSupp25 = heureSupp25;
+	}
+
+	public double getHeureSupp50() {
+		return heureSupp50;
+	}
+
+	public void setHeureSupp50(double heureSupp50) {
+		this.heureSupp50 = heureSupp50;
+	}
+
+	public double getCoutSupp25() {
+		return coutSupp25;
+	}
+
+	public void setCoutSupp25(double coutSupp25) {
+		this.coutSupp25 = coutSupp25;
+	}
+
+	public double getCoutSupp50() {
+		return coutSupp50;
+	}
+
+	public void setCoutSupp50(double coutSupp50) {
+		this.coutSupp50 = coutSupp50;
+	}
+
+	public int getCompteur() {
+		return compteur;
+	}
+
+	public void setCompteur(int compteur) {
+		this.compteur = compteur;
+	}
+
+	public double getReduction() {
+		return reduction;
+	}
+
+	public void setReduction(double reduction) {
+		this.reduction = reduction;
+	}
+
+	public double getNetapayer() {
+		return netapayer;
+	}
+
+	public void setNetapayer(double netapayer) {
+		this.netapayer = netapayer;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	
+
+}

@@ -1,0 +1,655 @@
+package presentation.article;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+import javax.swing.table.DefaultTableModel;
+
+import main.ProdLauncher;
+
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.JXTitledSeparator;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+
+import dao.daoManager.ArticlesDAO;
+import dao.daoManager.DetailEstimationDAO;
+import dao.daoManager.MatierePremiereDAO;
+import dao.entity.Articles;
+import dao.entity.DetailEstimation;
+import dao.entity.DetailEstimationMP;
+import dao.entity.MatierePremier;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+
+public class ModifierEstimationArticle extends JLayeredPane {
+	public JLayeredPane contentPane;	
+
+	private DefaultTableModel	 modeleMP;
+
+	private JXTable table;
+
+	private ImageIcon imgInit;
+	private ImageIcon imgChercher;
+	private ImageIcon imgModifier;
+private JButton btnmodifier;
+private JButton btnajouter;
+	private JButton btnsupprimer;
+	private Map< String, String> mapQuantiteMP = new HashMap<>();
+	private Map< Integer, MatierePremier> mapMatierePremier = new HashMap<>();
+	private Map< String, MatierePremier> mapMatierePremierTmp = new HashMap<>();
+	
+	private Map< String, Articles> mapAricle = new HashMap<>();
+	private Map< String, String> mapCodeArticle= new HashMap<>();
+	private Map< String, String> mapLibelleAricle = new HashMap<>();
+	
+	List < Articles> listArticles = new ArrayList<Articles>();
+	
+	List<DetailEstimation> listDetailEstimation = new ArrayList<DetailEstimation>();
+	
+
+	
+	private JLabel lblDpotDestination;
+	
+
+	private MatierePremiereDAO matierePremiereDAO;
+	private ArticlesDAO articlesDAO;
+	Articles article =new Articles ();
+	private JTextField txtCode;
+	private JComboBox comboBox;
+	private JButton btnChercher;
+	private JButton btnIntialiser;
+	private JTextField txtlibelle;
+	private JTextField txtquantite;
+	private JTextField txtcodematiere;
+	private JTextField txtpriorite;
+	private DetailEstimationDAO detailestimationdao;
+	/**
+	 * Launch the application.
+	 */
+
+
+	/**
+	 * Create the application.
+	 */
+	public ModifierEstimationArticle() {
+		setOpaque(true);
+		setBackground(new Color(248, 248, 255));
+		setForeground(new Color(248, 248, 255));
+
+		final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(0, 0, 1284, 796);
+        try{
+        	
+        	
+        	
+        	matierePremiereDAO=ProdLauncher.dao;
+        	articlesDAO=ProdLauncher.articlesDAO;
+        	detailestimationdao=ProdLauncher.detailestimationdao;
+        	 comboBox = new JComboBox();
+        	 comboBox.addItem("");
+        	  txtCode = new JTextField();
+        	  util.Utils.copycoller(txtCode);
+       }catch(Exception exp){exp.printStackTrace();		
+       JOptionPane.showMessageDialog(null, "Erreur de connexion Ã  la base de donnÃ©es", "Erreur", JOptionPane.ERROR_MESSAGE);
+}
+		
+		 	
+	
+        try{
+            imgInit= new ImageIcon(this.getClass().getResource("/img/init.png"));
+            imgChercher= new ImageIcon(this.getClass().getResource("/img/chercher.png"));
+            imgModifier= new ImageIcon(this.getClass().getResource("/img/modifier.png"));
+          } catch (Exception exp){exp.printStackTrace();}
+				  		   listArticles=articlesDAO.findAll();
+				  	        int i=0;
+				  		      	while(i<listArticles.size())
+				  		      		{	
+				  		      			Articles article=listArticles.get(i);
+				  		      			mapCodeArticle.put(article.getLiblle(), article.getCodeArticle());
+				  		      			mapLibelleAricle.put( article.getCodeArticle(),article.getLiblle());
+				  		      			mapAricle.put(article.getLiblle(), article);
+				  		      			comboBox.addItem(article.getLiblle());
+				  		      			i++;
+				  		      		}
+				  			
+				  		      comboBox.addItemListener(new ItemListener() {
+				  		     	 	public void itemStateChanged(ItemEvent e) {
+				  		     	 	
+				  		     	 	 if(e.getStateChange() == ItemEvent.SELECTED) {
+				  		     	
+				  		     	 		txtCode.setText(mapCodeArticle.get(comboBox.getSelectedItem()));
+				  	                  
+				  		     	 	 	}
+				  		     	 	}
+				  		     	 });
+				  		      
+				  			txtCode.addKeyListener(new KeyAdapter() {
+				  			  	@Override
+				  			  	public void keyReleased(KeyEvent e)
+				  			  	{
+				  			  		if (e.getKeyCode() == e.VK_ENTER)
+				  			  		{
+				  			  			
+				  			  		comboBox.setSelectedItem(mapLibelleAricle.get(txtCode.getText()));
+				  			  		}}});
+				  		     table = new JXTable();
+				  		     table.addMouseListener(new MouseAdapter() {
+				  		     	@Override
+				  		     	public void mouseClicked(MouseEvent arg0) {
+				  		     		
+				  		     		if(listDetailEstimation.size()!=0)
+				  				 	{
+				  				 		if(table.getSelectedRow()!=-1)
+				  				 		{
+				  				 			
+				  				 			txtcodematiere.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
+				  				 			txtlibelle.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+				  				 			txtquantite.setText(table.getValueAt(table.getSelectedRow(), 2).toString());
+				  				 			txtpriorite.setText(table.getValueAt(table.getSelectedRow(),3).toString());
+				  				 			btnsupprimer.setEnabled(true);
+				  				 			btnmodifier.setEnabled(true);
+				  				 			btnajouter.setEnabled(false);
+				  				 			txtcodematiere.setEditable(false);
+				  				 			
+				  				 			}
+				  				 	}
+				  		     		
+				  		     		
+				  		     		
+				  		     	}
+				  		     });
+				  		     table.setShowVerticalLines(false);
+				  		     table.setSelectionBackground(new Color(51, 204, 255));
+				  		     table.setRowHeightEnabled(true);
+				  		     table.setBackground(new Color(255, 255, 255));
+				  		     table.setHighlighters(HighlighterFactory.createSimpleStriping());
+				  		     table.setColumnControlVisible(true);
+				  		     table.setForeground(Color.BLACK);
+				  		     table.setGridColor(new Color(0, 0, 255));
+				  		     table.setAutoCreateRowSorter(true);
+				  		     table.setBounds(2, 27, 411, 198);
+				  		     table.setRowHeight(20);
+				  		     	
+				  		     	JScrollPane scrollPane = new JScrollPane(table);
+				  		     	scrollPane.setBounds(35, 306, 920, 344);
+				  		     	add(scrollPane);
+				  		     	scrollPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+				  		     	
+				  		     	JXTitledSeparator titledSeparator = new JXTitledSeparator();
+				  		     	titledSeparator.setTitle("Liste Mati\u00E8res Premi\u00E8res ");
+				  		     	titledSeparator.setBounds(35, 265, 920, 30);
+				  		     	add(titledSeparator);
+				  		     	
+				  		     	JLayeredPane layeredPane = new JLayeredPane();
+				  		     	layeredPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+				  		     	layeredPane.setBounds(36, 13, 919, 111);
+				  		     	add(layeredPane);
+				  		     	
+				  		     	JLabel lblMachine = new JLabel("Code Article");
+				  		     	lblMachine.setBounds(135, 12, 144, 24);
+				  		     	layeredPane.add(lblMachine);
+				  		     	lblMachine.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		  
+				  		  lblDpotDestination = new JLabel("Libelle Article");
+				  		  lblDpotDestination.setBounds(508, 11, 108, 26);
+				  		  layeredPane.add(lblDpotDestination);
+				  		  
+				  		
+				  		  txtCode.setBounds(223, 12, 144, 24);
+				  		  layeredPane.add(txtCode);
+				  		  txtCode.setColumns(10);
+				  		  
+				  		 
+				  		  comboBox.setBounds(591, 12, 206, 24);
+				  		  layeredPane.add(comboBox);
+				  		  
+				  		  btnChercher = new JButton("Chercher");
+				  		  btnChercher.setIcon(imgChercher);
+				  		  btnChercher.addActionListener(new ActionListener() {
+				  		  	public void actionPerformed(ActionEvent e) {
+				  		  		article =articlesDAO.findByCode(txtCode.getText());
+				  		  	listDetailEstimation=article.getDetailEstimation();
+				  		  listDetailEstimation.size();
+				  		  	afficher_tableMP(listDetailEstimation);
+				  		  	}
+				  		  });
+				  		  btnChercher.setBounds(356, 66, 114, 24);
+				  		  layeredPane.add(btnChercher);
+				  		  
+				  		  btnIntialiser = new JButton("Intialiser");
+				  		  btnIntialiser.setIcon(imgInit);
+				  		  btnIntialiser.addActionListener(new ActionListener() {
+				  		  	public void actionPerformed(ActionEvent e) {
+				  		  	intialiser();
+				  		  	}
+				  		  });
+				  		  btnIntialiser.setBounds(488, 66, 114, 24);
+				  		  layeredPane.add(btnIntialiser);
+		
+		JLayeredPane layeredPane_1 = new JLayeredPane();
+		layeredPane_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		layeredPane_1.setBounds(35, 146, 920, 108);
+		add(layeredPane_1);
+		
+		JLabel label = new JLabel("Quantite :");
+		label.setBounds(470, 11, 102, 26);
+		layeredPane_1.add(label);
+		
+		JLabel label_1 = new JLabel("Code Matiere :");
+		label_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		label_1.setBounds(10, 11, 82, 26);
+		layeredPane_1.add(label_1);
+		
+		txtlibelle = new JTextField();
+		txtlibelle.setEditable(false);
+		txtlibelle.setColumns(10);
+		txtlibelle.setBounds(303, 11, 157, 26);
+		layeredPane_1.add(txtlibelle);
+		
+		JLabel label_2 = new JLabel("Libelle :");
+		label_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		label_2.setBounds(256, 11, 68, 26);
+		layeredPane_1.add(label_2);
+		
+		txtquantite = new JTextField();
+		util.Utils.copycoller(txtquantite);
+		txtquantite.setColumns(10);
+		txtquantite.setBounds(531, 11, 157, 26);
+		layeredPane_1.add(txtquantite);
+		
+		 btnmodifier = new JButton("Modifier");
+		 btnmodifier.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {
+		 		
+		 		
+
+		 		
+				try {
+					if(txtcodematiere.getText().equals(""))
+					{
+						JOptionPane.showMessageDialog(null, "Veuillez entre le code Matiere premiere SVP !!!!","Erreur", JOptionPane.ERROR_MESSAGE);
+						return;
+						
+					}else if(txtlibelle.getText().equals(""))
+					{
+						JOptionPane.showMessageDialog(null, "Veuillez entre le Nom de Matiere premiere SVP !!!!","Erreur", JOptionPane.ERROR_MESSAGE);
+						return;
+					}else if(txtquantite.getText().equals(""))
+					{
+						JOptionPane.showMessageDialog(null, "Veuillez entre la Quantité de Matiere premiere SVP !!!!","Erreur", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				else if(Float.valueOf(txtquantite.getText())<=0)
+	    		{
+	    			JOptionPane.showMessageDialog(null, "la Quantité de matiere premiere doit etre en chiffre et supérieur à 0 SVP !!!","Erreur", JOptionPane.ERROR_MESSAGE);
+	    			return;
+	    		}else if(Integer.valueOf(txtpriorite.getText())<0 || Integer.valueOf(txtpriorite.getText())>1)
+	    		{
+	    			JOptionPane.showMessageDialog(null, "la Priorité de matiere premiere doit etre 0 ou 1 SVP !!!","Erreur", JOptionPane.ERROR_MESSAGE);
+	    			return;
+	    		}else
+					{
+						if(listDetailEstimation.size()!=0)
+						{
+							if(table.getSelectedRow()!=-1)
+							{
+							 int reponse = JOptionPane.showConfirmDialog(null, "Vous voulez vraiment Modifier la matiere premiere ?", 
+											"Satisfaction", JOptionPane.YES_NO_OPTION);
+									 
+									if(reponse == JOptionPane.YES_OPTION )
+										
+									{
+										
+								DetailEstimation detailestimation=listDetailEstimation.get(table.getSelectedRow());
+								detailestimation.setQuantite(Float.valueOf(txtquantite.getText()));
+								detailestimation.setPriorite(Integer.valueOf(txtpriorite.getText()));
+								detailestimationdao.edit(detailestimation);
+								listDetailEstimation.set(table.getSelectedRow(), detailestimation);
+								
+								afficher_tableMP(listDetailEstimation);
+								JOptionPane.showMessageDialog(null, "Matiere Premiere modifier avec succée ");
+								 initialiserMP();
+								 
+								 }
+									
+							}
+							
+						}else
+						{
+							JOptionPane.showMessageDialog(null, "liste Matiere premiere est vide !!!!!!","Erreur", JOptionPane.ERROR_MESSAGE);
+							
+						}
+					}
+						
+				} catch (NumberFormatException r) {  JOptionPane.showMessageDialog(null, "la Quantite de matiere premiere doit etre en chiffre SVP", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				initialiserMP();
+		 		
+		 		
+		 		
+		 		
+		 		
+		 	}
+		 });
+		btnmodifier.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnmodifier.setEnabled(false);
+		btnmodifier.setBounds(216, 61, 107, 24);
+		layeredPane_1.add(btnmodifier);
+		
+		JButton btninitialiser = new JButton("Initialiser");
+		btninitialiser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				initialiserMP();
+				
+				
+				
+			}
+		});
+		btninitialiser.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btninitialiser.setBounds(348, 62, 106, 23);
+		layeredPane_1.add(btninitialiser);
+		
+		txtcodematiere = new JTextField();
+		util.Utils.copycoller(txtcodematiere);
+		txtcodematiere.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+
+				
+				if(e.getKeyCode()==e.VK_ENTER)
+	      		{
+	      			if(!txtcodematiere.getText().equals(""))
+	      			{
+	      				MatierePremier matierepremiere=matierePremiereDAO.findByCode(txtcodematiere.getText().toUpperCase());
+			    		
+			    		if(matierepremiere!=null)
+			    		{	
+			    			txtlibelle.setText(matierepremiere.getNom());
+			    			
+			    		}else
+			    		{
+			    			 JOptionPane.showMessageDialog(null, "Code matiere premiere Introuvable !!!!", "Erreur", JOptionPane.ERROR_MESSAGE);
+			    			 txtlibelle.setText("");
+			    			 txtcodematiere.requestFocus();
+			    		}
+			    		
+	      		}else
+	      		{
+	      			 JOptionPane.showMessageDialog(null, "Veuillez  entrer code matiere premiere SVP", "Erreur", JOptionPane.ERROR_MESSAGE);
+	      			 txtlibelle.setText("");
+	      			txtcodematiere.requestFocus();
+	      		}
+	      		}
+			
+				
+				
+				
+				
+				
+				
+			}
+		});
+		txtcodematiere.setColumns(10);
+		txtcodematiere.setBounds(89, 11, 157, 26);
+		layeredPane_1.add(txtcodematiere);
+		
+		 btnsupprimer = new JButton("Supprimer");
+		 btnsupprimer.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {
+		 		
+		 		if(table.getSelectedRow()!=-1)
+				{
+					if(listDetailEstimation.size()!=0)
+					{
+						 int reponse = JOptionPane.showConfirmDialog(null, "Vous voulez vraiment Supprimer la matiere premiere ?", 
+									"Satisfaction", JOptionPane.YES_NO_OPTION);
+							 
+							if(reponse == JOptionPane.YES_OPTION )
+							{
+								
+							    detailestimationdao.delete(listDetailEstimation.get(table.getSelectedRow()).getId());
+								listDetailEstimation.remove(table.getSelectedRow());
+								afficher_tableMP(listDetailEstimation);
+								
+								initialiserMP();
+								
+							}
+						}
+					}
+		 		
+		 		
+		 	}
+		 });
+		btnsupprimer.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnsupprimer.setEnabled(false);
+		btnsupprimer.setBounds(484, 61, 107, 24);
+		layeredPane_1.add(btnsupprimer);
+		
+		 btnajouter = new JButton("Ajouter");
+		 btnajouter.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent arg0) {
+		 		
+		 		
+
+		 		
+				boolean trouve=false;
+try {
+	    			if(txtcodematiere.getText().equals(""))
+	    		{
+	    			JOptionPane.showMessageDialog(null, "Veuillez entrer le code matiere premiere SVP !!!","Erreur", JOptionPane.ERROR_MESSAGE);
+	    			return;
+	    		}else if(txtlibelle.getText().equals(""))
+	    		{
+	    			JOptionPane.showMessageDialog(null, "Veuillez entrer le code matiere premiere SVP !!!","Erreur", JOptionPane.ERROR_MESSAGE);
+	    			return;
+	    		}
+	    		else if(txtquantite.getText().equals(""))
+	    		{
+	    			JOptionPane.showMessageDialog(null, "Veuillez entrer la Quantité de matiere premiere SVP !!!","Erreur", JOptionPane.ERROR_MESSAGE);
+	    			return;
+	    		}else if(Float.valueOf(txtquantite.getText())<=0)
+	    		{
+	    			JOptionPane.showMessageDialog(null, "la Quantité de matiere premiere doit etre en chiffre et supérieur à 0 SVP !!!","Erreur", JOptionPane.ERROR_MESSAGE);
+	    			return;
+	    		}
+	    		else if(Integer.valueOf(txtpriorite.getText())<0 || Float.valueOf(txtpriorite.getText())>1)
+	    		{
+
+	    			JOptionPane.showMessageDialog(null, "la priorité de matiere premiere doit etre 0 ou 1 SVP !!!","Erreur", JOptionPane.ERROR_MESSAGE);
+	    			return;
+	    		}
+	    		{
+	    			
+	    			MatierePremier matierepremiere=matierePremiereDAO.findByCode(txtcodematiere.getText().toUpperCase());
+	    			if(matierepremiere!=null)
+	    			{
+	    				for(int i=0; i<listDetailEstimation.size();i++)
+	    				{
+	    					if(listDetailEstimation.get(i).getMatierePremier().getCode().equals(matierepremiere.getCode()))
+	    					{
+	    						trouve=true;
+	    						JOptionPane.showMessageDialog(null, "Matiere premiere existe deja dans l'estimation !!!!!","Erreur", JOptionPane.ERROR_MESSAGE);
+	    						return;
+	    					}
+	    				}
+	    				if(trouve==false)
+	    				{
+	    				DetailEstimation detailestimation=new DetailEstimation();
+	    				detailestimation.setMatierePremier(matierepremiere);
+	    				detailestimation.setQuantite(Float.valueOf(txtquantite.getText()));	
+	    				detailestimation.setPriorite(Integer.valueOf(txtpriorite.getText()));
+	    				detailestimation.setArticles(article);
+	    				
+	    				detailestimationdao.add(detailestimation);
+	    				listDetailEstimation.add(detailestimation);
+	    				afficher_tableMP(listDetailEstimation);
+	    				initialiserMP();
+	    						
+	    				}
+	    				
+	    				
+	    			}else
+	    			{
+	    				JOptionPane.showMessageDialog(null, "la matiere premiere introuvable", "Erreur", JOptionPane.ERROR_MESSAGE);
+	    				
+	    			}
+	    			
+	    				}
+	    		
+	    					
+				}  catch (NumberFormatException r) {  JOptionPane.showMessageDialog(null, "la Quantite de matiere premiere doit etre en chiffre SVP", "Erreur", JOptionPane.ERROR_MESSAGE);
+					
+				}
+	    		
+		 		
+		 	}
+		 });
+		btnajouter.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnajouter.setBounds(608, 61, 107, 24);
+		layeredPane_1.add(btnajouter);
+		
+		JLabel lblPriorit = new JLabel("Priorit\u00E9 :");
+		lblPriorit.setBounds(698, 11, 61, 26);
+		layeredPane_1.add(lblPriorit);
+		
+		txtpriorite = new JTextField();
+		util.Utils.copycoller(txtpriorite);
+		txtpriorite.setColumns(10);
+		txtpriorite.setBounds(753, 11, 157, 26);
+		layeredPane_1.add(txtpriorite);
+		
+		
+				  		     
+				  		 
+	}
+	void initialiserMP()
+	{
+		 btnsupprimer.setEnabled(false);
+			btnmodifier.setEnabled(false);
+			btnajouter.setEnabled(true);
+			txtcodematiere.setText("");
+			txtlibelle.setText("");
+			txtquantite.setText("");
+			txtpriorite.setText("");
+			txtcodematiere.requestFocus();
+			txtcodematiere.setEditable(true);
+	}
+	
+	void intialiser()
+	{
+		
+	txtCode.setText("");
+	comboBox.setSelectedItem("");	
+		
+	}
+	
+	void afficher_tableMP(List<DetailEstimation> listDetailEstimation)
+	{
+
+		
+
+		modeleMP =new DefaultTableModel(
+	  		     	new Object[][] {
+	  		     	},
+	  		     	new String[] {
+	  		     			"Code","Nom MP", "Quantité Estimé","Priorité"
+	  		     	}
+	  		     ) {
+	  		     	boolean[] columnEditables = new boolean[] {
+	  		     			false,false,false,false
+	  		     	};
+	  		     	public boolean isCellEditable(int row, int column) {
+	  		     		return columnEditables[column];
+	  		     	}
+	  		     };
+	  		   table.setModel(modeleMP); 
+	  		   table.getColumnModel().getColumn(0).setPreferredWidth(10);
+	  		   table.getColumnModel().getColumn(1).setPreferredWidth(260);
+	  		   table.getColumnModel().getColumn(2).setPreferredWidth(160);
+	  		   table.getColumnModel().getColumn(3).setPreferredWidth(60);
+	        //q table.getColumnModel().getColumn(4).setPreferredWidth(60);
+	        
+		  int i=0;
+			while(i<listDetailEstimation.size())
+			{	
+				
+				DetailEstimation detailEstimation=listDetailEstimation.get(i);
+				
+				Object []ligne={detailEstimation.getMatierePremier().getCode(),detailEstimation.getMatierePremier().getNom(),detailEstimation.getQuantite(),detailEstimation.getPriorite()};
+
+				modeleMP.addRow(ligne);
+				i++;
+			}
+	}
+	
+
+
+boolean remplirMapQuantiteEstimation(){
+	boolean trouve=false;
+	int i=0;
+			
+	for(int j=0;j<table.getRowCount();j++){
+		
+		if(!table.getValueAt(j, 2).toString().equals("") ){
+			mapQuantiteMP.put(table.getValueAt(j, 0).toString(), table.getValueAt(j, 2).toString());
+			
+			i++;
+			trouve=true;
+		}
+		
+	}
+	return trouve;
+}
+
+
+List<DetailEstimation> remplirDetailEstimation(List<DetailEstimation> listDetailEstimation){
+	float quantite=0;
+
+	
+	List<DetailEstimation> listDetailEstimationTmp= new ArrayList<DetailEstimation>();
+	
+	
+	for(int i=0;i<listDetailEstimation.size();i++){
+		
+		DetailEstimation detailEstimation=listDetailEstimation.get(i);
+	
+		
+		quantite=Float.parseFloat(mapQuantiteMP.get(detailEstimation.getMatierePremier().getCode()));
+		
+		detailEstimation.setQuantite(quantite);
+		
+		listDetailEstimationTmp.add(detailEstimation);
+	}
+	
+	
+	return listDetailEstimationTmp;
+	
+}
+}

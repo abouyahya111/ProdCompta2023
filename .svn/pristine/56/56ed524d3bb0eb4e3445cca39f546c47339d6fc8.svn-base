@@ -1,0 +1,219 @@
+package dao.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+
+
+
+
+/**
+ * The persistent class for the artiles database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Articles.findAll", query="SELECT f FROM Articles f")
+public class Articles implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	
+	private int id;
+
+	@Column(name="CODE_ARTICLE")
+	private String codeArticle;
+	
+	@Column(name="LIBELLE")
+	private String liblle ;
+	
+	@Column(name="CENTRECOUT1")
+	private float centreCout1 ;
+
+	@Column(name="CENTRECOUT2")
+	private String centreCout2 ;
+	
+	@Column(name="CENTRECOUT3")
+	private float centreCout3 ;
+	
+	@Column(name="CENTRECOUT4")
+	private float centreCout4 ;
+	
+	@Column(name="CENTRECOUT5")
+	private float centreCout5 ;
+	
+	@Column(name="CODE_FONCTION")
+	private String codeFonction ;
+	
+	@Column(name="PRIX_VENTE")
+	private float prixGros ;
+	
+	@Column(name="PRIX_RETOUR")
+	private float prixDetail ;
+	
+	@Column(name="TVA")
+	private float tva ;
+	
+	@Column(name="CONDITIONNEMENT")
+	private float conditionnement ;
+	
+	@Column(name="DATE_CREATION")
+	private Date dateCreation ;
+	
+
+	
+
+	//bi-directional many-to-one association to RipFournisseur
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="articles")
+	private List<DetailEstimation> detailEstimation;
+
+	
+
+	
+	
+
+	public DetailEstimation addDetailEstimation(DetailEstimation detailEstimation) {
+		getDetailEstimation().add(detailEstimation);
+		detailEstimation.setArticles(this);
+
+		return detailEstimation;
+	}
+
+	public DetailEstimation removeDetailEstimation(DetailEstimation detailEstimation) {
+		getDetailEstimation().remove(detailEstimation);
+		detailEstimation.setArticles(null);
+
+		return detailEstimation;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getCodeArticle() {
+		return codeArticle;
+	}
+
+	public void setCodeArticle(String codeArticle) {
+		this.codeArticle = codeArticle;
+	}
+
+	public String getLiblle() {
+		return liblle;
+	}
+
+	public void setLiblle(String liblle) {
+		this.liblle = liblle;
+	}
+
+	public float getCentreCout1() {
+		return centreCout1;
+	}
+
+	public void setCentreCout1(float centreCout1) {
+		this.centreCout1 = centreCout1;
+	}
+
+	public String getCentreCout2() {
+		return centreCout2;
+	}
+
+	public void setCentreCout2(String centreCout2) {
+		this.centreCout2 = centreCout2;
+	}
+
+	public float getCentreCout3() {
+		return centreCout3;
+	}
+
+	public void setCentreCout3(float centreCout3) {
+		this.centreCout3 = centreCout3;
+	}
+
+	public float getCentreCout4() {
+		return centreCout4;
+	}
+
+	public void setCentreCout4(float centreCout4) {
+		this.centreCout4 = centreCout4;
+	}
+
+	public float getCentreCout5() {
+		return centreCout5;
+	}
+
+	public void setCentreCout5(float centreCout5) {
+		this.centreCout5 = centreCout5;
+	}
+
+	public String getCodeFonction() {
+		return codeFonction;
+	}
+
+	public void setCodeFonction(String codeFonction) {
+		this.codeFonction = codeFonction;
+	}
+
+	public float getPrixGros() {
+		return prixGros;
+	}
+
+	public void setPrixGros(float prixGros) {
+		this.prixGros = prixGros;
+	}
+
+	public float getPrixDetail() {
+		return prixDetail;
+	}
+
+	public void setPrixDetail(float prixDetail) {
+		this.prixDetail = prixDetail;
+	}
+
+	public float getTva() {
+		return tva;
+	}
+
+	public void setTva(float tva) {
+		this.tva = tva;
+	}
+
+	public float getConditionnement() {
+		return conditionnement;
+	}
+
+	public void setConditionnement(float conditionnement) {
+		this.conditionnement = conditionnement;
+	}
+
+	public List<DetailEstimation> getDetailEstimation() {
+		return detailEstimation;
+	}
+
+	public void setDetailEstimation(List<DetailEstimation> detailEstimation) {
+		this.detailEstimation = detailEstimation;
+	}
+
+	public Date getDateCreation() {
+		return dateCreation;
+	}
+
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
+	}
+
+}

@@ -1,0 +1,172 @@
+package dao.daoImplManager;
+
+import java.util.Date;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import util.HibernateUtil;
+import dao.daoManager.ProductionDAO;
+import dao.entity.CoutMP;
+import dao.entity.DetailProdGen;
+import dao.entity.DetailProduction;
+import dao.entity.DetailResponsableProd;
+import dao.entity.Production;
+
+public class ProductionDAOImpl implements ProductionDAO {
+	Session session=HibernateUtil.openSession();
+
+	public void add(Production e) {
+		session.beginTransaction();
+		session.save(e);
+		
+		session.getTransaction().commit();
+		//return p;
+	}
+
+	public Production edit(Production e) {
+		
+	session.beginTransaction();
+	Production p= (Production)session.merge(e);
+	session.getTransaction().commit();
+	
+	return p;
+	}
+
+	public void delete(int id) {
+		
+		session.beginTransaction();
+		Production p= findById(id);
+		session.delete(p);
+		session.getTransaction().commit();
+		
+	}
+
+	public List<Production> findAll() {
+		return session.createQuery("select c from Production c").list();
+		}
+
+	public Production findById(int id) {
+		return (Production)session.get(Production.class, id);
+		}
+
+	@Override
+	public int maxIdProduction() {
+		// TODO Auto-generated method stub
+		int id =0;
+		Query query= session.createQuery("select max(id) from Production");
+		
+		if(query.uniqueResult()==null)
+			id=1;
+		else 
+			id= (int)query.uniqueResult();
+		
+		return id;
+	}
+
+	@Override
+	public Production findByNumOF(String numOF,String codeDepot) {
+		// TODO Auto-generated method stub
+		
+		Query query= session.createQuery("select p from Production p where numOF =:numOF and codeDepot=:codeDepot");
+		query.setParameter("numOF", numOF);
+		query.setParameter("codeDepot", codeDepot);
+		
+		return (Production)query.uniqueResult();
+	}
+
+	@Override
+	public List<CoutMP> listeCoutMP(int idPord) {
+		
+		Query query= session.createQuery("select p from CoutMP p where prodcutionCM.id =:idPord");
+		query.setParameter("idPord", idPord);
+		
+		return query.list();
+
+	}
+	
+	@Override
+	public List<Production> listeProductionByDateByPeriode(Date dateProd,String periode) {
+		
+		Query query= session.createQuery("select p from Production p where date =:dateProd and periode=:periode");
+		query.setParameter("dateProd", dateProd);
+		query.setParameter("periode", periode);
+		
+		return query.list();
+
+	}
+	
+	@Override
+	public List<DetailProduction> listeDetailProduction(int idPord) {
+		
+		Query query= session.createQuery("select p from DetailProduction p where production.id =:idPord");
+		query.setParameter("idPord", idPord);
+		
+		return query.list();
+
+	}
+	
+	@Override
+	public List<DetailProdGen> listeDetailProdGen(int idPord) {
+		
+		Query query= session.createQuery("select p from DetailProdGen p where productionGen.id =:idPord");
+		query.setParameter("idPord", idPord);
+		
+		return query.list();
+
+	}
+	
+	@Override
+	public List<DetailResponsableProd> listeDetailResponsableProd(int idPord) {
+		
+		Query query= session.createQuery("select p from DetailResponsableProd p where productionDRP.id =:idPord");
+		query.setParameter("idPord", idPord);
+		
+		return query.list();
+
+	}
+	
+	@Override
+	public List<Production> listeProductionEntreDeuxDate(Date dateDebut,Date dateFin) {
+		
+		Query query= session.createQuery("select p from Production p where date >=:dateDebut and date <=:dateFin");
+		query.setParameter("dateDebut", dateDebut);
+		query.setParameter("dateFin", dateFin);
+		
+		
+		return query.list();
+
+	}
+	
+	@Override
+	public List<Production> listeProductionTerminerbyDepotEntreDeuxDate(Date dateDebut,Date dateFin,String statut,String depot) {
+		
+		Query query= session.createQuery("select p from Production p where date >=:dateDebut and date <=:dateFin and statut =:statut and code_depot=:depot");
+		query.setParameter("dateDebut", dateDebut);
+		query.setParameter("dateFin", dateFin);
+		query.setParameter("statut", statut);
+		query.setParameter("depot", depot);
+		List<Production> list=query.list();
+		
+		return list;
+
+	}
+	
+	
+	@Override
+	public Production findByNumOFStatut(String numOF,String statut) {
+		// TODO Auto-generated method stub
+		
+		Query query= session.createQuery("select p from Production p where numOF =:numOF and statut=:statut");
+		query.setParameter("numOF", numOF);
+		query.setParameter("statut", statut);
+		
+		return (Production)query.uniqueResult();
+	}
+
+	
+
+
+
+}

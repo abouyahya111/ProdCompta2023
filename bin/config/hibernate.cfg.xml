@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+
+
+<!--  base de donner asma  utilisateur : admin passeword : admin       // utilisateur facture : utillisateur_ahb passe ahl_brahim -->
+
+<!--
+<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/prod_compta_finale</property>
+		<property name="hibernate.connection.username">admin</property>
+		<property name="hibernate.connection.password">admin</property>
+-->
+
+<!--  base de donner Maha  utilisateur : utilisateur_prod passeword : utilisateur_prod       // utilisateur facture : utilisateur_prod passe utilisateur_prod -->
+
+<!--
+      <property name="hibernate.connection.url">jdbc:mysql://192.168.1.5:3306/compta_prod_test</property>
+		<property name="hibernate.connection.username">user</property>
+		<property name="hibernate.connection.password">!kal!0687*</property>
+		  -->
+
+		 
+		 	<!--   	 	 
+		 		
+		<property name="hibernate.connection.url">jdbc:mysql://192.168.1.5:3306/prod_compta_2023</property>
+		<property name="hibernate.connection.username">user</property>
+		<property name="hibernate.connection.password">!kal!0687*</property>
+
+	 	  -->  
+ 
+  	    
+                            
+<!-- <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/gestionproduction1</property >     -->
+		
+  	      
+		    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/prod_compta_2023</property> 
+			<property name="hibernate.connection.username">root</property> 
+		 	<property name="hibernate.connection.password">root</property>
+ 	
+
+		<property name="hibernate.current_session_context_class">thread</property>
+		<property name="cache.provider_class"></property>
+
+		<!-- <property name="hbm2ddl.auto">create</property> -->	
+		<property name="hbm2ddl.auto">update</property>
+		<property name="show_sql">true</property>
+
+		<mapping class="dao.entity.Utilisateur" />
+		<mapping class="dao.entity.CategorieMp" />
+		<mapping class="dao.entity.MatierePremier" />
+		<mapping class="dao.entity.SubCategorieMp" />
+		<mapping class="dao.entity.Utilisateur" />
+		<mapping class="dao.entity.Commande" />
+		<mapping class="dao.entity.Fournisseur" />
+		<mapping class="dao.entity.DetailCommande" />
+		<mapping class="dao.entity.RipFournisseur" />
+
+		<mapping class="dao.entity.Machine" />
+		<mapping class="dao.entity.LigneMachine" />
+		<mapping class="dao.entity.Articles" />
+		<mapping class="dao.entity.DetailEstimation" />
+		<mapping class="dao.entity.Equipe" />
+		<mapping class="dao.entity.Employe" />
+		<mapping class="dao.entity.Production" />
+		<mapping class="dao.entity.DetailProduction" />
+		<mapping class="dao.entity.CoutMP" />
+		<mapping class="dao.entity.StockMP" />
+		<mapping class="dao.entity.Depot" />
+		<mapping class="dao.entity.Magasin" />
+		<mapping class="dao.entity.TransferStockMP" />
+		<mapping class="dao.entity.DetailTransferStockMP" />
+		<mapping class="dao.entity.StockPF" />
+		<mapping class="dao.entity.TypeResEmploye" />
+		<mapping class="dao.entity.TypeEquipe" />
+		<mapping class="dao.entity.DetailProdGen" />
+		<mapping class="dao.entity.CompteurProduction" />
+		<mapping class="dao.entity.DetailTransferProduitFini" />
+		<mapping class="dao.entity.EmployeBloque" />
+		<mapping class="dao.entity.Parametre" />
+		<mapping class="dao.entity.FicheEmploye" />
+		<mapping class="dao.entity.MagasinProduitFini" />
+		<mapping class="dao.entity.Sequenceur" />
+		<mapping class="dao.entity.TransferStockPF" />
+		<mapping class="dao.entity.CompteurNumDossier" />
+		<mapping class="dao.entity.Menu" />
+		<mapping class="dao.entity.Habilitation" />
+		<mapping class="dao.entity.DetailResponsableProd" />
+		<mapping class="dao.entity.CompteurResponsableProd" />
+		<mapping class="dao.entity.Client" />
+		<mapping class="dao.entity.PrixClientMP" />
+		<mapping class="dao.entity.FactureProduction" />
+		<mapping class="dao.entity.DetailFactureProduction" />
+		<mapping class="dao.entity.CompteurTransferMP" />
+		<mapping class="dao.entity.CompteStockMP" />
+		<mapping class="dao.entity.CompteurEmployeProd" />
+		<mapping class="dao.entity.Charges" />
+		<mapping class="dao.entity.ChargeProduction" />
+		<mapping class="dao.entity.DetailChargeVariable" />
+		<mapping class="dao.entity.DetailChargeFixe" />
+		<mapping class="dao.entity.CompteurAbsenceEmploye" />
+		<mapping class="dao.entity.Promotion" />
+		<mapping class="dao.entity.DetailEstimationPromo" />
+		<mapping class="dao.entity.ProductionMP" />
+		<mapping class="dao.entity.ArticlesMP" />
+		<mapping class="dao.entity.DetailEstimationMP" />
+		<mapping class="dao.entity.DetailProductionMP" />
+		<mapping class="dao.entity.CoutProdMP" />
+		<mapping class="dao.entity.CompteMagasinier" />
+		<mapping class="dao.entity.DetailCompteMagasinier" />
+		<mapping class="dao.entity.FraisDepot" />
+		<mapping class="dao.entity.DetailFraisDepot" />
+		<mapping class="dao.entity.ChargeFixe" />
+		<mapping class="dao.entity.ChargeVariable" />
+		<mapping class="dao.entity.DetailChargeFixe" />
+		<mapping class="dao.entity.DetailChargeVariable" />
+		<mapping class="dao.entity.DetailCoutProduction" />
+		<mapping class="dao.entity.FamilleArticlePF" />
+		<mapping class="dao.entity.SousFamilleArticlePF" />
+		<mapping class="dao.entity.ClientPF" />
+		<mapping class="dao.entity.FacturePF" />
+		<mapping class="dao.entity.DetailFacturePF" />
+		<mapping class="dao.entity.TypeVente" />
+		<mapping class="dao.entity.CompteClient" />
+		<mapping class="dao.entity.DetailCompteClient" />
+		<mapping class="dao.entity.DetailMouvementStock" />
+		<mapping class="dao.entity.MouvementStockGlobal" />
+		<mapping class="dao.entity.Journee" />
+		<mapping class="dao.entity.FactureAchat" />
+		<mapping class="dao.entity.DetailFactureAchat" />
+		<mapping class="dao.entity.DetailFactureAchatMP" />
+		<mapping class="dao.entity.FactureAchatMP" />
+		<mapping class="dao.entity.FactureAvoirMP" />
+		<mapping class="dao.entity.FactureAvoirPF" />
+		<mapping class="dao.entity.DetailFactureAvoirMP" />
+		<mapping class="dao.entity.DetailFactureAvoirPF" />
+		<mapping class="dao.entity.DetailPrixArticle" />
+		<mapping class="dao.entity.FactureVenteMP" />
+		<mapping class="dao.entity.DetailFactureVenteMP" />
+		<mapping class="dao.entity.FactureServiceProduction" />
+		<mapping class="dao.entity.DetailFactureServiceProduction" />
+		<mapping class="dao.entity.ListTva" />
+		<mapping class="dao.entity.GrammageBox" />
+		<mapping class="dao.entity.GrammageCarton" />
+		<mapping class="dao.entity.SousFamilleEnVrac" />
+		
+		<mapping class="dao.entity.FactureAvoirPFComparaison" />
+		<mapping class="dao.entity.DetailFactureAvoirPFComparaison" />
+		
+		<mapping class="dao.entity.HistoriqueVentevendeur" />
+		<mapping class="dao.entity.DetailHistoriqueVenteVendeur" />
+		
+		<mapping class="dao.entity.ArticlesClient" />
+		<mapping class="dao.entity.DetailArticlesClient" />
+		
+		<mapping class="dao.entity.HistoriqueTransfertFacturePFEnBL" />
+		<mapping class="dao.entity.HistoriqueTransfertDetailFacturePFEnBL" />
+		
+		<mapping class="dao.entity.Ville" />
+		
+		<mapping class="dao.entity.FactureServiceTransport" />
+		<mapping class="dao.entity.DetailFactureServiceTransport" />
+		
+		<mapping class="dao.entity.DetailFactureAvoirClientPF" />
+		<mapping class="dao.entity.FactureAvoirClientPF" />
+		
+		<mapping class="dao.entity.HistoriqueTransfertFactureAvoirClientPFEnBL" />
+		<mapping class="dao.entity.HistoriqueTransfertDetailFactureAvoirClientPFEnBL" />
+		
+		<mapping class="dao.entity.FactureAutresVente" />
+		<mapping class="dao.entity.DetailFactureAutresVente"/>
+		<mapping class="dao.entity.TypeBL"/>
+		<mapping class="dao.entity.EnTete"/>
+		<mapping class="dao.entity.AdresseClientPF"/>
+		<mapping class="dao.entity.TransferStockInitialMPVersStockInitialAutreMP"/>
+		
+
+	</session-factory>
+</hibernate-configuration>

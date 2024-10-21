@@ -1,0 +1,1164 @@
+package ProductionCarton;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
+
+import main.AuthentificationView;
+import main.ProdLauncher;
+
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.JXTitledSeparator;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+
+import util.Constantes;
+import util.JasperUtils;
+import util.Utils;
+import dao.daoManager.ClientDAO;
+import dao.daoManager.CompteStockMPDAO;
+import dao.daoManager.CompteurEmployeProdDAO;
+import dao.daoManager.CompteurProductionDAO;
+import dao.daoManager.CompteurResponsableProdDAO;
+import dao.daoManager.DetailProdGenDAO;
+import dao.daoManager.EquipeDAO;
+import dao.daoManager.FactureProductionDAO;
+import dao.daoManager.FicheEmployeDAO;
+import dao.daoManager.MatierePremiereDAO;
+import dao.daoManager.ParametreDAO;
+import dao.daoManager.ProductionDAO;
+import dao.daoManager.ProductionMPDAO;
+import dao.daoManager.StockMPDAO;
+import dao.daoManager.StockPFDAO;
+import dao.daoManager.TransferStockPFDAO;
+import dao.entity.Articles;
+import dao.entity.Client;
+import dao.entity.CompteStockMP;
+import dao.entity.CompteurEmployeProd;
+import dao.entity.CompteurProduction;
+import dao.entity.CoutMP;
+import dao.entity.CoutProdMP;
+import dao.entity.DetailEstimation;
+import dao.entity.DetailEstimationMP;
+import dao.entity.DetailFactureProduction;
+import dao.entity.DetailProdGen;
+import dao.entity.DetailProduction;
+import dao.entity.DetailProductionMP;
+import dao.entity.DetailResponsableProd;
+import dao.entity.DetailTransferProduitFini;
+import dao.entity.Employe;
+import dao.entity.Equipe;
+import dao.entity.FactureProduction;
+import dao.entity.FicheEmploye;
+import dao.entity.MatierePremier;
+import dao.entity.Parametre;
+import dao.entity.Production;
+import dao.entity.ProductionMP;
+import dao.entity.StockMP;
+import dao.entity.StockPF;
+import dao.entity.TransferStockPF;
+
+import java.awt.Component;
+
+
+public class TerminerOrdreFabricationMP extends JLayeredPane implements Constantes{
+
+	public JLayeredPane contentPane;	
+	
+	private DefaultTableModel	 modeleMP;
+	private DefaultTableModel	 modeleEmploye;
+	private DefaultTableModel	 modeleEquipeEm;
+	private DefaultTableModel	 modeleEquipeGen;
+	private JXTable table= new JXTable();
+	private JXTable tableEmploye= new JXTable();
+	private ImageIcon imgModifier;
+	private ImageIcon imgAjouter;
+	private ImageIcon imgInit;
+	
+	
+	private JButton btnChercherOF;
+	private JButton btnTerminerOF;
+	private JButton btnRechercher;
+	private JTextField txtPrixServiceProd;
+	
+	private List<CoutProdMP> listCoutProdMP =new ArrayList<CoutProdMP>();
+	private List<Employe> listEmploye=new ArrayList<Employe>();
+	
+	private List<DetailProductionMP> listDetailProductionMP =new ArrayList<DetailProductionMP>();
+	private ProductionMP productionMP = new ProductionMP();
+	
+	private Map< Integer, String> mapDelaiEmploye = new HashMap<>();
+	private Map< Integer, String> mapDelaiEmployeEmabalage = new HashMap<>();
+	
+	private Map< Integer, String> mapHeureSupp25EmployeProd = new HashMap<>();
+	private Map< Integer, String> mapHeureSupp50EmployeProd = new HashMap<>();
+	
+	private Map< Integer, String> mapHeureSupp25EmployeEmbalage = new HashMap<>();
+	private Map< Integer, String> mapHeureSupp50EmployeEmbalage = new HashMap<>();
+	
+	private Map< String, String> mapQuantiteConsomme = new HashMap<>();
+	private Map< String, String> mapQuantiteDechet = new HashMap<>();
+	private Map< String, String> mapQuantiteReste = new HashMap<>();
+	public JTextField txtNumOF;
+	private JTextField txtQuantiteRealise;
+	private JLabel lblQuantitRalise;
+	
+	private float coutTotalEmploye=0;
+	private float coutTotalEmployeEmbalage=0;
+	private float coutTotalAutreEmploye=0;
+	private float coutTotalMP=0;
+	private float coutTotalDechet=0;
+	private float delaiTotal=0;
+	private float delaiTotalEquipeEmbalage;
+	
+
+	private CompteurProductionDAO compteurProductionDAO;
+	private StockMPDAO stockMPDAO;
+	private StockPFDAO stockPFDAO;
+	private ProductionMPDAO productionMPDAO;
+	private TransferStockPFDAO transferStockPFDAO;
+	private ParametreDAO parametreDAO;
+	private FicheEmployeDAO ficheEmployeDAO;
+	private CompteurResponsableProdDAO compteurResponsableProdDAO;
+	private CompteurEmployeProdDAO compteurEmployeProdDAO;
+	private  EquipeDAO equipeDAO;
+	private FactureProductionDAO factureProductionDAO;
+	private MatierePremiereDAO matierePremiereDAO;
+	private CompteStockMPDAO compteStockMPDAO;
+	private boolean validerSaisie=false;
+	private String codeDepot;
+
+	
+	/**
+	 * Launch the application.
+	 */
+
+
+	/**
+	 * Create the application.
+	 */
+	@SuppressWarnings("serial")
+	public TerminerOrdreFabricationMP(ProductionMP productionMPP,String quantite, String nbreHeure) {
+		setOpaque(true);
+		setBackground(new Color(248, 248, 255));
+		setForeground(new Color(248, 248, 255));
+
+		final Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(0, 0, 1284, 648);
+        try{
+        	
+        	
+        	
+        	
+        	
+        	delaiTotalEquipeEmbalage=0;
+        	delaiTotal=0;
+        	coutTotalEmployeEmbalage=0;
+        	coutTotalDechet=0;
+        	coutTotalMP=0;
+        	
+        	listCoutProdMP =new ArrayList<CoutProdMP>();
+        	listEmploye=new ArrayList<Employe>();
+        	listDetailProductionMP =new ArrayList<DetailProductionMP>();
+        
+        
+        	
+        	mapDelaiEmploye = new HashMap<>();
+        	mapDelaiEmployeEmabalage= new HashMap<>();
+        	mapQuantiteConsomme = new HashMap<>();
+        	mapQuantiteDechet = new HashMap<>();
+        	mapQuantiteReste = new HashMap<>();
+        	
+        	mapHeureSupp25EmployeEmbalage= new HashMap<>();
+        	mapHeureSupp50EmployeEmbalage= new HashMap<>();
+        	mapHeureSupp25EmployeProd= new HashMap<>();
+        	mapHeureSupp50EmployeProd= new HashMap<>();
+        	productionMPDAO=ProdLauncher.productiompDAO;
+        	
+        	compteurProductionDAO=ProdLauncher.compteurProductionDAO;
+        	transferStockPFDAO=ProdLauncher.transferStockPFDAO;
+        	stockMPDAO=ProdLauncher.stockMPDAO;
+        	stockPFDAO=ProdLauncher.stockPFDAO;
+        	parametreDAO=ProdLauncher.parametreDAO;
+        	ficheEmployeDAO=ProdLauncher.ficheEmployeDAO;
+        	compteurResponsableProdDAO=ProdLauncher.compteurResponsableProdDAO;
+        	compteurEmployeProdDAO=ProdLauncher.compteurEmployeProdDAO;
+        	equipeDAO=ProdLauncher.equipeDAO;
+        	factureProductionDAO=ProdLauncher.factureProductionDAO;
+        	matierePremiereDAO=ProdLauncher.dao;
+        	compteStockMPDAO=ProdLauncher.compteStockMPDAO;
+        	txtQuantiteRealise=new JTextField();
+        	 util.Utils.copycoller(txtQuantiteRealise);
+			txtNumOF=new JTextField();
+			  util.Utils.copycoller(txtNumOF);
+			 txtPrixServiceProd = new JTextField();
+			 util.Utils.copycoller(txtPrixServiceProd);
+        	if(productionMPP.getNumOFMP()!=null)
+        	{
+        		
+        		productionMP=productionMPP;
+        		txtNumOF.setText(productionMP.getNumOFMP());
+        		txtQuantiteRealise.setText(quantite);
+        		txtPrixServiceProd.setText(nbreHeure);
+        		
+        		
+        		AfficherMatierePremiere();
+        		
+        		
+        	}
+        	else {	
+        		productionMP = new ProductionMP();
+        	}
+        	
+        	
+        	
+       }catch(Exception exp){exp.printStackTrace();		
+       JOptionPane.showMessageDialog(null, "Erreur de connexion Ã  la base de données", "Erreur", JOptionPane.ERROR_MESSAGE);
+}
+		
+        validerSaisie=false;
+	
+        try{
+            imgAjouter = new ImageIcon(this.getClass().getResource("/img/ajout.png"));
+            imgInit= new ImageIcon(this.getClass().getResource("/img/init.png"));
+            imgModifier= new ImageIcon(this.getClass().getResource("/img/modifier.png"));
+          } catch (Exception exp){exp.printStackTrace();
+          }
+        codeDepot= AuthentificationView.utilisateur.getCodeDepot();
+				  		
+				  		  		intialiserTableMP();
+				  		  		initialiserTableauEmploye();
+				  		  	
+				  		  btnChercherOF = new JButton("Chercher OF");
+				  		  btnChercherOF.setHorizontalAlignment(SwingConstants.LEADING);
+				  		  btnChercherOF.addActionListener(new ActionListener() {
+				  		  	public void actionPerformed(ActionEvent e) {
+				  		productionMP=productionMPDAO.findByNumOFMP(txtNumOF.getText(),codeDepot);
+				  				if(productionMP!=null){
+				  				    
+				  			  		 if(txtQuantiteRealise.getText().equals("")){
+				  			  			JOptionPane.showMessageDialog(null, "Il faut saisir la quantité réalisée", "Erreur", JOptionPane.ERROR_MESSAGE);
+				  					  }	else {
+				  			  	List<CoutProdMP>listCoutProdMPTmp=productionMPDAO.listeCoutProdMP(productionMP.getId());
+				  			  	afficherDetailPorduction(productionMP.getArticlesMP().getDetailEstimationMP(),listCoutProdMPTmp);
+				  			//	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				  			//	String dateProduction=dateFormat.format(productionMP.getDateProduction());
+				  				
+				  				List<DetailProductionMP> listDetailProductionMP=productionMPDAO.listeDetailProduction(productionMP.getId());
+				  				
+				  				afficher_tableMP(listCoutProdMPTmp);
+				  				afficher_tableEmploye(listDetailProductionMP);
+				  			
+				  				
+				  					  }
+				  				}else{
+				  				  JOptionPane.showMessageDialog(null, "OF n'existe pas", "Erreur", JOptionPane.ERROR_MESSAGE);
+				  					
+				  				}
+				  		
+				  		  	}
+				  		  });
+				  		  
+				  		  
+				  	
+				  		btnChercherOF.setIcon(new ImageIcon(CreerOrdreFabricationMP.class.getResource("/img/chercher.png")));
+				  		 btnChercherOF.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		 btnChercherOF.setBounds(871, 8, 120, 23);
+				  		 add(btnChercherOF);
+				  		    
+				  		    btnTerminerOF = new JButton("Terminer OF");
+				  		    btnTerminerOF.setBounds(514, 606, 112, 24);
+				  		    add(btnTerminerOF);
+				  		    btnTerminerOF.setIcon(imgAjouter);
+				  		    btnTerminerOF.addActionListener(new ActionListener() {
+		  		     	public void actionPerformed(ActionEvent e) {
+			  		     	
+				  		     	  int reponse = JOptionPane.showConfirmDialog(null, "Vous voulez vraiment Terminer cet Ordre de Fabrication?", 
+										"Satisfaction", JOptionPane.YES_NO_OPTION);
+									 
+									if(reponse == JOptionPane.YES_OPTION )
+										{
+				  		     		if(txtQuantiteRealise.getText().equals("")){
+				  		     			JOptionPane.showMessageDialog(null, "Il faut saisir la quantité réalisée!", "Erreur", JOptionPane.ERROR_MESSAGE);
+				  		     		}else if(txtPrixServiceProd.getText().equals("")){
+				  		     			JOptionPane.showMessageDialog(null, "Il faut saisir le Prix Unitaire :Service Production!", "Erreur", JOptionPane.ERROR_MESSAGE);
+				  		     	
+			  		     		}
+				  		     		else {
+				  		     		if(productionMP.getStatut().equals(Constantes.ETAT_OF_LANCER)) {
+				  		     			
+				  		     			if(validerSaisie=false){
+				  		     				JOptionPane.showMessageDialog(null, "Il faut valider la saisie!", "Erreur", JOptionPane.ERROR_MESSAGE);
+				  		     			}else {
+			  		     			float coutTotal=coutTotalAutreEmploye+coutTotalEmploye+coutTotalDechet+coutTotalMP;
+				  		     			
+			  		     			productionMP.setNbreHeure(Float.parseFloat(txtPrixServiceProd.getText()));
+			  		     			productionMP.setQuantiteReel(Float.parseFloat(txtQuantiteRealise.getText()));
+			  		     		//	productionMP.setDateProduction(new Date());
+			  		     			productionMP.setUtilisateurMAJ(AuthentificationView.utilisateur);
+				  		     		
+				  		     		 /*délai des employés Production*/
+				  		     		
+				  		     		for(int j=0;j<tableEmploye.getRowCount();j++){
+			  		     			
+				  		     			if(!tableEmploye.getValueAt(j, 3).toString().equals("")){
+				  		     			mapDelaiEmploye.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), tableEmploye.getValueAt(j, 3).toString());
+				  		     			delaiTotal=delaiTotal+Float.parseFloat(tableEmploye.getValueAt(j, 3).toString());
+				  		     			}else 
+			  		     				mapDelaiEmploye.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), String.valueOf(0));
+				  		     			
+				  		     			if(!tableEmploye.getValueAt(j, 4).toString().equals("")){
+					  		     				mapHeureSupp25EmployeProd.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), tableEmploye.getValueAt(j, 4).toString());
+					  		     			}else 
+					  		     				mapHeureSupp25EmployeProd.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), String.valueOf(0));
+				  		     			
+				  		     			if(!tableEmploye.getValueAt(j, 5).toString().equals("")){
+				  		     				mapHeureSupp50EmployeProd.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), tableEmploye.getValueAt(j, 5).toString());
+				  		     			}else 
+				  		     				mapHeureSupp50EmployeProd.put(Integer.parseInt(tableEmploye.getValueAt(j, 0).toString()), String.valueOf(0));
+			  		     		}
+			  		     		
+			  		     		/* délai des employés Emabalege*/
+			  		     	
+			  		     		
+			  		     	
+				  		     		listDetailProductionMP=productionMP.getDetailProductionsMP();
+				  		     		
+				  		     		productionMP.setDetailProductionsMP(calculeCoutEmploye(listDetailProductionMP,mapDelaiEmploye));
+				  		     		remplirQuantite();
+				  		     		 
+				  		     		productionMP.setListCoutProdMP(calculeCoutMatierePremiere(productionMP.getListCoutProdMP()));
+				  		     		
+				  		     		productionMP.setDateProduction(new Date());
+				  		     		
+				  		     		
+				  		     		//production.setListDetailResponsableProd(listDetailResponsableProd);
+				  		     		
+				  		     		productionMP.setCoutTotalMP(coutTotalMP);
+				  		     		productionMP.setCoutTotalEmploye(coutTotalEmploye);
+				  		     		productionMP.setCoutDechet(coutTotalDechet);
+				  		     		coutTotal=coutTotalAutreEmploye+coutTotalEmploye+coutTotalEmployeEmbalage+coutTotalMP;
+				  		     		productionMP.setCoutTotal(coutTotal);
+				  		     		productionMP.setStatut(Constantes.ETAT_OF_TERMINER);
+				  		     		productionMPDAO.edit(productionMP);
+				  		     		calculerStockCoutProduitFini(coutTotal);
+				  		     		
+			  		     		JOptionPane.showMessageDialog(null, "Ordre de Fabrication Terminé avec succès!", "Succès", JOptionPane.INFORMATION_MESSAGE);
+				  		     		
+				  		     		
+			  		     			}
+			  		     		
+			  		     		}else{
+			  		     			JOptionPane.showMessageDialog(null, "Ordre de Fabrication n'est pas encore lancé ou terminé!", "Attention", JOptionPane.INFORMATION_MESSAGE);
+				  		     		}
+			  		     	  }
+			  		     	 }
+				  		     
+				  		     	}
+				  		     });
+				  		    	btnTerminerOF.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		     table.setSortable(false);
+				  		  
+				  		     table.setShowVerticalLines(true);
+				  		     table.setSelectionBackground(new Color(51, 204, 255));
+				  		     table.setRowHeightEnabled(true);
+				  		     table.setBackground(new Color(255, 255, 255));
+				  		     table.setHighlighters(HighlighterFactory.createSimpleStriping());
+				  		     table.setColumnControlVisible(true);
+				  		     table.setForeground(Color.BLACK);
+				  		     table.setGridColor(new Color(0, 0, 255));
+				  		     table.setAutoCreateRowSorter(true);
+				  		     table.setBounds(2, 27, 411, 198);
+				  		     table.setRowHeight(20);
+				  		   DefaultCellEditor ce = (DefaultCellEditor) table.getDefaultEditor(Object.class);
+					        JTextComponent textField = (JTextComponent) ce.getComponent();
+					        util.Utils.copycollercell(textField);
+				  		     	JScrollPane scrollPane = new JScrollPane(table);
+				  		     	scrollPane.setBounds(8, 80, 1213, 186);
+				  		     	add(scrollPane);
+				  		     	scrollPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+				  		     	
+				  		     	JXTitledSeparator titledSeparator = new JXTitledSeparator();
+				  		     	titledSeparator.setTitle("Liste Mati\u00E8res Premi\u00E8res ");
+				  		     	titledSeparator.setBounds(7, 59, 1213, 23);
+				  		     	add(titledSeparator);
+				  		  
+		txtNumOF.addKeyListener(new KeyAdapter() {
+		  	@Override
+		  	public void keyReleased(KeyEvent e)
+		  	{
+		  		if (e.getKeyCode() == e.VK_ENTER)
+		  		{
+		  				
+		  		
+		  			productionMP=productionMPDAO.findByNumOFMP(txtNumOF.getText(),codeDepot);
+		  			if(productionMP!=null){
+				  		
+				  		  if(txtQuantiteRealise.getText().equals("")){
+				  			JOptionPane.showMessageDialog(null, "Il faut saisir la quantité réalisée", "Erreur", JOptionPane.ERROR_MESSAGE);
+						  }	else {
+				  	List<CoutProdMP>listCoutProdMPTmp=productionMPP.getListCoutProdMP();
+				  	afficherDetailPorduction(productionMP.getArticlesMP().getDetailEstimationMP(),listCoutProdMPTmp);
+		  			//listEmploye=productionMP.getEquipe().getListEmploye();
+		  			//txtDescription.setText(production.getDescription());
+		  			//txtNbreHeure.setText(""+production.getQuantiteEstime());
+		  			
+		  			
+		  			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	  				String dateProduction=dateFormat.format(productionMP.getDateProduction());
+	  			
+		  			
+		  			afficher_tableMP(listCoutProdMPTmp);
+		  		//	afficher_tableEmploye(listEmploye);
+						  }
+		  			}else{
+		  			  JOptionPane.showMessageDialog(null, "OF n'existe pas", "Erreur", JOptionPane.ERROR_MESSAGE);
+		  				
+		  			}
+		  			
+		  		
+
+		  		}}});
+		
+		txtNumOF.setBounds(79, 6, 153, 26);
+		add(txtNumOF);
+		txtNumOF.setColumns(10);
+		
+		JLabel lblNumOF = new JLabel("Num\u00E9ro OF");
+		lblNumOF.setBounds(9, 7, 89, 24);
+		add(lblNumOF);
+		tableEmploye.setSortable(false);
+		
+		JScrollPane scrollPane_1 = new JScrollPane(tableEmploye);
+		scrollPane_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		scrollPane_1.setBounds(9, 281, 1212, 314);
+		add(scrollPane_1);
+		tableEmploye.setHighlighters(HighlighterFactory.createSimpleStriping());
+		tableEmploye.setShowVerticalLines(true);
+		tableEmploye.setSelectionBackground(new Color(51, 204, 255));
+		tableEmploye.setRowHeightEnabled(true);
+		tableEmploye.setRowHeight(20);
+		tableEmploye.setGridColor(new Color(0, 0, 255));
+		tableEmploye.setForeground(Color.BLACK);
+		tableEmploye.setColumnControlVisible(true);
+		tableEmploye.setBackground(new Color(255, 255, 255));
+		tableEmploye.setAutoCreateRowSorter(true);
+	//	scrollPane_1.setViewportView(tableEmploye);
+		  DefaultCellEditor ce1 = (DefaultCellEditor) tableEmploye.getDefaultEditor(Object.class);
+	        JTextComponent textField1 = (JTextComponent) ce1.getComponent();
+	        util.Utils.copycollercell(textField1);
+		JXTitledSeparator titledSeparator_1 = new JXTitledSeparator();
+		GridBagLayout gridBagLayout = (GridBagLayout) titledSeparator_1.getLayout();
+		gridBagLayout.rowWeights = new double[]{0.0};
+		gridBagLayout.rowHeights = new int[]{0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0};
+		titledSeparator_1.setTitle("Saisir D\u00E9lai Equipe Production");
+		titledSeparator_1.setBounds(9, 265, 594, 17);
+		add(titledSeparator_1);
+				  		    
+				  		    JButton btnValiderSaisie = new JButton("Valider Saisie");
+				  		    btnValiderSaisie.addActionListener(new ActionListener() {
+				  		    	public void actionPerformed(ActionEvent e) {
+				  		    		
+				  		    		remplirQuantite();
+				  		    		List<CoutProdMP>listCoutProdMPTmp=productionMPDAO.listeCoutProdMP(productionMP.getId());
+								  	afficherDetailPorduction(productionMP.getArticlesMP().getDetailEstimationMP(),listCoutProdMPTmp);
+				  		    		validerSaisiQuantiteDechetReste(listCoutProdMPTmp);
+				  		    	}
+				  		    });
+				  		    btnValiderSaisie.setBounds(789, 606, 112, 24);
+				  		    add(btnValiderSaisie);
+				  		    
+				  		  
+				  		    txtQuantiteRealise.setBounds(345, 6, 153, 26);
+				  		    add(txtQuantiteRealise);
+				  		    txtQuantiteRealise.setColumns(10);
+				  		    
+				  		    lblQuantitRalise = new JLabel("Quantit\u00E9 r\u00E9alis\u00E9e:");
+				  		    lblQuantitRalise.setBounds(242, 6, 102, 26);
+				  		    add(lblQuantitRalise);
+				  		    lblQuantitRalise.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		    
+				  		   
+				  		    txtPrixServiceProd.setBounds(692, 6, 153, 26);
+				  		    add(txtPrixServiceProd);
+				  		    txtPrixServiceProd.setColumns(10);
+				  		    
+				  		    JLabel lblQuantite = new JLabel("Prix Unitaire Service Production :");
+				  		    lblQuantite.setBounds(527, 6, 175, 26);
+				  		    add(lblQuantite);
+				  		    lblQuantite.setFont(new Font("Tahoma", Font.PLAIN, 11));
+				  		    
+				  		    JButton btnAnnuler = new JButton("Annuler");
+				  		    btnAnnuler.addActionListener(new ActionListener() {
+				  		    	public void actionPerformed(ActionEvent e) {
+				  		    		
+				  		    		if(productionMP.getId()<0){
+			  		    			 JOptionPane.showMessageDialog(null, "Il faut Cherercher l'OF à Annuler", "Message", JOptionPane.ERROR_MESSAGE);
+				  		    			
+				  		    		}else {
+				  		    			
+				  		    			
+				  		    			if(!productionMP.getStatut().equals(ETAT_OF_ANNULER)){
+				  		    				 if(productionMP.getStatut().equals(ETAT_OF_TERMINER)){
+				  		    					 annulerStockMatierePremiere(productionMP.getListCoutProdMP(),productionMP.getMagasinProd().getId(),productionMP.getMagasinStockage().getId());
+				  		    			
+				  		    					 deleteListeObject(ficheEmployeDAO.findByNumOf(productionMP.getNumOFMP()));
+				  		    					 productionMP.setStatut(ETAT_OF_ANNULER);
+				  		    					 productionMP.setUtilisateurAnnulation(AuthentificationView.utilisateur);
+				  		    					 annulerStockProduitFini();
+				  		    					 
+				  		    					 productionMPDAO.edit(productionMP);
+				  		    			
+				  		    			JOptionPane.showMessageDialog(null, "OF Annulé avec succès", "Message", JOptionPane.ERROR_MESSAGE); 
+				  		    				 }else{
+				  		    					JOptionPane.showMessageDialog(null, "OF doit étre Terminé", "Message", JOptionPane.ERROR_MESSAGE); 
+				  		    				 }
+				  		    			
+				  		    			}else{
+				  		    				JOptionPane.showMessageDialog(null, "OF est déjà Annulé", "Message", JOptionPane.ERROR_MESSAGE);
+				  		    			}
+				  		    		}
+				  		    		
+				  		    		
+				  		    	}
+				  		    });
+				  		    btnAnnuler.setBounds(636, 607, 143, 23);
+				  		    add(btnAnnuler);
+				  		    
+				  		    JButton btnSaisirDelaiEmploy_1 = new JButton("Saisir Delai Employ\u00E9 Production");
+				  		    btnSaisirDelaiEmploy_1.addActionListener(new ActionListener() {
+				  		    	public void actionPerformed(ActionEvent arg0) {
+				  		    		
+				  		    		JFrame popupJFrame = new ListeEmployeProdCarton(productionMP,txtQuantiteRealise.getText(),txtPrixServiceProd.getText());
+					  		    	  popupJFrame.setVisible(true);
+				  		    		
+				  		    		
+				  		    	}
+				  		    });
+				  		    btnSaisirDelaiEmploy_1.setBounds(319, 607, 185, 23);
+				  		    add(btnSaisirDelaiEmploy_1);
+				  		    
+				  		  afficher_tableEmploye(productionMP.getDetailProductionsMP());
+				  		  afficher_tableMP(productionMP.getListCoutProdMP());
+				  		
+				  		
+				 	  		
+	}
+	
+	
+	  void AfficherMatierePremiere()
+	  {
+			
+		 
+			  
+		  	List<CoutProdMP>	listCoutProdMPTmp=productionMPDAO.listeCoutProdMP(productionMP.getId());
+		  	afficherDetailPorduction(productionMP.getArticlesMP().getDetailEstimationMP(),listCoutProdMPTmp);
+			
+			
+		
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			String dateproduction=dateFormat.format(productionMP.getDateProduction());
+		
+			
+			
+			List<DetailProductionMP> listDetailProductionMP=productionMPDAO.listeDetailProduction(productionMP.getId());
+		
+			
+			afficher_tableMP(listCoutProdMPTmp);
+			afficher_tableEmploye(listDetailProductionMP);
+			
+			
+	  }
+	
+void	intialiserTableMP(){
+		 modeleMP =new DefaultTableModel(
+	  		     	new Object[][] {
+	  		     	},
+	  		     	new String[] {
+	  		     			"Code","Nom MP","Quantité Calculée","Quantité Existante","Quantité Chargée","Charge Supp", "Quantité Consommée", "Quantité Déchet", "Quantité Restée", "Ecart"
+	  		     	}
+	  		     ) {
+	  		     	boolean[] columnEditables = new boolean[] {
+	  		     			false,false,false,false,false,false, true, true, true,false
+	  		     	};
+	  		     	public boolean isCellEditable(int row, int column) {
+	  		     		return columnEditables[column];
+	  		     	}
+	  		     };
+	  		     
+	  		   table.setModel(modeleMP); 
+	  		   table.getColumnModel().getColumn(0).setPreferredWidth(40);
+	  		   table.getColumnModel().getColumn(1).setPreferredWidth(160);
+	  		   table.getColumnModel().getColumn(2).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(3).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(4).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(5).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(6).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(7).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(8).setPreferredWidth(60);
+	  		   table.getColumnModel().getColumn(9).setPreferredWidth(60);
+	}
+	
+void afficher_tableMP(List<CoutProdMP> listCoutMP)
+	{
+	
+	intialiserTableMP();
+		  int i=0;
+		  NumberFormat nf = new DecimalFormat("0.###");
+		
+			while(i<listCoutMP.size())
+			{	
+				CoutProdMP coutMP=listCoutMP.get(i);
+			
+				float quantiteTotal=coutMP.getQuantite();
+				float quantiteExistante=coutMP.getQuantExistante();
+				float quantiteCharge=coutMP.getQuantCharge();
+				float quantitechargeSupp=coutMP.getQuantChargeSupp();
+				float quantiteConsomme=coutMP.getQuantConsomme();
+				float quantiteDechet=coutMP.getQuantDechet();
+				float quantiteReste=coutMP.getQuantReste();
+				double ecart=(quantiteCharge+quantitechargeSupp+quantiteExistante)-(quantiteConsomme+quantiteDechet+quantiteReste);
+				
+				//ecart=NumberUtils.roundHalfDown(ecart,2 );
+				//  String strEcart = nf.format(ecart);
+				
+				Object []ligne={coutMP.getMatierePremier().getCode(),coutMP.getMatierePremier().getNom(),quantiteTotal+" "+coutMP.getMatierePremier().getCategorieMp().getSubCategorieMp().getUnite(),quantiteExistante,quantiteCharge,quantitechargeSupp,quantiteConsomme,quantiteDechet,quantiteReste,ecart};
+
+				modeleMP.addRow(ligne);
+				i++;
+			}
+			  table.setModel(modeleMP); 
+	}
+	
+
+void afficher_tableEmploye(List<DetailProductionMP> listDetailProductionMP)
+	{
+	initialiserTableauEmploye();
+	float delai; 
+	float heureSupp25; 
+	float heureSupp50; 
+	boolean absent=false;
+		  int i=0;
+			while(i<listDetailProductionMP.size())
+			{	
+				DetailProductionMP detailProductionMP=listDetailProductionMP.get(i);
+				delai=detailProductionMP.getDelaiEmploye();
+				heureSupp25=detailProductionMP.getHeureSupp25();
+				heureSupp50=detailProductionMP.getHeureSupp50();
+				absent=detailProductionMP.isAbsent();
+				Object []ligne={detailProductionMP.getEmploye().getId(),detailProductionMP.getEmploye().getNumDossier(),detailProductionMP.getEmploye().getNom(),delai,heureSupp25,heureSupp50,absent};
+
+				modeleEmploye.addRow(ligne);
+				i++;
+			}
+			tableEmploye.setModel(modeleEmploye);
+	}
+
+
+
+
+
+	
+List<DetailProductionMP> calculeCoutEmploye(List<DetailProductionMP> listDetailProductionMP,Map< Integer, String> mapDelaiEmploye){
+		float delai=0;
+		
+		float remise=0;
+		float coutHoraire=0;
+		float heureSupp25; 
+		float heureSupp50; 
+		
+		float coutSupp25=0;
+		float coutSupp50=0;
+		
+		List<DetailProductionMP> listDetailProductionMPTmp= new ArrayList<DetailProductionMP>();
+		for(int i=0;i<listDetailProductionMP.size();i++){
+			
+			DetailProductionMP detailProductionMP =listDetailProductionMP.get(i);
+			
+			if(!detailProductionMP.getEmploye().isSalarie()){
+			
+			if(detailProductionMP.isAbsent()==true){
+	    		
+		   		 String code=Utils.genereCodeDateMoisAnnee(productionMP.getDateProduction());
+					 
+		   		 Utils.compterAbsenceEmploye(code, detailProductionMP.getEmploye(), productionMP.getDateProduction());
+		   		}else if(detailProductionMP.getDelaiEmploye()>=productionMP.getNbreHeure()){
+		   			
+		   		 Parametre parametre_remise_ouvrier=parametreDAO.findByCode(PARAMETRE_CODE_REMISE_EQUIPE_PRODUCTION);
+				 Parametre parametre_remise_ouvrier_vrac=parametreDAO.findByCode(PARAMETRE_CODE_REMISE_EQUIPE_EMBALAGE);
+					
+					if(detailProductionMP.getEmploye().getTypeResEmploye().getCode().equals(TYPE_EMPLOYE_MAIN_OUVRE_PRODUCTION))
+						remise=parametre_remise_ouvrier.getValeur();
+					if(detailProductionMP.getEmploye().getTypeResEmploye().getCode().equals(TYPE_EMPLOYE_MAIN_OUVRE_EN_VRAC))
+						remise=parametre_remise_ouvrier_vrac.getValeur();
+		   			
+		   		}
+			delai=Float.parseFloat(mapDelaiEmploye.get(detailProductionMP.getEmploye().getId()));
+			heureSupp25=Float.parseFloat(mapHeureSupp25EmployeProd.get(detailProductionMP.getEmploye().getId()));
+			heureSupp50=Float.parseFloat(mapHeureSupp50EmployeProd.get(detailProductionMP.getEmploye().getId()));
+			
+				
+			coutHoraire=detailProductionMP.getEmploye().getCoutHoraire()*delai;
+			coutSupp25=heureSupp25*COUT_HEURE_SUPPLEMENTAIRE_25;
+			coutSupp50=heureSupp50*COUT_HEURE_SUPPLEMENTAIRE_50;
+			
+			coutTotalEmploye=coutTotalEmploye+coutHoraire+coutSupp25+coutSupp50;
+			detailProductionMP.setCoutTotal(coutHoraire);
+			detailProductionMP.setDelaiEmploye(delai);
+			detailProductionMP.setHeureSupp25(heureSupp25);
+			detailProductionMP.setHeureSupp50(heureSupp50);
+			detailProductionMP.setCoutSupp25(coutSupp25);
+			detailProductionMP.setCoutSupp50(coutSupp50);
+			detailProductionMP.setRemise(remise);
+			
+			
+			if(!detailProductionMP.getEmploye().isSalarie()){
+			FicheEmploye ficheEmploye =ficheEmployeDAO.findByPeriodeDateSitutation(productionMP.getDateProduction(), detailProductionMP.getEmploye().getId());
+			if(ficheEmploye!=null){
+			/*Remplir fiche programme*/
+			ficheEmploye.setCoutTotal(coutHoraire);
+			ficheEmploye.setNumOF(productionMP.getNumOFMP());
+			ficheEmploye.setDateSituation(productionMP.getDateProduction());
+			ficheEmploye.setDelaiEmploye(delai);
+			ficheEmploye.setEmploye(detailProductionMP.getEmploye());
+			
+			ficheEmploye.setRemise(remise);
+			ficheEmploye.setHeureSupp25(heureSupp25);
+			ficheEmploye.setHeureSupp50(heureSupp50);
+			ficheEmploye.setCoutSupp25(coutSupp25);
+			ficheEmploye.setCoutSupp50(coutSupp50);
+			ficheEmployeDAO.edit(ficheEmploye);
+			
+			} else{
+				ficheEmploye =new FicheEmploye();
+				ficheEmploye.setCoutTotal(coutHoraire);
+				ficheEmploye.setNumOF(productionMP.getNumOFMP());
+				ficheEmploye.setDateSituation(productionMP.getDateProduction());
+				ficheEmploye.setDelaiEmploye(delai);
+				ficheEmploye.setEmploye(detailProductionMP.getEmploye());;
+				ficheEmploye.setRemise(remise);
+				ficheEmploye.setHeureSupp25(heureSupp25);
+				ficheEmploye.setHeureSupp50(heureSupp50);
+				ficheEmploye.setCoutSupp25(coutSupp25);
+				ficheEmploye.setCoutSupp50(coutSupp50);
+				ficheEmployeDAO.add(ficheEmploye);
+				
+			}
+			}
+			
+			listDetailProductionMPTmp.add(detailProductionMP);
+		}
+		}	
+		return listDetailProductionMPTmp;
+		
+	}
+
+
+
+
+boolean remplirQuantite(){
+	boolean trouve=false;
+	for(int j=0;j<table.getRowCount();j++){
+		
+		if(!table.getValueAt(j, 7).toString().equals("")){
+			mapQuantiteDechet.put(table.getValueAt(j, 0).toString(), table.getValueAt(j, 7).toString()); 
+			trouve=true;
+		}else {
+			mapQuantiteDechet.put(table.getValueAt(j, 0).toString(), String.valueOf(0));
+		}
+		if(!table.getValueAt(j, 8).toString().equals("")){
+			mapQuantiteReste.put(table.getValueAt(j, 0).toString(), table.getValueAt(j, 8).toString());
+			trouve=true;
+		}else {
+			mapQuantiteReste.put(table.getValueAt(j, 0).toString(),  String.valueOf(0));
+		}
+		
+	}
+	return trouve;
+}
+List<CoutProdMP> validerSaisiQuantiteDechetReste(List<CoutProdMP> listCoutProdMP) {
+	
+	float quantiteDechet=0;
+	float quantiteReste=0;
+	
+	List<CoutProdMP> listCoutProdMPTmp=new ArrayList<CoutProdMP>();
+	
+for(int i=0;i<listCoutProdMP.size();i++){ 
+		
+		CoutProdMP coutMP=listCoutProdMP.get(i);
+		
+		quantiteDechet=Float.parseFloat(mapQuantiteDechet.get(coutMP.getMatierePremier().getCode()));
+		quantiteReste=Float.parseFloat(mapQuantiteReste.get(coutMP.getMatierePremier().getCode()));
+		
+		coutMP.setQuantDechet(quantiteDechet);
+		coutMP.setQuantReste(quantiteReste);
+		//listCoutMP.set(i,coutMP);
+		listCoutProdMPTmp.add(coutMP);
+}
+afficher_tableMP(listCoutProdMPTmp);
+
+validerSaisie=true;
+return listCoutProdMPTmp;
+	
+}
+
+List<CoutProdMP>  calculeCoutMatierePremiere(List<CoutProdMP> listCoutProdMP){
+	float quantiteDechet=0;
+	float quantiteConsomme=0;
+	float quantiteReste=0;
+	float quantiteMP=0;
+	
+	float prixMP=0;
+	float coutDechet=0;
+	List<CoutProdMP> listCoutProdMPTmp=new ArrayList<CoutProdMP>();
+	for(int i=0;i<listCoutProdMP.size();i++){ 
+		
+		CoutProdMP coutProdMP=listCoutProdMP.get(i);
+
+		StockMP stockmp=stockMPDAO.findStockByMagasinMP(coutProdMP.getMatierePremier().getId(), productionMP.getMagasinProd().getId());
+		
+		//quantiteConsomme=Integer.parseInt(mapQuantiteConsomme.get(coutMP.getMatierePremier().getCode()));
+		quantiteConsomme=coutProdMP.getQuantConsomme();
+		quantiteDechet=Float.parseFloat(mapQuantiteDechet.get(coutProdMP.getMatierePremier().getCode()));
+		quantiteReste=Float.parseFloat(mapQuantiteReste.get(coutProdMP.getMatierePremier().getCode()));
+		//quantiteReste=stockmp.getStock()-(quantiteConsomme+quantiteDechet);
+		coutProdMP.setQuantConsomme(quantiteConsomme);
+		coutProdMP.setQuantDechet(quantiteDechet);
+		//quantiteMP=quantiteConsomme+coutMP.getQuantChargeSupp();
+		prixMP=quantiteConsomme*coutProdMP.getPrixUnitaire();
+		coutDechet=quantiteDechet*coutProdMP.getPrixUnitaire();
+		coutProdMP.setPrixTotal(prixMP);
+		coutProdMP.setCoutDechet(coutDechet);
+		coutTotalMP=coutTotalMP+prixMP;
+		coutTotalDechet=coutTotalDechet+coutDechet;
+		//quantiteReste=stockmp.getStock()-quantiteConsomme;
+		
+		quantiteMP=stockmp.getStock()-(quantiteConsomme+quantiteDechet+quantiteReste);
+		
+		if(quantiteMP!=0){
+			
+			 Calendar cal = Calendar.getInstance();
+		     cal.setTime(productionMP.getDateProduction());
+		     int  annee = cal.get(Calendar.YEAR);
+		     int mois = cal.get(Calendar.MONTH)+1;
+		     
+		
+		CompteStockMP compteStockMP =compteStockMPDAO.findByCodeMPAnneeMois(coutProdMP.getMatierePremier().getCode(),mois,annee);
+		stockmp.setStock(0);
+		if(compteStockMP==null) {
+			compteStockMP=new CompteStockMP();
+			compteStockMP.setMatierePremier(coutProdMP.getMatierePremier());
+			compteStockMP.setPrixUnitaire(coutProdMP.getPrixUnitaire());
+			compteStockMP.setQuantite(quantiteMP);
+			compteStockMP.setMois(mois);
+			compteStockMP.setAnnee(annee);
+			compteStockMPDAO.add(compteStockMP);
+			
+		}else {
+			
+			float quantite =compteStockMP.getQuantite()+quantiteMP;
+			float coutTotal =(compteStockMP.getQuantite()*compteStockMP.getPrixUnitaire())+(quantiteMP*coutProdMP.getPrixUnitaire());
+			
+			float prixUnitaire=coutTotal/Math.abs(quantite);
+			
+			
+			compteStockMP.setQuantite(quantite);
+			compteStockMP.setPrixUnitaire(prixUnitaire);
+			
+			compteStockMPDAO.edit(compteStockMP);
+			
+			
+		}
+	}
+		stockmp.setStock(quantiteReste);
+		stockMPDAO.edit(stockmp);
+	}
+	return listCoutProdMPTmp;
+  }
+void afficherDetailPorduction(List<DetailEstimationMP> lisDetailEstimationMP,List<CoutProdMP> listCoutProdMP){
+	DetailEstimationMP detailEstimationMP=new DetailEstimationMP();
+	CoutProdMP coutProdMP=new CoutProdMP();
+	CoutProdMP coutProdMPTmp=new CoutProdMP();
+	int position=-1;
+	float quantiteConsommme=0;
+	float quantiteRealise=Float.parseFloat(txtQuantiteRealise.getText());
+	boolean trouve =false;
+	int priorite=0;
+	float quantiteTotalCharge=0;
+	
+	for(int i=0;i<lisDetailEstimationMP.size();i++){
+		trouve =false;
+		detailEstimationMP=lisDetailEstimationMP.get(i);
+		for(int j=0;j<listCoutProdMP.size();j++){
+			coutProdMP=listCoutProdMP.get(j);
+			
+			if(detailEstimationMP.getMatierePremier().getId()==coutProdMP.getMatierePremier().getId()){
+				
+					
+				quantiteConsommme=detailEstimationMP.getQuantite()*quantiteRealise;
+				
+				coutProdMP.setQuantConsomme(quantiteConsommme);
+				listCoutProdMP.set(j,coutProdMP);
+				}
+				
+			
+			}
+			
+		}
+	
+
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+void initialiserTableauEmploye(){
+	modeleEmploye =new DefaultTableModel(
+		     	new Object[][] {
+		     	},
+		     	new String[] {
+		     			"ID","Matricule","Nom", "Délai Travaillé", "H Supp 25%", "H Supp 50%", "Absent"
+		     	}
+		     ) {
+     	boolean[] columnEditables = new boolean[] {
+     			false,false,false,true,true,true,true
+     	};
+    
+     	Class[] columnTypes = new Class[] {
+     			String.class,String.class,String.class,Float.class,Float.class,Float.class, Boolean.class
+			};
+      	
+	       public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+     	public boolean isCellEditable(int row, int column) {
+     		return columnEditables[column];
+     	}
+     };
+		   tableEmploye.setModel(modeleEmploye); 
+		   tableEmploye.getColumnModel().getColumn(0).setPreferredWidth(1);
+		   tableEmploye.getColumnModel().getColumn(1).setPreferredWidth(60);
+		   tableEmploye.getColumnModel().getColumn(2).setPreferredWidth(160);
+		   tableEmploye.getColumnModel().getColumn(3).setPreferredWidth(60);
+		   tableEmploye.getColumnModel().getColumn(4).setPreferredWidth(60);
+		   tableEmploye.getColumnModel().getColumn(5).setPreferredWidth(60);
+		   tableEmploye.getColumnModel().getColumn(5).setPreferredWidth(60);
+}
+
+void initialiserTableauEmployeGen(){
+	modeleEquipeGen =new DefaultTableModel(
+		     	new Object[][] {
+		     	},
+		     	new String[] {
+		     			"ID","Matricule","Nom", "Délai Travaillé", "H Supp 25%", "H Supp 50%", "Absent"
+		     	}
+		     ) {
+     	boolean[] columnEditables = new boolean[] {
+     			false,false,false,true,true,true,true
+     	};
+    
+     	Class[] columnTypes = new Class[] {
+     			String.class,String.class,String.class,Float.class,Float.class,Float.class, Boolean.class
+			};
+      	
+	       public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+     	public boolean isCellEditable(int row, int column) {
+     		return columnEditables[column];
+     	}
+     };
+}
+
+
+
+
+
+List<DetailProductionMP>  remplieDetailProdcution(List<Employe> listEmploye){
+	List<DetailProductionMP> listDetailProdcutionMP=new ArrayList<DetailProductionMP>();
+
+	
+	for(int i=0;i<listEmploye.size();i++){
+		DetailProductionMP detailProdMP= new DetailProductionMP();
+		Employe employe =listEmploye.get(i);
+		detailProdMP.setCoutTotal(0);
+		detailProdMP.setRemise(employe.getRemise());
+		detailProdMP.setEmploye(employe);
+		detailProdMP.setProductionMP(productionMP);
+		
+		//listDetailProdcution.add(detailProd);
+		productionMP.getDetailProductionsMP().add(detailProdMP);
+	}
+//	production.setDetailProductions(listDetailProdcution);
+	
+	
+/*	List<DetailProduction> listDetailProdcutionTmp=production.getDetailProductions();
+	DetailProduction detailProdDeleted=new DetailProduction();
+	if(listDetailProdcutionTmp!=null && listDetailProdcutionTmp.size()>0){
+	for(int j=0;j<listDetailProdcutionTmp.size();j++){
+		DetailProduction detailProd= listDetailProdcutionTmp.get(j);
+		if(!listEmploye.contains(detailProd.getEmploye())){
+			detailProdDeleted=production.removeDetailProduction(detailProd);
+			System.out.println("######"+detailProdDeleted.getId());
+		}
+	}
+	
+	}*/
+	productionMPDAO.edit(productionMP);
+	
+	return productionMP.getDetailProductionsMP();
+  }
+
+
+void  annulerStockMatierePremiere(List<CoutProdMP> listCoutProdMP,int idMagasinProd,int idMagasinStockage){
+	float quantiteStockage=0;
+	float quantiteCharge=0;
+	float quantiteExistante=0;
+	for(int i=0;i<listCoutProdMP.size();i++){ 
+		quantiteStockage=0;
+		CoutProdMP coutProdMP=listCoutProdMP.get(i);
+	
+		
+		 quantiteCharge=coutProdMP.getQuantCharge();
+		StockMP stockMPProd=stockMPDAO.findStockByMagasinMP(coutProdMP.getMatierePremier().getId(),idMagasinProd );
+		StockMP stockMPStockage=stockMPDAO.findStockByMagasinMP(coutProdMP.getMatierePremier().getId(),idMagasinStockage );
+		quantiteExistante=coutProdMP.getQuantExistante()+stockMPProd.getStock();
+		
+		quantiteStockage=stockMPStockage.getStock()+quantiteCharge;
+		
+		
+		stockMPProd.setStock(quantiteExistante);
+		stockMPStockage.setStock(quantiteStockage);
+		
+		coutProdMP.setCoutDechet(0);
+		coutProdMP.setQuantCharge(0);
+		coutProdMP.setQuantChargeSupp(0);
+		coutProdMP.setQuantConsomme(0);
+		coutProdMP.setQuantDechet(0);
+		coutProdMP.setQuantExistante(0);
+		coutProdMP.setQuantite(0);
+		coutProdMP.setQuantReste(0);
+		listCoutProdMP.set(i, coutProdMP);
+	//	listCoutMP.remove(i);
+
+		stockMPDAO.edit(stockMPStockage);
+		stockMPDAO.edit(stockMPProd);
+		
+		
+	}
+	
+	productionMP.setListCoutProdMP(listCoutProdMP);
+  }
+void  annulerStockProduitFini(){
+
+	MatierePremier matierePremier=matierePremiereDAO.findByCode(productionMP.getArticlesMP().getCodeArticle());
+	
+	 StockMP stockMP = stockMPDAO.findStockByMagasinMP(matierePremier.getId(),productionMP.getMagasinStockage().getId());
+	 
+	 float p1=productionMP.getCoutTotal()/productionMP.getQuantiteReel();
+	 float q1=productionMP.getQuantiteReel();
+	 
+	 float montantQ1P1=q1*p1;
+	 
+	 float q2=stockMP.getStock();
+	 float p2=stockMP.getPrixUnitaire();
+	 
+	 float montantQ2P2=q2*p2;
+	 
+	 float q=q2-q1;
+	
+	 float p = (montantQ2P2-montantQ1P1)/q;
+	 
+	 stockMP.setStock(q);
+	 stockMP.setPrixUnitaire(p);
+	 stockMPDAO.edit(stockMP);
+}
+
+void deleteListeObject(List<FicheEmploye> listFicheEmploye){
+	
+	for(int i=0;i<listFicheEmploye.size();i++){
+		FicheEmploye ficheEmploye=listFicheEmploye.get(i);
+		ficheEmployeDAO.deleteObject(ficheEmploye);
+	}
+}
+
+
+void calculerStockCoutProduitFini(float prixTotal){
+	
+	float prixPF=0;
+	float nouveauprix=0;
+	float quantiteTotal=0 ;
+	float prixStock=0;
+	
+	
+	//prixTotal=productionMP.getCoutTotalEmploye()+productionMP.getCoutTotalMP()+productionMP.getCoutDechet();
+	
+	prixPF=prixTotal/productionMP.getQuantiteReel();
+	
+	MatierePremier matierePremier=matierePremiereDAO.findByCode(productionMP.getArticlesMP().getCodeArticle());
+	
+	 StockMP stockMP = stockMPDAO.findStockByMagasinMP(matierePremier.getId(),productionMP.getMagasinStockage().getId());
+	 
+	 quantiteTotal=stockMP.getStock()+productionMP.getQuantiteReel();
+	 prixStock=stockMP.getStock()*stockMP.getPrixUnitaire();
+	 
+	 	if(prixStock>0)
+	 		nouveauprix=(prixTotal+prixStock)/quantiteTotal;
+	 	else 
+	 		nouveauprix= prixPF;
+	 	
+	 	stockMP.setStock(quantiteTotal);
+	 	stockMP.setPrixUnitaire(nouveauprix);
+	 	stockMPDAO.edit(stockMP);
+	 	
+	 	
+	 	
+	 	
+}
+
+
+
+
+}

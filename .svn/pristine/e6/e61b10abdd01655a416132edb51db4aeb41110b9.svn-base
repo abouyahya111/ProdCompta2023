@@ -1,0 +1,50 @@
+package dao.daoImplManager;
+
+import java.util.List;
+
+import org.hibernate.Session;
+
+import util.HibernateUtil;
+import dao.daoManager.FournisseurDAO;
+import dao.entity.Fournisseur;
+
+public class FournisseurDAOImpl implements FournisseurDAO {
+	Session session=HibernateUtil.openSession();
+
+	public void add(Fournisseur e) {
+		session.beginTransaction();
+		session.save(e);
+		
+		session.getTransaction().commit();
+		//return p;
+	}
+
+	public Fournisseur edit(Fournisseur e) {
+		
+	session.beginTransaction();
+	Fournisseur p= (Fournisseur)session.merge(e);
+	session.getTransaction().commit();
+	
+	return p;
+	}
+
+	public void delete(int id) {
+		
+		session.beginTransaction();
+		Fournisseur p= findById(id);
+		session.delete(p);
+		session.getTransaction().commit();
+		
+	}
+
+	public List<Fournisseur> findAll() {
+		return session.createQuery("select c from Fournisseur c").list();
+		}
+
+	public Fournisseur findById(int id) {
+		return (Fournisseur)session.get(Fournisseur.class, id);
+		}
+
+
+
+}

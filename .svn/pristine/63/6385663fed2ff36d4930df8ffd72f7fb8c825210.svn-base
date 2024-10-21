@@ -1,0 +1,466 @@
+package dao.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+
+/**
+ * The persistent class for the production database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Production.findAll", query="SELECT p FROM Production p")
+public class Production implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+
+	@Temporal(TemporalType.DATE)
+	private Date date;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="date_deb_fab_ree")
+	private Date dateDebFabRee;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="date_fin_fab_pre")
+	private Date dateFinFabPre;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="date_fin_fab_ree")
+	private Date dateFinFabRee;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="`date_deb_fab_pre`")
+	private Date date_debFabPre;
+
+	@Column(name="cout_mp")
+	private float coutTotalMP;
+	
+	@Column(name="COUT_DECHET")
+	private float coutDechet;
+	
+	@Column(name="COUT_EMPLOYE_GENE")
+	private float coutTotalEmployeGen;
+	
+	@Column(name="COUT_EMPLOYE_EMABALGE")
+	private float coutTotalEmployeEmbalage;
+
+	@Column(name="cout_employe")
+	private float coutTotalEmploye;
+	
+	@Column(name="cout_total")
+	private float coutTotal;
+
+	@Column(name="quantite_estime")
+	private float quantiteEstime;
+
+	@Column(name="quantite_reel")
+	private float quantiteReel;
+	
+	@Column(name="CODE_DEPOT")
+	private String codeDepot;
+
+	private String statut;
+	
+	@Column(name="NUM_OF")
+	private String numOF;
+	
+	@Column(name="DESCRIPTION_OF")
+	private String description;
+	
+	@Column(name="PERIODE")
+	private String periode;
+	
+	@Column(name="NOMBRE_HEURE")
+	private float nbreHeure;
+	
+	@Column(name="ARTICLE_MIXTE")
+	private boolean articleMixte;
+
+	public boolean isArticleMixte() {
+		return articleMixte;
+	}
+
+	public void setArticleMixte(boolean articleMixte) {
+		this.articleMixte = articleMixte;
+	}
+
+	//bi-directional many-to-one association to DetailProduction
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="production")
+	private List<DetailProduction> detailProductions=new ArrayList<DetailProduction>();
+	
+	//bi-directional many-to-one association to DetailProduction
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="productionGen")
+	private List<DetailProdGen> listDetailProdGen=new ArrayList<DetailProdGen>();
+	
+	//bi-directional many-to-one association to DetailProduction
+		@OneToMany(cascade = CascadeType.ALL,mappedBy="prodcutionCM")
+		private List<CoutMP> listCoutMP=new ArrayList<CoutMP>();
+		
+		//bi-directional many-to-one association to DetailProduction
+		@OneToMany(cascade = CascadeType.ALL,mappedBy="productionDRP")
+		private List<DetailResponsableProd> listDetailResponsableProd=new ArrayList<DetailResponsableProd>();
+
+	//bi-directional many-to-one association to Utilisateur
+	@ManyToOne
+	@JoinColumn(name="modifier_par")
+	private Utilisateur utilisateurMAJ;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_EQUIPE")
+	private Equipe equipe;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_EQUIPE_GEN")
+	private Equipe equipeGen;
+
+
+	//bi-directional many-to-one association to Produit
+	@ManyToOne
+	@JoinColumn(name="id_article")
+	private Articles articles;
+
+	//bi-directional many-to-one association to Machine
+	@ManyToOne
+	@JoinColumn(name="id_ligne")
+	private LigneMachine ligneMachine;
+	
+	@ManyToOne
+	@JoinColumn(name="id_magasin_stock")
+	private Magasin magasinStockage;
+	
+	@ManyToOne
+	@JoinColumn(name="id_magasin")
+	private Magasin magasinProd;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_MAGASIN_PF")
+	private Magasin magasinPF;
+
+	//bi-directional many-to-one association to Utilisateur
+	@ManyToOne
+	@JoinColumn(name="creer_par")
+	private Utilisateur utilisateurCreation;
+
+	//bi-directional many-to-one association to Utilisateur
+	@ManyToOne
+	@JoinColumn(name="annuler_par")
+	private Utilisateur utilisateurAnnulation;
+	
+	
+
+	public Production() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Date getDate() {
+		return this.date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public Date getDateDebFabRee() {
+		return this.dateDebFabRee;
+	}
+
+	public void setDateDebFabRee(Date dateDebFabRee) {
+		this.dateDebFabRee = dateDebFabRee;
+	}
+
+	public Date getDateFinFabPre() {
+		return this.dateFinFabPre;
+	}
+
+	public void setDateFinFabPre(Date dateFinFabPre) {
+		this.dateFinFabPre = dateFinFabPre;
+	}
+
+	public Date getDateFinFabRee() {
+		return this.dateFinFabRee;
+	}
+
+	public void setDateFinFabRee(Date dateFinFabRee) {
+		this.dateFinFabRee = dateFinFabRee;
+	}
+
+	public Date getDate_debFabPre() {
+		return this.date_debFabPre;
+	}
+
+	public void setDate_debFabPre(Date date_debFabPre) {
+		this.date_debFabPre = date_debFabPre;
+	}
+
+	
+
+	public float getQuantiteEstime() {
+		return this.quantiteEstime;
+	}
+
+	public void setQuantiteEstime(float quantiteEstime) {
+		this.quantiteEstime = quantiteEstime;
+	}
+
+	public float getQuantiteReel() {
+		return this.quantiteReel;
+	}
+
+	public void setQuantiteReel(float quantiteReel) {
+		this.quantiteReel = quantiteReel;
+	}
+
+	public String getStatut() {
+		return this.statut;
+	}
+
+	public void setStatut(String statut) {
+		this.statut = statut;
+	}
+
+	public List<DetailProduction> getDetailProductions() {
+		return this.detailProductions;
+	}
+
+	public void setDetailProductions(List<DetailProduction> detailProductions) {
+		this.detailProductions = detailProductions;
+	}
+
+	public DetailProduction addDetailProduction(DetailProduction detailProduction) {
+		getDetailProductions().add(detailProduction);
+		detailProduction.setProduction(this);
+
+		return detailProduction;
+	}
+
+	public DetailProduction removeDetailProduction(DetailProduction detailProduction) {
+		getDetailProductions().remove(detailProduction);
+		detailProduction.setProduction(null);
+
+		return detailProduction;
+	}
+
+	public CoutMP addProduction(CoutMP coutMP) {
+		getListCoutMP().add(coutMP);
+		coutMP.setProdcutionCM(this);
+		return coutMP;
+	}
+
+	public CoutMP removeProduction(CoutMP coutMP) {
+		getListCoutMP().remove(coutMP);
+		coutMP.setProdcutionCM(null);
+
+		return coutMP;
+	}
+	
+
+	public Utilisateur getUtilisateurMAJ() {
+		return utilisateurMAJ;
+	}
+
+	public void setUtilisateurMAJ(Utilisateur utilisateurMAJ) {
+		this.utilisateurMAJ = utilisateurMAJ;
+	}
+
+	public Utilisateur getUtilisateurCreation() {
+		return utilisateurCreation;
+	}
+
+	public void setUtilisateurCreation(Utilisateur utilisateurCreation) {
+		this.utilisateurCreation = utilisateurCreation;
+	}
+
+	public Utilisateur getUtilisateurAnnulation() {
+		return utilisateurAnnulation;
+	}
+
+	public void setUtilisateurAnnulation(Utilisateur utilisateurAnnulation) {
+		this.utilisateurAnnulation = utilisateurAnnulation;
+	}
+
+	public List<CoutMP> getListCoutMP() {
+		return listCoutMP;
+	}
+
+	public void setListCoutMP(List<CoutMP> listCoutMP) {
+		this.listCoutMP = listCoutMP;
+	}
+
+	public LigneMachine getLigneMachine() {
+		return ligneMachine;
+	}
+
+	public void setLigneMachine(LigneMachine ligneMachine) {
+		this.ligneMachine = ligneMachine;
+	}
+
+	public Equipe getEquipe() {
+		return equipe;
+	}
+
+	public void setEquipe(Equipe equipe) {
+		this.equipe = equipe;
+	}
+
+	public String getNumOF() {
+		return numOF;
+	}
+
+	public void setNumOF(String numOF) {
+		this.numOF = numOF;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Articles getArticles() {
+		return articles;
+	}
+
+	public void setArticles(Articles articles) {
+		this.articles = articles;
+	}
+
+	public float getCoutTotalMP() {
+		return coutTotalMP;
+	}
+
+	public void setCoutTotalMP(float coutTotalMP) {
+		this.coutTotalMP = coutTotalMP;
+	}
+
+	public float getCoutTotalEmploye() {
+		return coutTotalEmploye;
+	}
+
+	public void setCoutTotalEmploye(float coutTotalEmploye) {
+		this.coutTotalEmploye = coutTotalEmploye;
+	}
+
+	public float getCoutTotal() {
+		return coutTotal;
+	}
+
+	public void setCoutTotal(float coutTotal) {
+		this.coutTotal = coutTotal;
+	}
+
+	public Magasin getMagasinStockage() {
+		return magasinStockage;
+	}
+
+	public void setMagasinStockage(Magasin magasinStockage) {
+		this.magasinStockage = magasinStockage;
+	}
+
+	public Magasin getMagasinProd() {
+		return magasinProd;
+	}
+
+	public void setMagasinProd(Magasin magasinProd) {
+		this.magasinProd = magasinProd;
+	}
+
+	public String getPeriode() {
+		return periode;
+	}
+
+	public void setPeriode(String periode) {
+		this.periode = periode;
+	}
+
+	public Equipe getEquipeGen() {
+		return equipeGen;
+	}
+
+	public void setEquipeGen(Equipe equipeGen) {
+		this.equipeGen = equipeGen;
+	}
+
+	public float getCoutTotalEmployeGen() {
+		return coutTotalEmployeGen;
+	}
+
+	public void setCoutTotalEmployeGen(float coutTotalEmployeGen) {
+		this.coutTotalEmployeGen = coutTotalEmployeGen;
+	}
+
+	public float getNbreHeure() {
+		return nbreHeure;
+	}
+
+	public void setNbreHeure(float nbreHeure) {
+		this.nbreHeure = nbreHeure;
+	}
+
+	public Magasin getMagasinPF() {
+		return magasinPF;
+	}
+
+	public void setMagasinPF(Magasin magasinPF) {
+		this.magasinPF = magasinPF;
+	}
+
+	
+	public List<DetailResponsableProd> getListDetailResponsableProd() {
+		return listDetailResponsableProd;
+	}
+
+	public void setListDetailResponsableProd(
+			List<DetailResponsableProd> listDetailResponsableProd) {
+		this.listDetailResponsableProd = listDetailResponsableProd;
+	}
+
+	public List<DetailProdGen> getListDetailProdGen() {
+		return listDetailProdGen;
+	}
+
+	public void setListDetailProdGen(List<DetailProdGen> listDetailProdGen) {
+		this.listDetailProdGen = listDetailProdGen;
+	}
+
+	public float getCoutTotalEmployeEmbalage() {
+		return coutTotalEmployeEmbalage;
+	}
+
+	public void setCoutTotalEmployeEmbalage(float coutTotalEmployeEmbalage) {
+		this.coutTotalEmployeEmbalage = coutTotalEmployeEmbalage;
+	}
+
+	public float getCoutDechet() {
+		return coutDechet;
+	}
+
+	public void setCoutDechet(float coutDechet) {
+		this.coutDechet = coutDechet;
+	}
+
+	public String getCodeDepot() {
+		return codeDepot;
+	}
+
+	public void setCodeDepot(String codeDepot) {
+		this.codeDepot = codeDepot;
+	}
+}

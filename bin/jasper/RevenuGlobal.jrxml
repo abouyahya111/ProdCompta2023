@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DeclarationPPRF" pageWidth="592" pageHeight="842" columnWidth="572" leftMargin="10" rightMargin="10" topMargin="4" bottomMargin="4">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="0.8264462809917358"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="titre" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{titre}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DATASOURCE" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
+	<parameter name="raisonSociale" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="adresse" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="ville" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="formeJuridique" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="identifiantFiscal" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="patente" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="perception" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="direction" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="subdivision" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="CODABAR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="enEtatLibelle" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="anonyme" class="java.lang.Boolean" isForPrompting="false"/>
+	<parameter name="activite" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="modeQualif" class="java.lang.Boolean" isForPrompting="false"/>
+	<parameter name="nom" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="prenom" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="image_dgi" class="java.lang.String"/>
+	<parameter name="image_sig" class="java.lang.String"/>
+	<parameter name="rprofessionnels" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="ragricoles" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="rsalassimiles" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="rfonciers" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="rcapmobiliers" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="rsourceetrangere" class="java.lang.String" isForPrompting="false"/>
+	<field name="listCoutMP" class="java.util.List"/>
+	<group name="DETERMINATION_REVENU_NET_IMPOSABLE" isStartNewPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+	</group>
+	<group name="REVENU_CAPITAUX_MOBILIERS" isStartNewPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+	</group>
+	<group name="RS_ASSIMILES2" isStartNewPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+	</group>
+	<group name="RS_ASSIMILES1" isStartNewPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+	</group>
+	<group name="RF_PROPRIETES_AGRICOLES" isStartNewPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+	</group>
+	<group name="RFPNA" isStartNewPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Prevent"/>
+		</groupHeader>
+	</group>
+	<group name="RP_RNS_RNR" isStartNewPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+	</group>
+	<group name="RP" isStartNewPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+	</group>
+	<group name="Identification">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band splitType="Stretch"/>
+		</groupHeader>
+	</group>
+	<group name="declaration">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band height="90" splitType="Prevent">
+				<staticText>
+					<reportElement key="staticText-174" x="165" y="23" width="232" height="22"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[IMPOT SUR LE REVENU]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-175" x="161" y="41" width="240" height="22"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[DECLARATION DU REVENU GLOBAL]]></text>
+				</staticText>
+				<image>
+					<reportElement key="image-1" positionType="Float" x="10" y="21" width="120" height="49"/>
+					<imageExpression><![CDATA[$P{image_sig}]]></imageExpression>
+				</image>
+				<image>
+					<reportElement key="image-2" positionType="Float" x="444" y="23" width="106" height="47"/>
+					<imageExpression><![CDATA[$P{image_dgi}]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement key="staticText-269" mode="Opaque" x="72" y="74" width="442" height="14" backcolor="#F7D5AD">
+						<printWhenExpression><![CDATA[$P{modeQualif}]]></printWhenExpression>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.25" lineStyle="Solid" lineColor="#666666"/>
+						<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#666666"/>
+						<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#666666"/>
+						<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#666666"/>
+						<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#666666"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Document généré pour des raisons de test seulement]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-176" x="133" y="57" width="23" height="18"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Du]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="staticText-177" x="290" y="57" width="22" height="18"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Au]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="420" y="7" width="130" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Modèle n° ADP010F-10E]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="229" y="8" width="123" height="15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true" isItalic="true"/>
+					</textElement>
+					<text><![CDATA[Royaume du maroc]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band height="1" splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Prevent"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="550" splitType="Prevent">
+			<rectangle>
+				<reportElement key="rectangle-52" x="10" y="119" width="553" height="221" backcolor="#D2FFAC"/>
+			</rectangle>
+			<rectangle>
+				<reportElement key="rectangle-51" x="10" y="5" width="553" height="79" backcolor="#D2FFAC"/>
+			</rectangle>
+			<staticText>
+				<reportElement key="staticText-226" x="17" y="40" width="155" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Subdivision:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-227" x="15" y="62" width="54" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Secteur:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-228" x="17" y="15" width="205" height="15"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Direction Régionale ou (inter) préfectorale :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-229" x="71" y="90" width="415" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[ IDENTIFICATION DU CONTRIBUABLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-230" mode="Opaque" x="400" y="144" width="139" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[N° d'identification fiscale]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-231" x="15" y="127" width="92" height="14"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nom, Prénom(s) :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-233" x="401" y="189" width="138" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[N° carte nationale
+d'identité]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-234" x="15" y="221" width="38" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[ Ville :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-235" x="245" y="221" width="155" height="18"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Numéro d'identification à la T.S.C (1):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-236" x="17" y="246" width="181" height="19"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Profession /activité principale :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-237" x="17" y="268" width="181" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nationalité :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-238" x="15" y="287" width="181" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Téléphone :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-239" x="325" y="287" width="52" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[e-mail :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-240" x="17" y="311" width="181" height="17"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Situation de famille :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-268" x="15" y="156" width="362" height="16"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Adresse actuelle du domicile fiscal ou du principal établissement :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-112" x="107" y="-153" width="0" height="0"/>
+				<textElement/>
+				<text><![CDATA[Texte statique]]></text>
+			</staticText>
+			<subreport isUsingCache="true">
+				<reportElement key="subreport-2" positionType="Float" x="1" y="362" width="554" height="14"/>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{listCoutMP})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["config/print/templates/tableau_Enfants_subreport.jasper"]]></subreportExpression>
+			</subreport>
+			<rectangle>
+				<reportElement key="rectangle-52" positionType="Float" x="9" y="450" width="553" height="40" backcolor="#D2FFAC"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="453" width="146" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Revenus professionnels]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="202" y="454" width="146" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Revenus agricoles]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="388" y="454" width="146" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Revenus salariaux et assimilés]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="15" y="471" width="146" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Revenus fonciers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="202" y="472" width="146" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Revenus de capitaux mobiliers]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="388" y="472" width="146" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Revenus de source étrangère]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-125" positionType="Float" mode="Transparent" x="161" y="434" width="239" height="13" forecolor="#339900"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NATURE DES REVENUS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="9" y="516" width="553" height="29"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[(1)  T.S.C : Taxe de services communaux (ex-taxe d’édilité), à servir par  un contribuable  propriétaire.
+(2)  A condition qu’ils soient âgés de moins de 25 ans et qu’ils ne disposent pas de revenu annuel supérieur au seuil exonéré d’imposition. Cette condition d’âge n’est pas applicable aux enfants atteints d’infirmité. Joindre les extraits de naissance.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-268" x="17" y="196" width="91" height="16"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Adresse précédente :]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

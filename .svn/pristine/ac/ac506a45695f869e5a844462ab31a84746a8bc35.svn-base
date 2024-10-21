@@ -1,0 +1,14 @@
+package dao.daoManager;
+
+import java.util.List;
+
+import dao.entity.CategorieMp;
+
+public interface CategorieMpDAO {
+	
+	public  CategorieMp findById(int id);
+	
+	public   List<CategorieMp> findAll();
+	public List<CategorieMp> findBySubcategorie(int id) ;
+
+}
